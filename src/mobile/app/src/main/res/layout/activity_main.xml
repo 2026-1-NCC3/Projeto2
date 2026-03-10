@@ -1,19 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="@color/lightblue">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+    android:id="@+id/cardLogin"
+    android:layout_width="320dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:layout_centerHorizontal="true"
+    android:layout_below="@id/txtSubtitulo"
+    android:layout_marginTop="60dp"
+    android:elevation="6dp"
+    android:background="@drawable/rounded"
+    >
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="E-mail"
+    android:textColor="@color/grey"
+    android:fontFamily="@font/roboto_medium"/>
+
+<EditText
+    android:id="@+id/editEmail"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:hint="seu@email.com"
+    android:fontFamily="@font/roboto_medium"
+    android:background="@drawable/rounded"
+    android:backgroundTint="@color/lightgrey"
+    android:padding="10dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="16dp"/>
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Senha"
+    android:textColor="@color/grey"
+    android:fontFamily="@font/roboto_medium"/>
+
+<EditText
+    android:id="@+id/editSenha"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:hint="••••••••"
+    android:inputType="textPassword"
+    android:fontFamily="@font/roboto_medium"
+    android:background="@drawable/rounded"
+    android:backgroundTint="@color/lightgrey"
+    android:padding="10dp"
+    android:layout_marginTop="6dp"
+    />
+
+<Button
+    android:id="@+id/btnEntrar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Entrar"
+    android:textColor="@color/white"
+    android:fontFamily="@font/roboto_medium"
+    android:backgroundTint="@color/lightblue"
+    android:layout_marginTop="10dp"
+    />
+
+<TextView
+    android:id="@+id/txtEsqueci"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Esqueci minha senha"
+    android:textColor="@color/lightblue"
+    android:fontFamily="@font/roboto_medium"
+    android:layout_gravity="center"
+    android:layout_marginTop="16dp"/>
+
+    </LinearLayout>
+
+<TextView
+    android:id="@+id/txtVersao"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Versão 1.0.0"
+    android:textColor="@color/white"
+    android:fontFamily="@font/roboto_medium"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true"
+    android:layout_marginBottom="20dp" />
+
+    </RelativeLayout>
+
+
+
