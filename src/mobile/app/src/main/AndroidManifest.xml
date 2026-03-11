@@ -21,6 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ForgotPasswordActivity"></activity>
+        <activity android:name=".ForgotPasswordSequelActivity"></activity>
+        <activity android:name=".ForgotPasswordCompletedActivity"></activity>
     </application>
 
 </manifest>
