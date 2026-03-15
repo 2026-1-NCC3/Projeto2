@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightgrey">
+
+    <LinearLayout
+        android:id="@+id/cardLgpd"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:elevation="6dp"
+        android:background="@drawable/rounded">
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Termo de Consentimento - LGPD"
+            android:textColor="@color/lightblue"
+            android:textSize="20dp"
+            android:fontFamily="@font/roboto_medium"/>
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Por favor, leia atentamente antes de continuar."
+            android:textColor="@color/grey"
+            android:fontFamily="@font/roboto_medium"/>
+
+        <ScrollView
+            android:id="@+id/scrollLgpd"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="16dp"
+            android:scrollbars="vertical"
+            android:background="@drawable/rounded"
+            android:backgroundTint="@color/lightgrey"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/txtTerms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/grey"
+                android:lineSpacingExtra="4dp"
+                android:text="1. Coleta e Uso de Dados\n
+Este aplicativo coleta e processa dados pessoais relacionados ao seu tratamento fisioterapêutico,
+incluindo: nome, e-mail, telefone, data de nascimento, informações sobre exercícios realizados,
+níveis de dor reportados e observações sobre sua evolução.\n\n
+
+2. Finalidade do Tratamento de Dados\n
+Seus dados são utilizados exclusivamente para:\n
+• Acompanhamento personalizado do seu tratamento\n
+• Prescrição e ajuste de exercícios fisioterapêuticos\n
+• Análise da sua evolução clínica\n
+• Comunicação sobre seu tratamento\n
+• Melhoria dos serviços prestados\n\n
+
+3. Compartilhamento de Dados\n
+Seus dados são confidenciais e não serão compartilhados com terceiros sem o seu consentimento expresso,
+exceto quando exigido por lei ou para prestadores de serviços essenciais.\n\n
+
+4. Armazenamento e Segurança\n
+Seus dados são armazenados de forma segura, tanto localmente em seu dispositivo quanto em servidores protegidos.\n\n
+
+5. Seus Direitos\n
+De acordo com a LGPD você tem direito a:\n
+• Confirmar a existência de tratamento\n
+• Acessar seus dados\n
+• Corrigir dados\n
+• Solicitar eliminação\n
+• Revogar consentimento\n
+• Solicitar portabilidade\n\n
+
+6. Retenção de Dados\n
+Os dados serão mantidos pelo período necessário para o tratamento fisioterapêutico.\n\n
+
+7. Contato\n
+Dra. Maya Yamamoto\n
+E-mail: contato@mayayamamoto.com.br\n
+Telefone: (11) 1234-5678\n\n
+
+8. Alterações neste Termo\n
+Este termo pode ser atualizado periodicamente.\n
+Última atualização: 14 de Março de 2026"
+                android:fontFamily="@font/roboto_medium"/>
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBackLogin"
+                android:padding="0dp"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="4dp"
+                android:text="Voltar"
+                android:textSize="12dp"
+                android:textColor="@color/grey"
+                android:fontFamily="@font/roboto_medium"
+                android:background="@drawable/rounded_button"
+                app:backgroundTint="@color/lightgrey"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAcceptTerms"
+                android:padding="0dp"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                android:text="Aceitar e continuar"
+                android:textSize="12dp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto_medium"
+                android:background="@drawable/rounded_button"
+                app:backgroundTint="@null"/>
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>
