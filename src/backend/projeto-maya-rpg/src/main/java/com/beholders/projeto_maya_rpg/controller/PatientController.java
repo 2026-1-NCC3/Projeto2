@@ -11,7 +11,7 @@ public class PatientController {
 
     @GetMapping
     public String allPatients() {
-        
+        return "Heelo, world!";
     }
     
 }
