@@ -1,11 +1,112 @@
 package com.beholders.projeto_maya_rpg.model;
 
-import jakarta.persistence.Entity;
+import com.beholders.projeto_maya_rpg.model.enums.Status;
+import jakarta.persistence.*;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "patients")
 public class Patient {
-    String name;
-    String email;
-    String password;
-    int phoneNumber;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+    private String email;
+
+    @Column (name="password_hash")
+    private String password;
+
+    @Column (name="phone_number")
+    private String phoneNumber;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    @Column (name="birth_date")
+    private LocalDate birthDate;
+
+    @Column (name="created_at")
+    private LocalDateTime createdAt;
+
+
+    public Patient() {
+    }
+
+    public Patient(Long id, String name, String email, String password, String phoneNumber, Status status, LocalDate birthDate, LocalDateTime createdAt) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.status = status;
+        this.birthDate = birthDate;
+        this.createdAt = createdAt;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 }
