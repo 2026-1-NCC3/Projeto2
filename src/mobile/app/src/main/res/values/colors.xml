@@ -4,7 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="lightblue">#3ebbd2</color>
     <color name="salmon">#ee715e</color>
-    <color name="lightsalmon">#fff2f0</color>
+    <color name="lightsalmon">#FFC2C0</color>
     <color name="ice">#f3fafd</color>
     <color name="lightgrey">#f6f5f5</color>
     <color name="grey">#676767</color>
@@ -15,6 +15,6 @@
     <color name="yellow">#f0f000</color>
     <color name="lightyellow">#ffe880</color>
     <color name="darkblue">#005779</color>
-    <color name="babyblue">#d7e3f6</color>
+    <color name="babyblue">#ABE6FD</color>
 
 </resources>

@@ -110,6 +110,8 @@
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
+                            android:background="@drawable/rounded"
+                            android:backgroundTint="@color/babyblue"
                             app:srcCompat="@drawable/ic_check"/>
 
                         <TextView
@@ -152,6 +154,8 @@
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
+                            android:background="@drawable/rounded"
+                            android:backgroundTint="@color/lightsalmon"
                             app:srcCompat="@drawable/ic_clock"
                             />
 
