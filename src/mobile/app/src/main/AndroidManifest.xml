@@ -24,6 +24,7 @@
         <activity android:name=".ForgotPasswordSequelActivity"></activity>
         <activity android:name=".ForgotPasswordCompletedActivity"></activity>
         <activity android:name=".LgpdTermActivity"></activity>
+        <activity android:name=".ExercisesActivity"></activity>
     </application>
 
 </manifest>
