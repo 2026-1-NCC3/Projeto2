@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/user")
-public class User {
+@RequestMapping("/patient")
+public class PatientController {
 
     @GetMapping
-    public String allUsers() {
-        return "Hello, world!";
+    public String allPatients() {
+        return "Heelo, world!";
     }
     
 }
