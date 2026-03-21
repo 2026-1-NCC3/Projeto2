@@ -63,7 +63,7 @@
             app:endIconMode="password_toggle">
 
             <EditText
-                android:id="@+id/editSenha"
+                android:id="@+id/editPassword"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:hint="..."
@@ -78,7 +78,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnEntrar"
+            android:id="@+id/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Entrar"
@@ -88,15 +88,17 @@
             app:backgroundTint="@null"
             android:layout_marginTop="10dp"/>
 
-<TextView
-    android:id="@+id/txtEsqueci"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Esqueci minha senha"
-    android:textColor="@color/lightblue"
-    android:fontFamily="@font/roboto_medium"
-    android:layout_gravity="center"
-    android:layout_marginTop="16dp"/>
+
+        <Button
+            android:id="@+id/btnForgotPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Esqueci minha senha"
+            android:textColor="@color/lightblue"
+            android:fontFamily="@font/roboto_medium"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/white"/>
 
     </LinearLayout>
 
