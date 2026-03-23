@@ -5,6 +5,7 @@ import com.beholders.projeto_maya_rpg.model.Patient;
 import com.beholders.projeto_maya_rpg.repository.PatientRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,9 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class PatientService {
 
     private final PatientRepository patientRepository;
+    private PasswordEncoder passwordEncoder;
 
-    public PatientService(PatientRepository patientRepository) {
+    public PatientService(PatientRepository patientRepository, PasswordEncoder passwordEncoder) {
         this.patientRepository = patientRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Page<Patient> getAll(Pageable pageable) {
@@ -26,8 +29,21 @@ public class PatientService {
                 .orElseThrow(() -> new ResourceNotFoundException("Patient not found with id: " + id));
     }
 
+    public boolean verifyPatient(String email, String password) {
+        Patient patient = patientRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Invalid Credentials"));
+        boolean isPasswordMatch = passwordEncoder.matches(password, patient.getPasswordHash());
+        if (isPasswordMatch) {
+            return true;
+        }
+        return false;
+    }
+
     @Transactional
     public Patient save(Patient patient) {
+        String passwordEncoded = passwordEncoder.encode(patient.getPasswordHash());
+
+        patient.setPasswordHash(passwordEncoded);
         return patientRepository.save(patient);
     }
 

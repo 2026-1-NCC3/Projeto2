@@ -41,6 +41,13 @@ public class PatientController {
         return ResponseEntity.created(location).body(saved);
     }
 
+    @PostMapping("/login")
+    public String login(@RequestBody String email, @RequestBody String password) {
+        Patient patient = patientService.getByEmail(email);
+
+
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         patientService.delete(id);
