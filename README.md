@@ -22,12 +22,10 @@
 </p>
  -->
 
-De um a dois parágrafos sobre o que é seu projeto e o que ele faz.
-<br><br>
-Meu projeto ajuda estudantes FECAP a configurarem seus githubs.
-<br><br>
-May the force be with you!
-<br><br>
+#### O aplicativo e o site desenvolvidos pelo grupo BeHolders foram criados para auxiliar no dia a dia da fisioterapeuta Maya Yamamoto, facilitando o acesso a informações e a organização de suas atividades profissionais. Além disso, a solução também beneficia seus pacientes, oferecendo uma forma mais prática e eficiente de se manterem atualizados sobre consultas e acompanharem sua rotina de exercícios orientados.
+
+#### May the force be with you!
+<br>
 
 ## 🛠 Estrutura de pastas
 
@@ -39,12 +37,20 @@ May the force be with you!
   &emsp;|-->Web<br>
 |readme.md<br>
 
+| Disciplina | Entrega 1 | Entrega 2 |  
+| :-------: | :------: | :-------: |
+| Análise Descritiva de Dados | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%201/An%C3%A1lise%20Descritiva%20de%20Dados/Projeto%20Medidas%20de%20Tend%C3%AAncia%20Central%2C%20Posi%C3%A7%C3%A3o%20e%20visualiza%C3%A7%C3%A3o%20gr%C3%A1fica%202026-3.pdf">Medidas Variáveis</a> | X|   
+| Programação Orientada | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%201/Programa%C3%A7%C3%A3o%20Orientada%20a%20Objetivos%20e%20Estrutura%20de%20Dados/Diagrama%20de%20Classes%20-%20Entrega%20NI1%20POO%202026-03.pdf">Diagrama de Classes</a> | X |    
+| Dispositivos Móveis | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%201/Programa%C3%A7%C3%A3o%20para%20Dispositivos%20M%C3%B3veis/README.md">Apk</a> | X |  
+| Projeto Interdisciplinar | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%201/Projeto%20Interdisciplinar%20Aplicativo%20M%C3%B3vel/README.md">Link Pro Apk</a>| X |   
+<br/>
+
 ## 🛠 Instalação
 
 <b>Android:</b>
 
 Faça o Download do APP.apk no seu celular.
-Execute o APK e siga as instruções de seu telefone.
+Execute o APK e siga as instruções.
 
 ## 💻 Configuração para Desenvolvimento
 
