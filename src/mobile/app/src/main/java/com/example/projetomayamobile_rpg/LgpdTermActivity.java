@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class LgpdTermActivity extends AppCompatActivity {
         Button btnAcceptTerms;
+        Button btnBackLogin;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,14 @@ public class LgpdTermActivity extends AppCompatActivity {
                 prefs.edit().putBoolean("lgpd_aceito", true).apply();
 
                 startActivity(new Intent(LgpdTermActivity.this, DashboardActivity.class));
+                finish();
+            });
+
+            btnBackLogin = findViewById(R.id.btnBackLogin);
+
+            btnBackLogin.setOnClickListener(v -> {
+
+                startActivity(new Intent(LgpdTermActivity.this, LoginActivity.class));
                 finish();
             });
         }

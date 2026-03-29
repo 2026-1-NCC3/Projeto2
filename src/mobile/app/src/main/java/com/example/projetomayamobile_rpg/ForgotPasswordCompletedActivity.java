@@ -20,6 +20,7 @@ public class ForgotPasswordCompletedActivity extends AppCompatActivity {
 
         btnReturnLogin.setOnClickListener(v -> {
             startActivity(new Intent(ForgotPasswordCompletedActivity.this, LoginActivity.class));
+            finish();
         });
 
     }

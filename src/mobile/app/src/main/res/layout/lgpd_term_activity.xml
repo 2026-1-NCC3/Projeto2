@@ -125,7 +125,6 @@ Estou ciente que meus dados serão utilizados conforme descrito acima"
                 android:textSize="12dp"
                 android:textColor="@color/grey"
                 android:fontFamily="@font/roboto_medium"
-                android:background="@drawable/rounded_button"
                 app:backgroundTint="@color/lightgrey"/>
 
             <com.google.android.material.button.MaterialButton

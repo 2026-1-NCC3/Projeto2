@@ -20,12 +20,14 @@ public class LoginActivity extends AppCompatActivity {
 
         btnLogin.setOnClickListener(v -> {
             startActivity(new Intent(LoginActivity.this, LgpdTermActivity.class));
+            finish();
         });
 
         btnForgotPassword = findViewById(R.id.btnForgotPassword);
 
         btnForgotPassword.setOnClickListener(v -> {
             startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
+            finish();
         });
     }
 }

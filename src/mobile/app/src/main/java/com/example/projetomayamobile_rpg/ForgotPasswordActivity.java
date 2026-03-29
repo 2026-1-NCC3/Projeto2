@@ -19,6 +19,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         btnSendCode.setOnClickListener(v -> {
             startActivity(new Intent(ForgotPasswordActivity.this, ForgotPasswordSequelActivity.class));
+            finish();
         });
     }
 }
