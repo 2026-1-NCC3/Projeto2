@@ -1,15 +1,13 @@
 package com.example.projetomayamobile_rpg.network;
 
-import com.example.projetomayamobile_rpg.model.LoginResponse;
-import com.example.projetomayamobile_rpg.model.LoginRequest;
-
-
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
+import com.example.projetomayamobile_rpg.model.LoginRequest;
+
 public interface ApiService {
 
     @POST("/patients/login")
-    Call<LoginResponse> login(@Body LoginRequest body);
+    Call<String> login(@Body LoginRequest body);
 }
