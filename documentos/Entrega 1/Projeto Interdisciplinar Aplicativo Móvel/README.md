@@ -14,3 +14,4 @@
 ### |-- Tela com os Termos de Consentimento <br>
 ### |-- Tela Dashboard principal <br>
 ### |-- Tela de Exercícios na parte inferior <br>
+### |-- Código fonte do Backend: <a href="https://github.com/2026-1-NCC3/Projeto2/tree/main/src/backend/projeto-maya-rpg">Backend</a>
