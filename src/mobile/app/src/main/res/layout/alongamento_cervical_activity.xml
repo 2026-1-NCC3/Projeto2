@@ -16,12 +16,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
 
             <LinearLayout
                 android:id="@+id/linearLayout"
@@ -31,6 +29,7 @@
                 android:padding="10dp">
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnBackAlongamentoCervical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Alongamento Cervical"
@@ -50,11 +49,11 @@
                     android:layout_height="300dp"
                     app:srcCompat="@drawable/alongamento_cervical"
                     android:background="@drawable/rounded"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginTop="10dp"
+                    android:padding="10dp"/>
 
             </LinearLayout>
 
-            <!-- BLOCO 2 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,7 +78,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Duração:"
-                        android:textSize="15sp"
+                        android:textSize="14sp"
                         android:textColor="@color/grey"
                         android:layout_marginTop="4dp"
                         android:layout_marginStart="4dp"/>
@@ -88,7 +87,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="10 Minutos"
-                        android:textSize="15sp"
+                        android:textSize="14sp"
                         android:textColor="@color/black"
                         android:layout_marginStart="4dp"/>
 
@@ -116,7 +115,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Frequência:"
-                        android:textSize="15sp"
+                        android:textSize="14sp"
                         android:textColor="@color/grey"
                         android:layout_marginTop="4dp"
                         android:layout_marginStart="4dp"/>
@@ -125,12 +124,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="3x ao dia"
-                        android:textSize="15sp"
+                        android:textSize="14sp"
                         android:textColor="@color/black"
                         android:layout_marginStart="4dp"/>
 
                 </LinearLayout>
-
 
             </LinearLayout>
 
@@ -148,7 +146,6 @@
                     android:text="Descrição"
                     android:textColor="@color/black"
                     android:fontFamily="@font/roboto_medium"
-                    android:background="@drawable/rounded"
                     android:textSize="18sp"
                     android:padding="10dp"/>
 
@@ -158,12 +155,172 @@
                     android:text="Alongamento suave da musculatura do pescoço para aliviar a tensão e melhorar a mobilidade"
                     android:textColor="@color/grey"
                     android:fontFamily="@font/roboto_medium"
-                    android:background="@drawable/rounded"
-                    android:textSize="15sp"
+                    android:textSize="16sp"
                     android:padding="10dp"
                     android:layout_marginTop="-10dp"/>
 
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/rounded"
+                android:padding="10dp"
+                android:layout_marginHorizontal="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Como Executar"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="18sp"
+                    android:padding="10dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/ic_circle"
+                        android:text="1"
+                        android:textColor="@android:color/white"
+                        android:gravity="center"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Sente-se em uma cadeira com as costas retas"
+                        android:textSize="16sp"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/grey"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/ic_circle"
+                        android:text="2"
+                        android:textColor="@android:color/white"
+                        android:gravity="center"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Incline lentamente a cabeça para o lado direito, aproximando a orelha do ombro"
+                        android:textSize="16sp"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/grey"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/ic_circle"
+                        android:text="3"
+                        android:textColor="@android:color/white"
+                        android:gravity="center"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Mantenha por 15-20 segundos"
+                        android:textSize="16sp"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/grey"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/ic_circle"
+                        android:text="4"
+                        android:textColor="@android:color/white"
+                        android:gravity="center"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Retorne à posição inicial e repita para o lado esquerdo"
+                        android:textSize="16sp"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/grey"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/ic_circle"
+                        android:text="5"
+                        android:textColor="@android:color/white"
+                        android:gravity="center"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Realize 3 repetições de cada lado"
+                        android:textSize="16sp"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/grey"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRegisterAlongamentoCervical"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:text="Registrar Execução"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto_medium"
+                android:background="@drawable/rounded_button"
+                app:backgroundTint="@null"
+                android:textSize="17sp"
+                android:layout_margin="10dp"/>
 
         </LinearLayout>
 

@@ -1,6 +1,330 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".activitys_javaclass.AlongamentoCervicalActivity"
+    android:background="@color/lightgrey">
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnBackRespiracaoDiafragmatica"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fortalecimento Lombar"
+                    android:textColor="@color/black"
+                    app:icon="@drawable/ic_arrow_back"
+                    app:iconTint="@color/black"
+                    app:iconSize="25dp"
+                    android:background="@android:color/transparent"
+                    android:layout_marginStart="-10dp"
+                    android:layout_marginTop="10dp"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/roboto_medium"/>
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    app:srcCompat="@drawable/respiracao_diafragmatica"
+                    android:background="@drawable/rounded"
+                    android:layout_marginTop="10dp"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="10dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded"
+                    android:orientation="vertical"
+                    android:padding="15dp">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        app:srcCompat="@drawable/ic_clock"
+                        app:tint="@color/babyblue" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Duração:"
+                        android:textSize="14sp"
+                        android:textColor="@color/grey"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginStart="4dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10 Repetições"
+                        android:textSize="14sp"
+                        android:textColor="@color/black"
+                        android:layout_marginStart="4dp"/>
+
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded"
+                    android:orientation="vertical"
+                    android:padding="15dp">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        app:srcCompat="@drawable/ic_exclamation"
+                        app:tint="@color/salmon" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Frequência:"
+                        android:textSize="14sp"
+                        android:textColor="@color/grey"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginStart="4dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2x ao dia"
+                        android:textSize="14sp"
+                        android:textColor="@color/black"
+                        android:layout_marginStart="4dp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/rounded"
+                android:padding="10dp"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Descrição"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="18sp"
+                    android:padding="10dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Técnica respiratória utilizada para promover relaxamento promovendouma respiração profunda e lenta"
+                    android:textColor="@color/grey"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="16sp"
+                    android:padding="10dp"
+                    android:layout_marginTop="-10dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/rounded"
+                android:padding="10dp"
+                android:layout_marginHorizontal="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Como Executar"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="18sp"
+                    android:padding="10dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/ic_circle"
+                        android:text="1"
+                        android:textColor="@android:color/white"
+                        android:gravity="center"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Deite-se de barriga para cima  ou sente-se confortavelmente, com a coluna reta"
+                        android:textSize="16sp"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/grey"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/ic_circle"
+                        android:text="2"
+                        android:textColor="@android:color/white"
+                        android:gravity="center"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Coloque uma mão sobre o peito e outra sobre o abdômen"
+                        android:textSize="16sp"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/grey"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/ic_circle"
+                        android:text="3"
+                        android:textColor="@android:color/white"
+                        android:gravity="center"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Inspire lentamente pelo nariz, direcionando o ar para o abdômen"
+                        android:textSize="16sp"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/grey"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/ic_circle"
+                        android:text="4"
+                        android:textColor="@android:color/white"
+                        android:gravity="center"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Segure o ar por 2 a 3 segundos, sem tencionar o corpo"
+                        android:textSize="16sp"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/grey"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/ic_circle"
+                        android:text="5"
+                        android:textColor="@android:color/white"
+                        android:gravity="center"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Expire lentamente pela boca, esvaziando completamente o abdômen"
+                        android:textSize="16sp"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/grey"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRegisterRespiracaoDiafragmatica"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:text="Registrar Execução"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto_medium"
+                android:background="@drawable/rounded_button"
+                app:backgroundTint="@null"
+                android:textSize="17sp"
+                android:layout_margin="10dp"/>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

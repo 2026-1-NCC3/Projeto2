@@ -262,7 +262,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Técnica respiratória utilizada para  promover relaxamento"
+                    android:text="Técnica respiratória utilizada para promover relaxamento"
                     android:fontFamily="@font/roboto_medium"
                     android:textSize="15sp"
                     android:textColor="@color/grey"
