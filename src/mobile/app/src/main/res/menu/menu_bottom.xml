@@ -1,28 +1,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-<!--se pa tem algumas coisa errada aqui, tem que conferir o pop up que ta ficando de altura diferente-->
+
     <item
-        android:id="@+id/nav_inicio"
+        android:id="@+id/menu_home"
         android:title="Início"
         android:icon="@drawable/ic_home"/>
 
     <item
-        android:id="@+id/nav_exercicios"
+        android:id="@+id/menu_exercises"
         android:title="Exercícios"
         android:icon="@drawable/ic_exercise"/>
 
     <item
-        android:id="@+id/nav_historico"
+        android:id="@+id/menu_history"
         android:title="Histórico"
         android:icon="@drawable/ic_history"/>
 
     <item
-        android:id="@+id/nav_mensagens"
+        android:id="@+id/menu_message"
         android:title="Mensagens"
         android:icon="@drawable/ic_chat"/>
 
     <item
-        android:id="@+id/nav_perfil"
+        android:id="@+id/menu_profile"
         android:title="Perfil"
         android:icon="@drawable/ic_profile"/>
-
 </menu>

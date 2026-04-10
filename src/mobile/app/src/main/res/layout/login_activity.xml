@@ -57,12 +57,13 @@
     android:fontFamily="@font/roboto_medium"/>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/passwordToggle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             app:endIconMode="password_toggle">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editPassword"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"

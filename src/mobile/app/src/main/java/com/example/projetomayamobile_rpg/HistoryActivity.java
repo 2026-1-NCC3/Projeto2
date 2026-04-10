@@ -5,17 +5,17 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class ExercisesActivity extends AppCompatActivity {
+public class HistoryActivity extends AppCompatActivity {
     BottomNavigationView bottomNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.exercises_activity);
+        setContentView(R.layout.history_activity);
 
         bottomNav = findViewById(R.id.bottomNav);
 
-        bottomNav.setSelectedItemId(R.id.menu_exercises);
+        bottomNav.setSelectedItemId(R.id.menu_history);
 
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
@@ -25,10 +25,10 @@ public class ExercisesActivity extends AppCompatActivity {
                 return true;
             }
             if (id == R.id.menu_exercises) {
+                startActivity(new Intent(this, ExercisesActivity.class));
                 return true;
             }
             if (id == R.id.menu_history) {
-                startActivity(new Intent(this, HistoryActivity.class));
                 return true;
             }
             if (id == R.id.menu_message) {

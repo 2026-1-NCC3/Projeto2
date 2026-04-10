@@ -5,12 +5,11 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.projetomayamobile_rpg.model.LoginRequest;
 import com.example.projetomayamobile_rpg.network.ApiService;
 import com.example.projetomayamobile_rpg.network.RetrofitClient;
+import com.google.android.material.textfield.TextInputLayout;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -18,10 +17,10 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Button btnLogin;
     Button btnForgotPassword;
     EditText editEmail;
     EditText editPassword;
+    com.google.android.material.button.MaterialButton btnLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +31,7 @@ public class LoginActivity extends AppCompatActivity {
         editPassword      = findViewById(R.id.editPassword);
         btnLogin          = findViewById(R.id.btnLogin);
         btnForgotPassword = findViewById(R.id.btnForgotPassword);
+
 
         btnLogin.setOnClickListener(v -> attemptLogin());
 
@@ -50,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         btnLogin.setEnabled(false);
+        btnLogin.setText("Entrando...");
 
         ApiService api = RetrofitClient.getInstance().create(ApiService.class);
         Call<String> call = api.login(new LoginRequest(email, password));
@@ -58,6 +59,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 btnLogin.setEnabled(true);
+                btnLogin.setText("Entrar");
 
                 if (response.isSuccessful() && response.body() != null) {
                     String token = response.body();
@@ -78,6 +80,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 btnLogin.setEnabled(true);
+                btnLogin.setText("Entrar");
                 Toast.makeText(LoginActivity.this,
                         "Erro de conexão: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }

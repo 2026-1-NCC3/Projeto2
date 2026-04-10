@@ -26,6 +26,10 @@
         <activity android:name=".LgpdTermActivity"></activity>
         <activity android:name=".DashboardActivity"/>
         <activity android:name=".ExercisesActivity"></activity>
+        <activity android:name=".ProfileActivity"/>
+        <activity android:name=".MessageActivity"/>
+        <activity android:name=".HistoryActivity"/>
+        <activity android:name=".LgpdProfileActivity"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>

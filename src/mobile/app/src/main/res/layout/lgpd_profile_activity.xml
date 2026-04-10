@@ -32,14 +32,14 @@
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Por favor, leia atentamente antes de continuar."
+            android:text="Por favor, leia atentamente."
             android:textColor="@color/grey"
             android:fontFamily="@font/roboto_medium"/>
 
         <ScrollView
             android:id="@+id/scrollLgpd"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="400dp"
             android:layout_marginTop="16dp"
             android:scrollbars="vertical"
             android:background="@drawable/rounded"
@@ -96,17 +96,7 @@ Este termo pode ser atualizado periodicamente.\n
                 android:fontFamily="@font/roboto_medium"/>
         </ScrollView>
 
-        <CheckBox
-            android:id="@+id/checkBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Li e aceito os termos de consentimento para tratamento de dados pessoais de acordo com a LGPD.
-Estou ciente que meus dados serão utilizados conforme descrito acima"
-            android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/grey"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/rounded"
-            android:backgroundTint="@color/lightgrey"/>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -115,38 +105,18 @@ Estou ciente que meus dados serão utilizados conforme descrito acima"
             android:layout_marginTop="10dp">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnBackLogin"
+                android:id="@+id/btnBackTermProfile"
                 android:padding="0dp"
                 android:layout_width="0dp"
-                android:layout_height="30dp"
+                android:layout_height="45dp"
                 android:layout_weight="1"
-                android:layout_marginEnd="4dp"
                 android:text="Voltar"
                 android:textSize="12dp"
-                android:textColor="@color/grey"
                 android:fontFamily="@font/roboto_medium"
-                app:backgroundTint="@color/lightgrey"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnAcceptTerms"
-                android:padding="0dp"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:text="Continuar"
-                android:textSize="12dp"
-                android:textColor="@color/white"
-                android:fontFamily="@font/roboto_medium"
-                android:background="@drawable/rounded_button"
-                app:backgroundTint="@null"/>
-
-
+                app:backgroundTint="@color/lightblue"/>
 
         </LinearLayout>
 
     </LinearLayout>
-
-
 
 </RelativeLayout>
