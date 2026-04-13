@@ -1,15 +1,23 @@
 package com.beholders.projeto_maya_rpg.model;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "appointments")
 public class Appointments {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(lombok.AccessLevel.NONE)
     private Long id;
 
     @Column(name = "appointment_datetime", nullable = false)
@@ -19,43 +27,11 @@ public class Appointments {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id", nullable = false)
+    @JsonIgnoreProperties({"appointments", "plans", "messages", "records", "hibernateLazyInitializer"})
     private Patient patient;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "admin_id", nullable = false)
+    @JsonIgnoreProperties({"appointments", "hibernateLazyInitializer"})
     private Admin admin;
-
-    public Appointments() {
-
-    }
-
-    public Appointments(Long id, LocalDateTime appointmentDatetime, String notes) {
-        this.id = id;
-        this.appointmentDatetime = appointmentDatetime;
-        this.notes = notes;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public LocalDateTime getAppointmentDatetime() {
-        return appointmentDatetime;
-    }
-
-    public void setAppointmentDatetime(LocalDateTime appointmentDatetime) {
-        this.appointmentDatetime = appointmentDatetime;
-    }
-
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }
 }
