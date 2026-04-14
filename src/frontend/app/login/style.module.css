@@ -1,0 +1,410 @@
+/* =============================================
+   Maya Yamamoto RPG — Login Page
+   style.module.css
+   Cor de destaque: #31A5BF
+   ============================================= */
+
+/* ---------- Importação de Fontes ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+/* ---------- Variáveis ---------- */
+:root {
+  --primary: #31A5BF;
+  --primary-dark: #228fa8;
+  --primary-light: #e8f7fa;
+  --primary-glow: rgba(49, 165, 191, 0.18);
+  --white: #ffffff;
+  --gray-50: #f8fafb;
+  --gray-100: #f0f4f6;
+  --gray-200: #dde4e8;
+  --gray-400: #9aadb5;
+  --gray-600: #5a7380;
+  --gray-800: #1e3040;
+  --error: #e05a5a;
+  --error-bg: #fdf2f2;
+  --shadow-sm: 0 1px 3px rgba(31, 80, 100, 0.06);
+  --shadow-md: 0 4px 20px rgba(31, 80, 100, 0.1);
+  --shadow-lg: 0 12px 48px rgba(31, 80, 100, 0.14);
+  --radius: 14px;
+  --radius-sm: 8px;
+  --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---------- Main / Fundo ---------- */
+.main {
+  min-height: 100vh;
+  background-color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* Círculos decorativos de fundo */
+.bgCircle1 {
+  position: absolute;
+  top: -160px;
+  right: -160px;
+  width: 480px;
+  height: 480px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(49, 165, 191, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.bgCircle2 {
+  position: absolute;
+  bottom: -120px;
+  left: -120px;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(49, 165, 191, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Grade sutil de pontos */
+.bgGrid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, rgba(49, 165, 191, 0.15) 1px, transparent 1px);
+  background-size: 36px 36px;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* ---------- Card ---------- */
+.card {
+  position: relative;
+  z-index: 1;
+  background: var(--white);
+  border: 1.5px solid var(--gray-200);
+  border-radius: 20px;
+  padding: 44px 40px 36px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: var(--shadow-lg);
+  animation: cardIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ---------- Header / Logo ---------- */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+  animation: fadeInDown 0.45s 0.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.logoMark {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  background: var(--primary-light);
+  border-radius: 14px;
+  border: 1.5px solid rgba(49, 165, 191, 0.25);
+}
+
+.logoText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.logoTitle {
+  font-family: 'Cinzel', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gray-800);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.logoSubtitle {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--primary);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ---------- Divider ---------- */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+  animation: fadeIn 0.45s 0.15s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.dividerLine {
+  flex: 1;
+  height: 1px;
+  background: var(--gray-200);
+}
+
+.dividerLabel {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--gray-400);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ---------- Formulário ---------- */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  animation: fadeIn 0.45s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-600);
+  letter-spacing: 0.01em;
+}
+
+/* Wrapper do input (ícone + campo + botão olho) */
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 13px;
+  color: var(--gray-400);
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  transition: color var(--transition);
+}
+
+.input {
+  width: 100%;
+  height: 46px;
+  padding: 0 42px 0 40px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  background: var(--gray-50);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14.5px;
+  font-weight: 400;
+  color: var(--gray-800);
+  outline: none;
+  transition:
+    border-color var(--transition),
+    background var(--transition),
+    box-shadow var(--transition);
+}
+
+.input::placeholder {
+  color: var(--gray-400);
+  font-weight: 300;
+}
+
+.input:focus {
+  border-color: var(--primary);
+  background: var(--white);
+  box-shadow: 0 0 0 3.5px var(--primary-glow);
+}
+
+.input:focus + .inputIcon,
+.inputWrapper:focus-within .inputIcon {
+  color: var(--primary);
+}
+
+.input:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Botão de mostrar/ocultar senha */
+.eyeButton {
+  position: absolute;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--gray-400);
+  border-radius: 6px;
+  transition: color var(--transition), background var(--transition);
+}
+
+.eyeButton:hover {
+  color: var(--primary);
+  background: var(--primary-light);
+}
+
+/* ---------- Erro ---------- */
+.errorBox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 14px;
+  background: var(--error-bg);
+  border: 1px solid rgba(224, 90, 90, 0.25);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--error);
+  animation: shake 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes shake {
+  10%, 90%  { transform: translateX(-2px); }
+  20%, 80%  { transform: translateX(3px); }
+  30%, 50%, 70% { transform: translateX(-4px); }
+  40%, 60%  { transform: translateX(4px); }
+}
+
+/* ---------- Link "Esqueceu a senha" ---------- */
+.forgotLink {
+  align-self: flex-end;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--primary);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: opacity var(--transition);
+  margin-top: -6px;
+}
+
+.forgotLink:hover {
+  opacity: 0.75;
+  text-decoration: underline;
+}
+
+/* ---------- Botão de Submit ---------- */
+.submitButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 48px;
+  width: 100%;
+  margin-top: 4px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--primary);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition:
+    background var(--transition),
+    box-shadow var(--transition),
+    transform var(--transition);
+  box-shadow: 0 4px 14px rgba(49, 165, 191, 0.35);
+}
+
+.submitButton:hover:not(:disabled) {
+  background: var(--primary-dark);
+  box-shadow: 0 6px 20px rgba(49, 165, 191, 0.45);
+  transform: translateY(-1px);
+}
+
+.submitButton:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(49, 165, 191, 0.3);
+}
+
+.submitButton:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Spinner de loading */
+.spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(255, 255, 255, 0.35);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- Versão ---------- */
+.version {
+  position: fixed;
+  bottom: 18px;
+  right: 22px;
+  font-size: 11px;
+  color: var(--gray-400);
+  letter-spacing: 0.05em;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ---------- Responsividade ---------- */
+@media (max-width: 480px) {
+  .card {
+    padding: 32px 24px 28px;
+    border-radius: 16px;
+  }
+
+  .logoTitle {
+    font-size: 16px;
+  }
+
+  .submitButton {
+    height: 46px;
+    font-size: 14.5px;
+  }
+}
