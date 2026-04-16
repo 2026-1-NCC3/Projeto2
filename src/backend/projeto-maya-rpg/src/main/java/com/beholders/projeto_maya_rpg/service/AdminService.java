@@ -2,6 +2,7 @@ package com.beholders.projeto_maya_rpg.service;
 
 import com.beholders.projeto_maya_rpg.exception.ResourceNotFoundException;
 import com.beholders.projeto_maya_rpg.model.Admin;
+import com.beholders.projeto_maya_rpg.model.Patient;
 import com.beholders.projeto_maya_rpg.repository.AdminRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +26,16 @@ public class AdminService {
 
         adm.setPasswordHash(newPassword);
         return adminRepository.save(adm);
+    }
+
+    public Admin verifyAdmin(String email, String password) {
+        Admin adm = adminRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Invalid Credentials"));
+        boolean isPasswordMatch = passwordEncoder.matches(password, adm.getPasswordHash());
+        if (!isPasswordMatch) {
+            throw new ResourceNotFoundException("Invalid Credentials");
+        }
+        return adm;
     }
 
     public Admin getById(Long id) {
