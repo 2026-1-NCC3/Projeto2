@@ -42,13 +42,14 @@ export default function LoginPage() {
         throw new Error(data.message || "Credenciais inválidas. Tente novamente.");
       }
 
-      const data = await response.json();
+      const data = await response.text();
+      console.log(data);
 
-      if (data.token) {
-        localStorage.setItem("maya_token", data.token);
+      if (data) {
+        localStorage.setItem("maya_token", data);
       }
 
-      window.location.href = "/dashboard";
+      window.location.href = "/home";
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);
