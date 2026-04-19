@@ -1,17 +1,26 @@
 package com.beholders.projeto_maya_rpg.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
-@Table(name="executions")
+@Table(name = "executions")
 public class Execution {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(lombok.AccessLevel.NONE)
     private Long id;
 
-    @Column(name = "executed_at", nullable = false)
+    @Column(name = "executed_at", nullable = false, updatable = false)
     private LocalDateTime executedAt;
 
     @Column(nullable = false)
@@ -24,57 +33,11 @@ public class Execution {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "plan_exercise_id", nullable = false)
+    @JsonIgnoreProperties({"executions", "hibernateLazyInitializer"})
     private PlanExercises planExercise;
 
-    public Execution() {
-
-    }
-
-    public Execution(Long id, LocalDateTime executedAt, boolean completed, int painScale, String notes) {
-        this.id = id;
-        this.executedAt = executedAt;
-        this.completed = completed;
-        this.painScale = painScale;
-        this.notes = notes;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public LocalDateTime getExecutedAt() {
-        return executedAt;
-    }
-
-    public void setExecutedAt(LocalDateTime executedAt) {
-        this.executedAt = executedAt;
-    }
-
-    public boolean isCompleted() {
-        return completed;
-    }
-
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
-    }
-
-    public int getPainScale() {
-        return painScale;
-    }
-
-    public void setPainScale(int painScale) {
-        this.painScale = painScale;
-    }
-
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
+    @PrePersist
+    public void prePersist() {
+        this.executedAt = LocalDateTime.now();
     }
 }

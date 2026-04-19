@@ -1,76 +1,35 @@
 package com.beholders.projeto_maya_rpg.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
-@Table (name="exercises")
+@Table(name = "exercises")
 public class Exercise {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(lombok.AccessLevel.NONE)
     private Long id;
 
     @Column(nullable = false)
     private String name;
 
-    @Column(name="exercise_description", nullable = false)
+    @Column(name = "exercise_description", nullable = false)
     private String exerciseDescription;
 
     @Column(nullable = false)
     private String instructions;
 
-    /* verificar colunas e chaves estrangeiras e relacionamentos */
     @OneToMany(mappedBy = "exercise")
+    @JsonIgnoreProperties({"exercise", "hibernateLazyInitializer"})
     private List<ExerciseMedia> mediaList;
-
-    public Exercise() {
-
-    }
-
-    public Exercise(Long id, String name, String exerciseDescription, String instructions) {
-        this.id = id;
-        this.name = name;
-        this.exerciseDescription = exerciseDescription;
-        this.instructions = instructions;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getExerciseDescription() {
-        return exerciseDescription;
-    }
-
-    public void setExerciseDescription(String exerciseDescription) {
-        this.exerciseDescription = exerciseDescription;
-    }
-
-    public String getInstructions() {
-        return instructions;
-    }
-
-    public void setInstructions(String instructions) {
-        this.instructions = instructions;
-    }
-
-    public List<ExerciseMedia> getMediaList() {
-        return mediaList;
-    }
-
-    public void setMediaList(List<ExerciseMedia> mediaList) {
-        this.mediaList = mediaList;
-    }
 }

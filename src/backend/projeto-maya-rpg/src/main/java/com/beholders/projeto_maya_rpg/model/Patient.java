@@ -1,6 +1,7 @@
 package com.beholders.projeto_maya_rpg.model;
 
 import com.beholders.projeto_maya_rpg.model.enums.Status;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -20,6 +21,7 @@ public class Patient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(lombok.AccessLevel.NONE)
     private Long id;
 
     @Column(nullable = false)
@@ -46,12 +48,15 @@ public class Patient {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "patient")
+    @JsonIgnoreProperties({"patient", "hibernateLazyInitializer"})
     private List<Plan> plans;
 
     @OneToMany(mappedBy = "patient")
+    @JsonIgnoreProperties({"patient", "hibernateLazyInitializer"})
     private List<Messages> messages;
 
     @OneToMany(mappedBy = "patient")
+    @JsonIgnoreProperties({"patient", "hibernateLazyInitializer"})
     private List<MedicalRecords> records;
 
     @PrePersist
