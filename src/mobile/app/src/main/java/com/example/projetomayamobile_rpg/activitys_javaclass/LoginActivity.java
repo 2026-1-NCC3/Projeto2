@@ -70,6 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                             .edit()
                             .putString("token", token)
                             .apply();
+                            RetrofitClient.resetInstance();
 
                     startActivity(new Intent(LoginActivity.this, LgpdTermActivity.class));
                     finish();

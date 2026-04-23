@@ -39,6 +39,7 @@
                     android:fontFamily="@font/roboto_medium"/>
 
                 <TextView
+                    android:id="@+id/pacientNameDashboard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Balatro Balatrito"
@@ -73,6 +74,7 @@
                     android:fontFamily="@font/roboto_medium"/>
 
                 <TextView
+                    android:id="@+id/progress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2 de 3 exercícios realizados"
@@ -80,6 +82,7 @@
                     android:textSize="14sp"/>
 
                 <ProgressBar
+                    android:id="@+id/progressBar"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -117,6 +120,7 @@
                             app:srcCompat="@drawable/ic_check"/>
 
                         <TextView
+                            android:id="@+id/completed"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="1"
@@ -161,6 +165,7 @@
                             />
 
                         <TextView
+                            android:id="@+id/pending"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="2"
