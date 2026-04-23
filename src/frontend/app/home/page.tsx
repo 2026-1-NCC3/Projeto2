@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./style.module.css";
 
 const NAV_ITEMS = [
   {
     id: "home",
-    label: "Home",
+    label: "Início",
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <rect x="3" y="3" width="7" height="7" rx="1" />
@@ -18,7 +18,7 @@ const NAV_ITEMS = [
   },
   {
     id: "patients",
-    label: "Patients",
+    label: "Pacientes",
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
@@ -30,7 +30,7 @@ const NAV_ITEMS = [
   },
   {
     id: "exercises",
-    label: "Exercises",
+    label: "Exercícios",
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
@@ -43,7 +43,7 @@ const NAV_ITEMS = [
   },
   {
     id: "calendar",
-    label: "Calendar",
+    label: "Agenda",
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
@@ -55,7 +55,7 @@ const NAV_ITEMS = [
   },
   {
     id: "analytics",
-    label: "Analytics",
+    label: "Estatísticas",
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <line x1="18" y1="20" x2="18" y2="10" />
@@ -66,7 +66,7 @@ const NAV_ITEMS = [
   },
   {
     id: "messages",
-    label: "Messages",
+    label: "Mensagens",
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
@@ -75,7 +75,7 @@ const NAV_ITEMS = [
   },
   {
     id: "settings",
-    label: "Settings",
+    label: "Configurações",
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="12" r="3" />
@@ -86,22 +86,73 @@ const NAV_ITEMS = [
 ];
 
 const PATIENTS_TODAY = [
-  { time: "08:00", name: "Ana Paula Costa", type: "Evaluation", status: "completed" },
-  { time: "09:00", name: "Bruno Ferreira", type: "Follow-up", status: "completed" },
-  { time: "10:30", name: "Elena Rodrigues", type: "Session", status: "inprogress" },
-  { time: "14:00", name: "Diego Lima", type: "Follow-up", status: "upcoming" },
-  { time: "15:30", name: "Gabriela Oliveira", type: "Session", status: "upcoming" },
-  { time: "17:00", name: "Carlos Mendes", type: "Evaluation", status: "upcoming" },
+  { time: "08:00", name: "Ana Paula Costa", type: "Avaliação", status: "completed" },
+  { time: "09:00", name: "Bruno Ferreira", type: "Acompanhamento", status: "completed" },
+  { time: "10:30", name: "Elena Rodrigues", type: "Sessão", status: "inprogress" },
+  { time: "14:00", name: "Diego Lima", type: "Acompanhamento", status: "upcoming" },
+  { time: "15:30", name: "Gabriela Oliveira", type: "Sessão", status: "upcoming" },
+  { time: "17:00", name: "Carlos Mendes", type: "Avaliação", status: "upcoming" },
 ];
 
 const STATUS_LABEL: Record<string, string> = {
-  completed: "Completed",
-  inprogress: "In Progress",
-  upcoming: "Upcoming",
+  completed: "Concluído",
+  inprogress: "Em Andamento",
+  upcoming: "Próximo",
 };
 
 export default function DashboardPage() {
   const [activeNav, setActiveNav] = useState("home");
+  
+  // Estados para armazenar os dados vindos do backend
+  const [adminName, setAdminName] = useState("Carregando...");
+  const [totalPatients, setTotalPatients] = useState(0);
+
+  // Data dinâmica formatada para o subtítulo
+  const today = new Date().toLocaleDateString('pt-BR', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        // Pegando o token e o ID salvos no login
+        const token = localStorage.getItem("token");
+        const adminId = localStorage.getItem("adminId"); // Substitua pela chave que você usa
+        
+        const headers = {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        };
+
+        // 1. Busca o nome do Admin (Rota GET /admin/{id})
+        if (adminId) {
+          const adminResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/${adminId}`, { headers });
+          if (adminResponse.ok) {
+            const adminData = await adminResponse.json();
+            // Assumindo que o model Admin tem um atributo "name" ou "nome"
+            setAdminName(adminData.name || adminData.nome); 
+          }
+        }
+
+        // 2. Busca a soma dos pacientes ativos (Rota GET /patients)
+        // O Spring Pageable retorna o 'totalElements', não precisamos carregar a lista toda, só size=1
+        const patientsResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/patients?page=0&size=1`, { headers });
+        if (patientsResponse.ok) {
+          const patientsData = await patientsResponse.json();
+          // Pega o número total de itens registrados no banco
+          setTotalPatients(patientsData.totalElements);
+        }
+      } catch (error) {
+        console.error("Erro ao buscar dados do dashboard:", error);
+        setAdminName("Usuário");
+      }
+    };
+
+    fetchDashboardData();
+  }, []);
 
   return (
     <div className={styles.layout}>
@@ -109,10 +160,12 @@ export default function DashboardPage() {
       <aside className={styles.sidebar}>
         {/* Clinic header */}
         <div className={styles.sidebarHeader}>
-          <div className={styles.sidebarAvatar}>MY</div>
+          <div className={styles.sidebarAvatar}>
+            {adminName !== "Carregando..." ? adminName.charAt(0).toUpperCase() : "M"}
+          </div>
           <div className={styles.sidebarClinic}>
-            <span className={styles.clinicName}>Maya Yamamoto</span>
-            <span className={styles.clinicTag}>RPG Clinic</span>
+            <span className={styles.clinicName}>{adminName}</span>
+            <span className={styles.clinicTag}>Clínica de RPG</span>
           </div>
         </div>
 
@@ -136,10 +189,12 @@ export default function DashboardPage() {
 
         {/* Bottom user */}
         <div className={styles.sidebarFooter}>
-          <div className={styles.footerAvatar}>MY</div>
+          <div className={styles.footerAvatar}>
+            {adminName !== "Carregando..." ? adminName.charAt(0).toUpperCase() : "M"}
+          </div>
           <div className={styles.footerInfo}>
-            <span className={styles.footerName}>Maya Yamamoto</span>
-            <span className={styles.footerRole}>Physiotherapist</span>
+            <span className={styles.footerName}>{adminName}</span>
+            <span className={styles.footerRole}>Fisioterapeuta</span>
           </div>
         </div>
       </aside>
@@ -158,12 +213,12 @@ export default function DashboardPage() {
             <input
               type="text"
               className={styles.searchInput}
-              placeholder="Search patients, exercises..."
+              placeholder="Buscar pacientes, exercícios..."
             />
           </div>
 
           <div className={styles.topbarRight}>
-            <button className={styles.iconBtn} aria-label="Notifications">
+            <button className={styles.iconBtn} aria-label="Notificações">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
                 <path d="M13.73 21a2 2 0 0 1-3.46 0" />
@@ -172,14 +227,16 @@ export default function DashboardPage() {
             </button>
 
             <div className={styles.topbarUser}>
-              <div className={styles.topbarAvatar}>MY</div>
+              <div className={styles.topbarAvatar}>
+                {adminName !== "Carregando..." ? adminName.charAt(0).toUpperCase() : "M"}
+              </div>
               <div className={styles.topbarUserInfo}>
-                <span className={styles.topbarUserName}>Maya Yamamoto</span>
-                <span className={styles.topbarUserRole}>Admin</span>
+                <span className={styles.topbarUserName}>{adminName}</span>
+                <span className={styles.topbarUserRole}>Administrador</span>
               </div>
             </div>
 
-            <button className={styles.iconBtn} aria-label="Logout">
+            <button className={styles.iconBtn} aria-label="Sair">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                 <polyline points="16 17 21 12 16 7" />
@@ -194,10 +251,10 @@ export default function DashboardPage() {
           {/* Greeting */}
           <div className={styles.greeting}>
             <h1 className={styles.greetingTitle}>
-              Bom dia, Maya <span className={styles.wave}>👋</span>
+              Bom dia, {adminName} <span className={styles.wave}>👋</span>
             </h1>
             <p className={styles.greetingSubtitle}>
-              Monday, March 2, 2025 — Here&apos;s your daily overview.
+              {today.charAt(0).toUpperCase() + today.slice(1)} — Aqui está o seu resumo diário.
             </p>
           </div>
 
@@ -206,7 +263,7 @@ export default function DashboardPage() {
             {/* Active Patients */}
             <div className={`${styles.statCard} ${styles.statCardAnimated}`} style={{ animationDelay: "0ms" }}>
               <div className={styles.statTop}>
-                <span className={styles.statLabel}>ACTIVE PATIENTS</span>
+                <span className={styles.statLabel}>PACIENTES ATIVOS</span>
                 <div className={styles.statIconWrap}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
@@ -216,20 +273,20 @@ export default function DashboardPage() {
                   </svg>
                 </div>
               </div>
-              <div className={styles.statValue}>6</div>
+              <div className={styles.statValue}>{totalPatients}</div>
               <div className={styles.statChange}>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="12" y1="19" x2="12" y2="5" />
                   <polyline points="5 12 12 5 19 12" />
                 </svg>
-                2 new this month
+                2 novos este mês
               </div>
             </div>
 
             {/* Weekly Adherence */}
             <div className={`${styles.statCard} ${styles.statCardAnimated}`} style={{ animationDelay: "80ms" }}>
               <div className={styles.statTop}>
-                <span className={styles.statLabel}>WEEKLY ADHERENCE</span>
+                <span className={styles.statLabel}>ADESÃO SEMANAL</span>
                 <div className={styles.statIconWrap}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
@@ -243,7 +300,7 @@ export default function DashboardPage() {
                   <line x1="12" y1="19" x2="12" y2="5" />
                   <polyline points="5 12 12 5 19 12" />
                 </svg>
-                4% from last week
+                4% da última semana
               </div>
               <div className={styles.progressBar}>
                 <div className={styles.progressFill} style={{ width: "80%" }} />
@@ -253,7 +310,7 @@ export default function DashboardPage() {
             {/* Sessions Today */}
             <div className={`${styles.statCard} ${styles.statCardAnimated}`} style={{ animationDelay: "160ms" }}>
               <div className={styles.statTop}>
-                <span className={styles.statLabel}>SESSIONS TODAY</span>
+                <span className={styles.statLabel}>SESSÕES HOJE</span>
                 <div className={styles.statIconWrap}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="12" cy="12" r="10" />
@@ -263,7 +320,7 @@ export default function DashboardPage() {
               </div>
               <div className={styles.statValue}>6</div>
               <div className={`${styles.statChange} ${styles.statChangeBlue}`}>
-                2 completed
+                2 concluídas
               </div>
             </div>
           </div>
@@ -273,8 +330,8 @@ export default function DashboardPage() {
             {/* Patients of the Day */}
             <div className={`${styles.card} ${styles.cardAnimated}`} style={{ animationDelay: "220ms" }}>
               <div className={styles.cardHeader}>
-                <h2 className={styles.cardTitle}>Patients of the Day</h2>
-                <button className={styles.cardLink}>View calendar →</button>
+                <h2 className={styles.cardTitle}>Pacientes do Dia</h2>
+                <button className={styles.cardLink}>Ver agenda →</button>
               </div>
 
               <ul className={styles.patientList}>
@@ -299,7 +356,7 @@ export default function DashboardPage() {
             {/* Quick Actions */}
             <div className={`${styles.card} ${styles.cardAnimated}`} style={{ animationDelay: "300ms" }}>
               <div className={styles.cardHeader}>
-                <h2 className={styles.cardTitle}>Quick Actions</h2>
+                <h2 className={styles.cardTitle}>Ações Rápidas</h2>
               </div>
 
               <div className={styles.actionList}>
@@ -311,8 +368,8 @@ export default function DashboardPage() {
                     </svg>
                   </div>
                   <div className={styles.actionText}>
-                    <span className={styles.actionTitle}>View Patient</span>
-                    <span className={styles.actionSub}>Open medical records</span>
+                    <span className={styles.actionTitle}>Ver Paciente</span>
+                    <span className={styles.actionSub}>Abrir prontuário médico</span>
                   </div>
                 </button>
 
@@ -324,8 +381,8 @@ export default function DashboardPage() {
                     </svg>
                   </div>
                   <div className={styles.actionText}>
-                    <span className={styles.actionTitle}>Create Session</span>
-                    <span className={styles.actionSub}>Schedule new appointment</span>
+                    <span className={styles.actionTitle}>Criar Sessão</span>
+                    <span className={styles.actionSub}>Agendar nova consulta</span>
                   </div>
                 </button>
 
@@ -340,8 +397,8 @@ export default function DashboardPage() {
                     </svg>
                   </div>
                   <div className={styles.actionText}>
-                    <span className={styles.actionTitle}>New Prescription</span>
-                    <span className={styles.actionSub}>Build exercise routine</span>
+                    <span className={styles.actionTitle}>Nova Prescrição</span>
+                    <span className={styles.actionSub}>Montar rotina de exercícios</span>
                   </div>
                 </button>
               </div>
@@ -349,11 +406,11 @@ export default function DashboardPage() {
               {/* Next session banner */}
               <div className={styles.nextSession}>
                 <div className={styles.nextSessionTop}>
-                  <span className={styles.nextSessionLabel}>Next session in</span>
+                  <span className={styles.nextSessionLabel}>Próxima sessão em</span>
                   <span className={styles.nextSessionTime}>32 min</span>
                 </div>
                 <div className={styles.nextSessionPatient}>Elena Rodrigues</div>
-                <div className={styles.nextSessionMeta}>10:30 · Session</div>
+                <div className={styles.nextSessionMeta}>10:30 · Sessão</div>
               </div>
             </div>
           </div>
