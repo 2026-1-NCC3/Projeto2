@@ -4,6 +4,7 @@ import { useState, FormEvent } from "react";
 import styles from "./style.module.css";
 import logoMaya from "../../assets/logoMaya.png";
 import Image from "next/image";
+import { setToken } from "./auth";
 
 interface LoginPayload {
   email: string;
@@ -46,7 +47,7 @@ export default function LoginPage() {
       console.log(data);
 
       if (data) {
-        localStorage.setItem("maya_token", data);
+        setToken(data);
       }
 
       window.location.href = "/home";
