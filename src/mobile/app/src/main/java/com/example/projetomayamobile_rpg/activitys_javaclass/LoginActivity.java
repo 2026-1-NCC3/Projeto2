@@ -12,6 +12,9 @@ import com.example.projetomayamobile_rpg.model.LoginRequest;
 import com.example.projetomayamobile_rpg.network.ApiService;
 import com.example.projetomayamobile_rpg.network.RetrofitClient;
 import com.google.android.material.textfield.TextInputLayout;
+import android.content.SharedPreferences;
+import com.example.projetomayamobile_rpg.model.PageResponse;
+import com.example.projetomayamobile_rpg.model.PatientResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -66,17 +69,44 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     String token = response.body();
 
+                    // 1. Salva o token primeiro
                     getSharedPreferences("auth", MODE_PRIVATE)
                             .edit()
                             .putString("token", token)
                             .apply();
-                            RetrofitClient.resetInstance();
 
-                    startActivity(new Intent(LoginActivity.this, LgpdTermActivity.class));
-                    finish();
-                } else {
-                    Toast.makeText(LoginActivity.this,
-                            "E-mail ou senha incorretos.", Toast.LENGTH_SHORT).show();
+                    RetrofitClient.resetInstance();
+
+                    // 2. Busca o ID do paciente pelo e-mail
+                    ApiService apiComToken = RetrofitClient.getInstance(LoginActivity.this).create(ApiService.class);
+                    apiComToken.getPatients(0, 100).enqueue(new Callback<PageResponse<PatientResponse>>() {
+                        @Override
+                        public void onResponse(Call<PageResponse<PatientResponse>> call,
+                                               Response<PageResponse<PatientResponse>> response) {
+                            if (response.isSuccessful() && response.body() != null) {
+                                for (PatientResponse patient : response.body().getContent()) {
+                                    if (patient.getEmail().equals(email)) {
+                                        // 3. Salva o ID encontrado
+                                        getSharedPreferences("auth", MODE_PRIVATE)
+                                                .edit()
+                                                .putLong("patient_id", patient.getId())
+                                                .apply();
+                                        break;
+                                    }
+                                }
+                            }
+                            // 4. Vai para a próxima tela independente
+                            startActivity(new Intent(LoginActivity.this, LgpdTermActivity.class));
+                            finish();
+                        }
+
+                        @Override
+                        public void onFailure(Call<PageResponse<PatientResponse>> call, Throwable t) {
+                            // Vai mesmo assim, o ID pode ser buscado depois
+                            startActivity(new Intent(LoginActivity.this, LgpdTermActivity.class));
+                            finish();
+                        }
+                    });
                 }
             }
 
