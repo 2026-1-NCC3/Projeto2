@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">Projeto Maya Mobile - RPG</string>
+    <string name="meu_perfil">Meu Perfil</string>
+    <string name="icone_de_paciente">Ícone de paciente</string>
+    <string name="informacoes_pessoais">Informações Pessoais</string>
+    <string name="icone_de_mensagem">Ícone de mensagem</string>
+    <string name="e_mail">E-mail</string>
+    <string name="telefone">Telefone</string>
+    <string name="icone_de_telefone">Ícone de telefone</string>
+    <string name="configuracoes">Configurações</string>
+    <string name="icone_de_notificacoes">Ícone de Notificação</string>
+    <string name="notificacoes">Notificações</string>
+    <string name="gerenciar_lembretes_e_avisos">Gerenciar lembretes e avisos</string>
+    <string name="botao_para_ativar_ou_desativar_notificacoes">Botão para ativar ou desativar notificações</string>
+    <string name="icone_de_cadeado">Ícone de cadeado</string>
+    <string name="alterar_senha">Alterar Senha</string>
+    <string name="atualizar_senha_de_acesso">Atualizar senha de acesso</string>
+    <string name="icone_de_escudo">Ícone de escudo</string>
+    <string name="privacidade_e_dados">Privacidade e Dados</string>
+    <string name="gerenciar_consentimento_lgpd">Gerenciar consentimento LGPD</string>
+    <string name="sobre">Sobre</string>
+    <string name="maya_yamamoto">Maya Yamamoto</string>
+    <string name="rpg_reeducacao_postural_global">RPG - Reeducação Postural Global</string>
+    <string name="versao_1_0_0">Versão 1.0.0</string>
+    <string name="sair_da_conta">Sair da Conta</string>
 </resources>

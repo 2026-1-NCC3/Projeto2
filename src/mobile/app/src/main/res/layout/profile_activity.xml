@@ -35,7 +35,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Meu Perfil"
+                    android:text="@string/meu_perfil"
                     android:textColor="@color/white"
                     android:textSize="22sp"
                     android:gravity="center"
@@ -50,13 +50,14 @@
                     android:backgroundTint="#33FFFFFF"
                     app:srcCompat="@drawable/ic_profile"
                     app:tint="@color/white"
-                    android:padding="12dp"/>
+                    android:padding="12dp"
+                    android:contentDescription="@string/icone_de_paciente"/>
 
                 <TextView
                     android:id="@+id/tvProfileName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Da'at Silva"
+                    android:text=""
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     android:fontFamily="@font/roboto_medium"
@@ -77,7 +78,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Informações Pessoais"
+                    android:text="@string/informacoes_pessoais"
                     android:textSize="16sp"
                     android:fontFamily="@font/roboto_medium"
                     android:layout_marginBottom="12dp"/>
@@ -95,7 +96,8 @@
                         android:background="@drawable/rounded"
                         android:backgroundTint="@color/babyblue"
                         app:srcCompat="@drawable/ic_chat"
-                        android:padding="8dp"/>
+                        android:padding="8dp"
+                        android:contentDescription="@string/icone_de_mensagem"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -106,7 +108,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="E-mail"
+                            android:text="@string/e_mail"
                             android:textSize="12sp"
                             android:textColor="@color/grey"/>
 
@@ -114,7 +116,7 @@
                             android:id="@+id/tvProfileEmail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="JOshJOhnsons@email.com"
+                            android:text=""
                             android:textSize="14sp"
                             android:fontFamily="@font/roboto_medium"/>
                     </LinearLayout>
@@ -138,7 +140,8 @@
                         android:background="@drawable/rounded"
                         android:backgroundTint="@color/babyblue"
                         app:srcCompat="@drawable/ic_phone"
-                        android:padding="8dp"/>
+                        android:padding="8dp"
+                        android:contentDescription="@string/icone_de_telefone"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -149,7 +152,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Telefone"
+                            android:text="@string/telefone"
                             android:textSize="12sp"
                             android:textColor="@color/grey"/>
 
@@ -179,7 +182,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Configurações"
+                    android:text="@string/configuracoes"
                     android:textSize="16sp"
                     android:fontFamily="@font/roboto_medium"
                     android:layout_marginBottom="12dp"/>
@@ -197,7 +200,8 @@
                         android:background="@drawable/rounded"
                         android:backgroundTint="@color/babyblue"
                         app:srcCompat="@drawable/ic_notification"
-                        android:padding="8dp"/>
+                        android:padding="8dp"
+                        android:contentDescription="@string/icone_de_notificacoes"/>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -209,25 +213,27 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Notificações"
+                            android:text="@string/notificacoes"
                             android:textSize="14sp"
                             android:fontFamily="@font/roboto_medium"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Gerenciar lembretes e avisos"
+                            android:text="@string/gerenciar_lembretes_e_avisos"
                             android:textSize="12sp"
                             android:textColor="@color/grey"/>
                     </LinearLayout>
 
-                    <com.google.android.material.switchmaterial.SwitchMaterial
+                    <com.google.android.material.materialswitch.MaterialSwitch
                         android:id="@+id/switchNotifications"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
+                        android:text=""
                         app:thumbTint="@color/white"
-                        app:trackTint="@color/lightblue"/>
+                        app:trackTint="@color/lightblue"
+                        android:contentDescription="@string/botao_para_ativar_ou_desativar_notificacoes"/>
 
                 </LinearLayout>
 
@@ -253,7 +259,8 @@
                         android:background="@drawable/rounded"
                         android:backgroundTint="@color/babyblue"
                         app:srcCompat="@drawable/ic_lock"
-                        android:padding="8dp"/>
+                        android:padding="8dp"
+                        android:contentDescription="@string/icone_de_cadeado"/>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -265,14 +272,16 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Alterar Senha"
+                            android:text="@string/alterar_senha"
                             android:textSize="14sp"
                             android:fontFamily="@font/roboto_medium"/>
+
+
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Atualizar senha de acesso"
+                            android:text="@string/atualizar_senha_de_acesso"
                             android:textSize="12sp"
                             android:textColor="@color/grey"/>
                     </LinearLayout>
@@ -301,7 +310,8 @@
                         android:background="@drawable/rounded"
                         android:backgroundTint="@color/babyblue"
                         app:srcCompat="@drawable/ic_shield"
-                        android:padding="8dp"/>
+                        android:padding="8dp"
+                        android:contentDescription="@string/icone_de_escudo"/>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -313,14 +323,14 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Privacidade e Dados"
+                            android:text="@string/privacidade_e_dados"
                             android:textSize="14sp"
                             android:fontFamily="@font/roboto_medium"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Gerenciar consentimento LGPD"
+                            android:text="@string/gerenciar_consentimento_lgpd"
                             android:textSize="12sp"
                             android:textColor="@color/grey"/>
                     </LinearLayout>
@@ -343,7 +353,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Sobre"
+                    android:text="@string/sobre"
                     android:textSize="16sp"
                     android:fontFamily="@font/roboto_medium"
                     android:layout_marginBottom="12dp"/>
@@ -351,7 +361,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Maya Yamamoto"
+                    android:text="@string/maya_yamamoto"
                     android:textSize="18sp"
                     android:textColor="@color/lightblue"
                     android:fontFamily="@font/roboto_medium"
@@ -360,7 +370,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="RPG - Reeducação Postural Global"
+                    android:text="@string/rpg_reeducacao_postural_global"
                     android:textSize="13sp"
                     android:textColor="@color/grey"
                     android:gravity="center"
@@ -369,7 +379,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Versão 1.0.0"
+                    android:text="@string/versao_1_0_0"
                     android:textSize="12sp"
                     android:textColor="@color/grey"
                     android:gravity="center"
@@ -383,7 +393,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginBottom="24dp"
-                android:text="Sair da Conta"
+                android:text="@string/sair_da_conta"
                 android:textColor="@color/salmon"
                 android:textSize="15sp"
                 app:strokeColor="@color/salmon"
@@ -394,6 +404,7 @@
                 app:iconGravity="textStart"/>
 
         </LinearLayout>
+
     </ScrollView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

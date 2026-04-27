@@ -32,10 +32,10 @@
         <activity android:name=".activitys_javaclass.LgpdProfileActivity"/>
         <activity android:name=".activitys_javaclass.LgpdTermActivity"></activity>
         <activity android:name=".activitys_javaclass.ProfileActivity"/>
-        <activity android:name=".activitys_javaclass.RegisterExecutionActivity"></activity>
-        <activity android:name=".activitys_javaclass.RegisterExecutionCompletedActivity"></activity>
+        <activity android:name=".activitys_javaclass.RegisterExecutionActivity"/>
+        <activity android:name=".activitys_javaclass.RegisterExecutionCompletedActivity"/>
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
 </manifest>
