@@ -1,5 +1,7 @@
 package com.beholders.projeto_maya_rpg.controller;
 
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.beholders.projeto_maya_rpg.dto.AdminDTO;
 import com.beholders.projeto_maya_rpg.dto.LoginRequestDTO;
 import com.beholders.projeto_maya_rpg.model.Admin;
 import com.beholders.projeto_maya_rpg.model.Patient;
@@ -40,8 +42,16 @@ public class AdminController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Admin> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(adminService.getById(id));
+    public ResponseEntity<AdminDTO> getById(@PathVariable Long id) {
+        Admin admin = adminService.getById(id);
+        return ResponseEntity.ok(new AdminDTO(admin));
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<DecodedJWT> getMe(@RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.replace("Bearer ", "");
+        DecodedJWT result = tokenService.decodeToken(token);
+        return ResponseEntity.ok(result);
     }
 
     @PutMapping("/{id}")

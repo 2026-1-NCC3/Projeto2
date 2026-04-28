@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.beholders.projeto_maya_rpg.model.Admin;
 import com.beholders.projeto_maya_rpg.model.Patient;
 import org.springframework.beans.factory.annotation.Value;
@@ -61,6 +62,18 @@ public class TokenService {
 
         } catch (JWTVerificationException exception) {
             return "";
+        }
+    }
+
+    public DecodedJWT decodeToken(String token) {
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(secret);
+            return JWT.require(algorithm)
+                    .withIssuer("maya-rpg-api")
+                    .build()
+                    .verify(token);
+        } catch (JWTVerificationException exception) {
+            throw new RuntimeException("Token inválido ou expirado");
         }
     }
 }
