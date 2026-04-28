@@ -14,7 +14,8 @@
         android:layout_height="120dp"
         android:src="@drawable/maya_logo"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"/>
+        android:layout_marginTop="80dp"
+        android:contentDescription="@string/logo_maya"/>
 
     <LinearLayout
     android:id="@+id/cardLogin"
@@ -32,7 +33,7 @@
 <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="E-mail"
+    android:text="@string/e_mail"
     android:textColor="@color/grey"
     android:fontFamily="@font/roboto_medium"/>
 
@@ -40,8 +41,10 @@
     android:id="@+id/editEmail"
     android:layout_width="match_parent"
     android:layout_height="45dp"
-    android:hint="seu@email.com"
-    android:textSize="15dp"
+    android:hint="@string/seu_email"
+    android:inputType="textEmailAddress"
+    android:autofillHints="emailAddress"
+    android:textSize="15sp"
     android:fontFamily="@font/roboto_medium"
     android:background="@drawable/rounded"
     android:backgroundTint="@color/lightgrey"
@@ -52,7 +55,7 @@
 <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="Senha"
+    android:text="@string/senha"
     android:textColor="@color/grey"
     android:fontFamily="@font/roboto_medium"/>
 
@@ -67,8 +70,8 @@
                 android:id="@+id/editPassword"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:hint="........"
-                android:textSize="15dp"
+                android:hint="@string/preencher_senha"
+                android:textSize="15sp"
                 android:fontFamily="@font/roboto_medium"
                 android:background="@drawable/rounded"
                 android:backgroundTint="@color/lightgrey"
@@ -82,7 +85,7 @@
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Entrar"
+            android:text="@string/entrar"
             android:textColor="@color/white"
             android:fontFamily="@font/roboto_medium"
             android:backgroundTint="@color/lightblue"
@@ -93,7 +96,7 @@
             android:id="@+id/btnForgotPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Esqueci minha senha"
+            android:text="@string/esqueci_senha"
             android:textColor="@color/lightblue"
             android:fontFamily="@font/roboto_medium"
             android:layout_gravity="center"
@@ -106,7 +109,7 @@
     android:id="@+id/txtVersao"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="Versão 1.0.0"
+    android:text="@string/versão_app"
     android:textColor="@color/lightblue"
     android:fontFamily="@font/roboto_medium"
     android:layout_alignParentBottom="true"

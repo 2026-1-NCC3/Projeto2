@@ -29,7 +29,7 @@
         <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Registrar Execução"
+        android:text="@string/confirmar_execucao"
         android:textSize="26sp"
         android:fontFamily="@font/roboto_medium"
         android:textColor="@color/white"
@@ -50,6 +50,7 @@
             android:elevation="4dp">
 
             <TextView
+                android:id="@+id/exerciseName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Teste Nome de exercício"
@@ -60,6 +61,7 @@
                 android:layout_marginTop="10dp"/>
 
             <TextView
+                android:id="@+id/exerciseFrequency"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Frequência do exercício"
@@ -87,7 +89,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Níveis de Dor"
+            android:text="@string/niveis_dor"
             android:textSize="20sp"
             android:fontFamily="@font/roboto_medium"
             android:textColor="@color/black"
@@ -106,8 +108,8 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn1Pain"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:text="Sem dor"
+                android:layout_height="match_parent"
+                android:text="@string/sem_dor"
                 android:textAllCaps="false"
                 android:textSize="16sp"
                 android:textColor="@android:color/white"
@@ -119,8 +121,8 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn2Pain"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:text="Dor leve ou amena"
+                android:layout_height="match_parent"
+                android:text="@string/dor_leve_ou_amena"
                 android:textAllCaps="false"
                 android:textSize="16sp"
                 android:textColor="@android:color/black"
@@ -132,8 +134,8 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn3Pain"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:text="Dor moderada"
+                android:layout_height="match_parent"
+                android:text="@string/dor_moderada"
                 android:textAllCaps="false"
                 android:textSize="16sp"
                 android:textColor="@android:color/white"
@@ -145,8 +147,8 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn4Pain"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:text="Dor intensa"
+                android:layout_height="match_parent"
+                android:text="@string/dor_intensa"
                 android:textAllCaps="false"
                 android:textSize="16sp"
                 android:textColor="@android:color/white"
@@ -157,19 +159,20 @@
 
         </com.google.android.material.button.MaterialButtonToggleGroup>
 
-        </LinearLayout>
-
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnRegisterAlongamentoCervical"
+
+            android:id="@+id/btnRegisterExecution"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:text="Confirmar Execução"
+            android:layout_height="match_parent"
+            android:text="@string/registrar_execução"
             android:textColor="@color/white"
             android:fontFamily="@font/roboto_medium"
             android:background="@drawable/rounded_button"
             app:backgroundTint="@null"
             android:textSize="17sp"
             android:layout_margin="10dp"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

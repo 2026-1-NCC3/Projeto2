@@ -34,7 +34,7 @@
                     android:id="@+id/hello"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Olá,"
+                    android:text="@string/mensagem_ola"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     android:fontFamily="@font/roboto_medium"/>
@@ -71,7 +71,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Progresso de Hoje"
+                    android:text="@string/progresso_de_hoje"
                     android:textSize="18sp"
                     android:fontFamily="@font/roboto_medium"/>
 
@@ -119,7 +119,8 @@
                             android:layout_height="30dp"
                             android:background="@drawable/rounded"
                             android:backgroundTint="@color/babyblue"
-                            app:srcCompat="@drawable/ic_check"/>
+                            app:srcCompat="@drawable/ic_check"
+                            android:contentDescription="@string/icone_exercicios_executados"/>
 
                         <TextView
                             android:id="@+id/completed"
@@ -134,7 +135,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Executados hoje"
+                        android:text="@string/exercicios_executados_hoje"
                         android:textSize="12sp"
                         android:layout_marginTop="6dp"/>
 
@@ -164,7 +165,7 @@
                             android:background="@drawable/rounded"
                             android:backgroundTint="@color/lightsalmon"
                             app:srcCompat="@drawable/ic_clock"
-                            />
+                            android:contentDescription="@string/icone_exercicios_pendentes"/>
 
                         <TextView
                             android:id="@+id/pending"
@@ -179,7 +180,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Pendentes"
+                        android:text="@string/exercicios_pendentes_hoje"
                         android:textSize="12sp"
                         android:layout_marginTop="6dp"/>
                 </LinearLayout>
@@ -189,7 +190,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Exercícios de Hoje"
+                android:text="@string/exercicios_de_hoje"
                 android:textSize="18sp"
                 android:fontFamily="@font/roboto_medium"
                 android:layout_margin="16dp"/>

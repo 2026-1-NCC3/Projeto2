@@ -10,6 +10,6 @@ public class ExercisesDescriptionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.exercises_description_activity);
+        setContentView(R.layout.exercise_description_activity);
     }
 }

@@ -39,18 +39,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Histórico e Evolução"
+                    android:text="@string/historico_evolucao"
                     android:textSize="26sp"
                     android:fontFamily="@font/roboto_medium"
                     android:textColor="@color/white"
                     android:layout_marginTop="15dp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Prescritos pela fisioterapeuta Maya Yamamoto"
-                    android:fontFamily="@font/roboto_medium"
-                    android:textColor="@color/white"/>
 
             </LinearLayout>
 
@@ -81,14 +75,15 @@
                             android:layout_height="28dp"
                             android:src="@drawable/ic_check"
                             app:tint="@color/green"
-                            android:layout_gravity="center"/>
+                            android:layout_gravity="center"
+                            android:contentDescription="@string/icone_taxa_adesao"/>
 
                     </FrameLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Taxa de Adesão"
+                        android:text="@string/taxa_adesao"
                         android:textSize="15sp"
                         android:textColor="@color/black"
                         android:fontFamily="@font/roboto_medium"
@@ -107,7 +102,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Últimas 4 Semanas"
+                    android:text="@string/ultima_semana"
                     android:textSize="15sp"/>
 
             </LinearLayout>
@@ -138,14 +133,15 @@
                             android:layout_height="25dp"
                             android:src="@drawable/ic_calendar"
                             app:tint="@color/blue"
-                            android:layout_gravity="center"/>
+                            android:layout_gravity="center"
+                            android:contentDescription="@string/icone_atividades_registradas"/>
 
                     </FrameLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Dias Consecutivos Realizando as Atividades"
+                        android:text="@string/dias_consecutivos"
                         android:textSize="15sp"
                         android:textColor="@color/black"
                         android:fontFamily="@font/roboto_medium"
@@ -165,7 +161,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Continue assim"
+                    android:text="@string/continue_assim"
                     android:textSize="15sp"/>
 
             </LinearLayout>
@@ -197,14 +193,15 @@
                             android:layout_height="35dp"
                             android:src="@drawable/ic_exclamation"
                             app:tint="@color/red"
-                            android:layout_gravity="center"/>
+                            android:layout_gravity="center"
+                            android:contentDescription="@string/icone_escala_dor_registrada"/>
 
                     </FrameLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Escala de Dor Mais Registrada"
+                        android:text="@string/nivel_dor_mais_frequente"
                         android:textSize="15sp"
                         android:textColor="@color/black"
                         android:fontFamily="@font/roboto_medium"
@@ -223,7 +220,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Desde o Ínicio do Mês"
+                    android:text="@string/ultima_semana"
                     android:textSize="15sp"/>
 
             </LinearLayout>
@@ -241,13 +238,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Histórico de execução"
+                    android:text="@string/historico_execucao"
                     android:textSize="18sp"
                     android:textColor="@color/black"
                     android:fontFamily="@font/roboto_medium"
                     android:layout_marginStart="8dp"/>
 
                 <TextView
+                    android:id="@+id/date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Segunda, 13 de Abril"
@@ -259,7 +257,6 @@
                     android:layout_marginBottom="10dp"/>
 
                 <LinearLayout
-                    android:id="@+id/performanceDone1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
@@ -269,6 +266,7 @@
                     android:padding="14dp">
 
                 <TextView
+                    android:id="@+id/exerciseName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
@@ -277,67 +275,12 @@
                     android:fontFamily="@font/roboto_medium"/>
 
                     <TextView
+                        android:id="@+id/timeOfExercution"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
                         android:textColor="@color/grey"
                         android:text="11:23"
-                        android:fontFamily="@font/roboto_medium"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/performanceDone2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/rounded"
-                    android:backgroundTint="@color/lightgrey"
-                    android:orientation="vertical"
-                    android:padding="14dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="14sp"
-                        android:textColor="@color/black"
-                        android:text="Fortalecimento Lombar"
-                        android:fontFamily="@font/roboto_medium"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="12sp"
-                        android:textColor="@color/grey"
-                        android:text="11:34"
-                        android:fontFamily="@font/roboto_medium"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/performanceDone3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/rounded"
-                    android:backgroundTint="@color/lightgrey"
-                    android:orientation="vertical"
-                    android:padding="14dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="14sp"
-                        android:textColor="@color/black"
-                        android:text="Respiração Diafragmática"
-                        android:fontFamily="@font/roboto_medium"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="12sp"
-                        android:textColor="@color/grey"
-                        android:text="11:41"
                         android:fontFamily="@font/roboto_medium"/>
 
                 </LinearLayout>

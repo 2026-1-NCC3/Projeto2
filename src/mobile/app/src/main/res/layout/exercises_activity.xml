@@ -33,7 +33,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Seu Plano de Exercícios"
+                    android:text="@string/seu_plano_de_exercicios"
                     android:textSize="26sp"
                     android:fontFamily="@font/roboto_medium"
                     android:textColor="@color/white" />
@@ -41,7 +41,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Prescritos pela fisioterapeuta Maya Yamamoto"
+                    android:text="@string/prescrito_maya"
                     android:fontFamily="@font/roboto_medium"
                     android:textColor="@color/white"/>
 
@@ -56,11 +56,14 @@
                 android:elevation="4dp">
 
                 <ImageView
+                    android:id="@+id/exerciseImage"
                     android:layout_width="wrap_content"
-                    android:layout_height="200dp"
-                    app:srcCompat="@drawable/alongamento_cervical"/>
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/alongamento_cervical"
+                    android:contentDescription="@string/imagem_do_exercicio"/>
 
                 <TextView
+                    android:id="@+id/exerciseName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Alongamento Cervical"
@@ -71,6 +74,7 @@
                     android:layout_marginTop="20dp"/>
 
                 <TextView
+                    android:id="@+id/exerciseDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Alongamento suave da musculatura do pescoço"
@@ -98,9 +102,11 @@
                             android:layout_width="16dp"
                             android:layout_height="16dp"
                             app:srcCompat="@drawable/ic_clock"
-                            app:tint="@color/grey"/>
+                            app:tint="@color/grey"
+                            android:contentDescription="@string/icone_duracao_exercicio"/>
 
                         <TextView
+                            android:id="@+id/exerciseDuration"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="10 min"
@@ -116,223 +122,35 @@
                         android:gravity="center_vertical">
 
                         <TextView
+                            android:id="@+id/exerciseFrequency"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="3x ao dia"
                             android:textSize="12sp"
                             android:textColor="@color/grey"
                             android:layout_marginStart="20dp"/>
+
                     </LinearLayout>
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnAlongamentoCervical"
+                        android:id="@+id/btnStartExercise"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Iniciar"
+                        android:text="@string/iniciar_exercicio"
                         android:textColor="@color/lightblue"
                         app:icon="@drawable/ic_play"
                         app:iconTint="@color/lightblue"
                         app:iconSize="20dp"
                         android:backgroundTint="@color/white"
                         android:fontFamily="@font/roboto_medium"
-                        android:layout_marginStart="100dp"
-                        />
+                        android:layout_marginStart="100dp"/>
 
                 </LinearLayout>
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/rounded"
-                android:layout_margin="10dp"
-                android:elevation="4dp">
-
-                <ImageView
-                    android:layout_marginTop="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    app:srcCompat="@drawable/fortalecimento_lombar"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Fortalecimento Lombar"
-                    android:fontFamily="@font/roboto_medium"
-                    android:textSize="20sp"
-                    android:textColor="@color/black"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Fortalecimento da musculatura cervical"
-                    android:fontFamily="@font/roboto_medium"
-                    android:textSize="15sp"
-                    android:textColor="@color/grey"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="5dp"/>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center_vertical">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            app:srcCompat="@drawable/ic_clock"
-                            app:tint="@color/grey"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="15 Repetições"
-                            android:textSize="12sp"
-                            android:textColor="@color/grey"
-                            android:layout_marginStart="4dp"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="1x ao dia"
-                            android:textSize="12sp"
-                            android:textColor="@color/grey"
-                            android:layout_marginStart="20dp"/>
-                    </LinearLayout>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnFortalecimentoLombar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Iniciar"
-                        android:textColor="@color/lightblue"
-                        app:icon="@drawable/ic_play"
-                        app:iconTint="@color/lightblue"
-                        app:iconSize="20dp"
-                        android:backgroundTint="@color/white"
-                        android:fontFamily="@font/roboto_medium"
-                        android:layout_marginStart="70dp"
-                        />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/rounded"
-                android:layout_margin="10dp"
-                android:elevation="4dp">
-
-                <ImageView
-                    android:layout_marginTop="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    app:srcCompat="@drawable/respiracao_diafragmatica"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Respiração Diafragmática"
-                    android:fontFamily="@font/roboto_medium"
-                    android:textSize="20sp"
-                    android:textColor="@color/black"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Técnica respiratória utilizada para promover relaxamento"
-                    android:fontFamily="@font/roboto_medium"
-                    android:textSize="15sp"
-                    android:textColor="@color/grey"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="5dp"/>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center_vertical">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            app:srcCompat="@drawable/ic_clock"
-                            app:tint="@color/grey"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="10 Repetições"
-                            android:textSize="12sp"
-                            android:textColor="@color/grey"
-                            android:layout_marginStart="4dp"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="2x ao dia"
-                            android:textSize="12sp"
-                            android:textColor="@color/grey"
-                            android:layout_marginStart="20dp"/>
-                    </LinearLayout>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnRespiracaoDiafragmatica"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Iniciar"
-                        android:textColor="@color/lightblue"
-                        app:icon="@drawable/ic_play"
-                        app:iconTint="@color/lightblue"
-                        app:iconSize="20dp"
-                        android:backgroundTint="@color/white"
-                        android:fontFamily="@font/roboto_medium"
-                        android:layout_marginStart="70dp"
-                        />
-
-                </LinearLayout>
-            </LinearLayout>
         </LinearLayout>
+
     </ScrollView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

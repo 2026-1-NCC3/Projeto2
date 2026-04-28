@@ -29,14 +29,15 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:src="@drawable/ic_check_rounded"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:contentDescription="@string/icone_exercicio_registrado"/>
 
         </FrameLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Exercício Registrado!"
+            android:text="@string/exercicio_registrado"
             android:fontFamily="@font/roboto_medium"
             android:textSize="20sp"
             android:textColor="@color/black"
@@ -45,7 +46,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Parabéns por manter sua rotina de exercícios"
+            android:text="@string/parabens_manter_rotina"
             android:fontFamily="@font/roboto_medium"
             android:textSize="15sp"
             android:textColor="@color/grey"/>

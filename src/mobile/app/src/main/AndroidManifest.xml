@@ -20,17 +20,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activitys_javaclass.ChangePasswordProfileActivity"></activity>
-        <activity android:name=".activitys_javaclass.ChangePasswordProfileCompletedActivity"></activity>
+        <activity android:name=".activitys_javaclass.ChangePasswordProfileActivity"/>
+        <activity android:name=".activitys_javaclass.ChangePasswordProfileCompletedActivity"/>
         <activity android:name=".activitys_javaclass.DashboardActivity"/>
-        <activity android:name=".activitys_javaclass.ExercisesActivity"></activity>
-        <activity android:name=".activitys_javaclass.ExercisesDescriptionActivity"></activity>
-        <activity android:name=".activitys_javaclass.ForgotPasswordActivity"></activity>
-        <activity android:name=".activitys_javaclass.ForgotPasswordCompletedActivity"></activity>
-        <activity android:name=".activitys_javaclass.ForgotPasswordSequelActivity"></activity>
+        <activity android:name=".activitys_javaclass.ExercisesActivity"/>
+        <activity android:name=".activitys_javaclass.ExercisesDescriptionActivity"/>
+        <activity android:name=".activitys_javaclass.ForgotPasswordActivity"/>
+        <activity android:name=".activitys_javaclass.ForgotPasswordCompletedActivity"/>
+        <activity android:name=".activitys_javaclass.ForgotPasswordSequelActivity"/>
         <activity android:name=".activitys_javaclass.HistoryActivity"/>
         <activity android:name=".activitys_javaclass.LgpdProfileActivity"/>
-        <activity android:name=".activitys_javaclass.LgpdTermActivity"></activity>
+        <activity android:name=".activitys_javaclass.LgpdTermActivity"/>
         <activity android:name=".activitys_javaclass.ProfileActivity"/>
         <activity android:name=".activitys_javaclass.RegisterExecutionActivity"/>
         <activity android:name=".activitys_javaclass.RegisterExecutionCompletedActivity"/>

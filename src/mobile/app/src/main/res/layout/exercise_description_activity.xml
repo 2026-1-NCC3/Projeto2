@@ -29,7 +29,7 @@
                 android:padding="10dp">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnBackAlongamentoCervical"
+                    android:id="@+id/btnBackExercises"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Alongamento Cervical"
@@ -44,7 +44,7 @@
                     android:fontFamily="@font/roboto_medium"/>
 
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:id="@+id/exerciseImage"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                     app:srcCompat="@drawable/alongamento_cervical"
@@ -72,18 +72,20 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         app:srcCompat="@drawable/ic_clock"
-                        app:tint="@color/babyblue" />
+                        app:tint="@color/babyblue"
+                        android:contentDescription="@string/icone_duracao_exercicio"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Duração:"
+                        android:text="@string/duracao_exercicio"
                         android:textSize="14sp"
                         android:textColor="@color/grey"
                         android:layout_marginTop="4dp"
                         android:layout_marginStart="4dp"/>
 
                     <TextView
+                        android:id="@+id/exerciseDuration"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="10 Minutos"
@@ -109,18 +111,20 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         app:srcCompat="@drawable/ic_exclamation"
-                        app:tint="@color/salmon" />
+                        app:tint="@color/salmon"
+                        android:contentDescription="@string/icone_frequencia_exercicio"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Frequência:"
+                        android:text="@string/frequencia_exercicio"
                         android:textSize="14sp"
                         android:textColor="@color/grey"
                         android:layout_marginTop="4dp"
                         android:layout_marginStart="4dp"/>
 
                     <TextView
+                        android:id="@+id/exerciseFrequency"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="3x ao dia"
@@ -144,13 +148,14 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Descrição"
+                    android:text="@string/descricao_exercicio"
                     android:textColor="@color/black"
                     android:fontFamily="@font/roboto_medium"
                     android:textSize="18sp"
                     android:padding="10dp"/>
 
                 <TextView
+                    android:id="@+id/exerciseDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Alongamento suave da musculatura do pescoço para aliviar a tensão e melhorar a mobilidade"
@@ -174,7 +179,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Como Executar"
+                    android:text="@string/como_executar_exercicio"
                     android:textColor="@color/black"
                     android:fontFamily="@font/roboto_medium"
                     android:textSize="18sp"
@@ -313,10 +318,10 @@
             </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnRegisterAlongamentoCervical"
+                android:id="@+id/btnRegister"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:text="Registrar Execução"
+                android:text="@string/confirmar_execucao"
                 android:textColor="@color/white"
                 android:fontFamily="@font/roboto_medium"
                 android:background="@drawable/rounded_button"

@@ -160,10 +160,12 @@
                             android:id="@+id/tvProfilePhone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="(00) 4002-8922"
+                            android:text=""
                             android:textSize="14sp"
                             android:fontFamily="@font/roboto_medium"/>
+
                     </LinearLayout>
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -379,7 +381,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/versao_1_0_0"
+                    android:text="@string/versão_app"
                     android:textSize="12sp"
                     android:textColor="@color/grey"
                     android:gravity="center"
