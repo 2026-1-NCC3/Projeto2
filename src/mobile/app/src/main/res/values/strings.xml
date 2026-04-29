@@ -10,7 +10,7 @@
     <string name="configuracoes">Configurações</string>
     <string name="confirmar_execucao">Confirmar Execução</string>
     <string name="confirme_sua_senha">Confirme sua senha</string>
-    <string name="continuar">Continuar.</string>
+    <string name="continuar">Continuar</string>
     <string name="continue_assim">Continue assim</string>
     <string name="descricao_exercicio">Descrição</string>
     <string name="dias_consecutivos">Dias Consecutivos Realizando as Atividades</string>
@@ -124,6 +124,6 @@ Este termo pode ser atualizado periodicamente.\n
 Última atualização: 14 de Março de 2026</string>
     <string name="ultima_semana">Última Semana</string>
     <string name="versão_app">1.0.0</string>
-    <string name="voltar">Voltar.</string>
+    <string name="voltar">Voltar</string>
     <string name="voltar_ao_login">Voltar ao Login</string>
 </resources>

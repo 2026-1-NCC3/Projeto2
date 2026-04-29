@@ -17,18 +17,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/header"
+                android:layout_width="0dp"
                 android:layout_height="150dp"
                 android:background="@drawable/rounded"
                 android:backgroundTint="@color/lightblue"
-                android:orientation="vertical"
-                android:padding="24dp">
+                android:padding="24dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
                 <TextView
                     android:id="@+id/hello"
@@ -37,7 +39,9 @@
                     android:text="@string/mensagem_ola"
                     android:textColor="@color/white"
                     android:textSize="18sp"
-                    android:fontFamily="@font/roboto_medium"/>
+                    android:fontFamily="@font/roboto_medium"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
                 <TextView
                     android:id="@+id/pacientNameDashboard"
@@ -46,7 +50,9 @@
                     android:text=""
                     android:textColor="@color/white"
                     android:textSize="26sp"
-                    android:fontFamily="@font/roboto_medium"/>
+                    android:fontFamily="@font/roboto_medium"
+                    app:layout_constraintTop_toBottomOf="@id/hello"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
                 <TextView
                     android:id="@+id/date"
@@ -55,25 +61,33 @@
                     android:text=""
                     android:textColor="@color/lightgrey"
                     android:textSize="14sp"
-                    android:fontFamily="@font/roboto_medium"/>
+                    android:fontFamily="@font/roboto_medium"
+                    app:layout_constraintTop_toBottomOf="@id/pacientNameDashboard"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
-                android:background="@drawable/rounded"
-                android:layout_width="match_parent"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/progressCard"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
+                android:padding="16dp"
                 android:elevation="4dp"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:background="@drawable/rounded"
+                app:layout_constraintTop_toBottomOf="@id/header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
                 <TextView
+                    android:id="@+id/titleProgress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/progresso_de_hoje"
                     android:textSize="18sp"
-                    android:fontFamily="@font/roboto_medium"/>
+                    android:fontFamily="@font/roboto_medium"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
                 <TextView
                     android:id="@+id/progress"
@@ -81,127 +95,142 @@
                     android:layout_height="wrap_content"
                     android:text=""
                     android:textColor="@color/grey"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@id/titleProgress"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
                 <ProgressBar
                     android:id="@+id/progressBar"
                     style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:progress="67"/>
+                    android:progress="67"
+                    app:layout_constraintTop_toBottomOf="@id/progress"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cardsRow"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:orientation="horizontal"
-                android:elevation="6dp">
+                android:elevation="6dp"
+                app:layout_constraintTop_toBottomOf="@id/progressCard"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cardCompleted"
                     android:layout_width="0dp"
                     android:layout_height="100dp"
-                    android:layout_weight="1"
+                    android:padding="16dp"
                     android:background="@drawable/rounded"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/cardPending"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.48">
 
-                    <LinearLayout
+                    <ImageView
+                        android:id="@+id/iconCompleted"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/rounded"
+                        android:backgroundTint="@color/babyblue"
+                        app:srcCompat="@drawable/ic_check"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/completed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:background="@drawable/rounded"
-                            android:backgroundTint="@color/babyblue"
-                            app:srcCompat="@drawable/ic_check"
-                            android:contentDescription="@string/icone_exercicios_executados"/>
-
-                        <TextView
-                            android:id="@+id/completed"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textSize="24sp"
-                            android:fontFamily="@font/roboto_medium"
-                            android:layout_marginStart="8dp"/>
-                    </LinearLayout>
+                        android:text=""
+                        android:textSize="24sp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:layout_marginStart="8dp"
+                        app:layout_constraintStart_toEndOf="@id/iconCompleted"
+                        app:layout_constraintTop_toTopOf="@id/iconCompleted"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/exercicios_executados_hoje"
                         android:textSize="12sp"
-                        android:layout_marginTop="6dp"/>
+                        android:layout_marginTop="6dp"
+                        app:layout_constraintTop_toBottomOf="@id/iconCompleted"
+                        app:layout_constraintStart_toStartOf="parent"/>
 
-                </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <Space
-                    android:layout_width="10dp"
-                    android:layout_height="wrap_content"/>
-
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cardPending"
                     android:layout_width="0dp"
                     android:layout_height="100dp"
-                    android:layout_weight="1"
+                    android:padding="16dp"
                     android:background="@drawable/rounded"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    app:layout_constraintStart_toEndOf="@id/cardCompleted"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.48">
 
-                    <LinearLayout
+                    <ImageView
+                        android:id="@+id/iconPending"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/rounded"
+                        android:backgroundTint="@color/lightsalmon"
+                        app:srcCompat="@drawable/ic_clock"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/pending"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:background="@drawable/rounded"
-                            android:backgroundTint="@color/lightsalmon"
-                            app:srcCompat="@drawable/ic_clock"
-                            android:contentDescription="@string/icone_exercicios_pendentes"/>
-
-                        <TextView
-                            android:id="@+id/pending"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textSize="24sp"
-                            android:fontFamily="@font/roboto_medium"
-                            android:layout_marginStart="8dp"/>
-                    </LinearLayout>
+                        android:text=""
+                        android:textSize="24sp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:layout_marginStart="8dp"
+                        app:layout_constraintStart_toEndOf="@id/iconPending"
+                        app:layout_constraintTop_toTopOf="@id/iconPending"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/exercicios_pendentes_hoje"
                         android:textSize="12sp"
-                        android:layout_marginTop="6dp"/>
-                </LinearLayout>
+                        android:layout_marginTop="6dp"
+                        app:layout_constraintTop_toBottomOf="@id/iconPending"
+                        app:layout_constraintStart_toStartOf="parent"/>
 
-            </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
+                android:id="@+id/titleExercises"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/exercicios_de_hoje"
                 android:textSize="18sp"
                 android:fontFamily="@font/roboto_medium"
-                android:layout_margin="16dp"/>
+                android:layout_margin="16dp"
+                app:layout_constraintTop_toBottomOf="@id/cardsRow"
+                app:layout_constraintStart_toStartOf="parent"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerExercises"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"/>
+                android:nestedScrollingEnabled="false"
+                app:layout_constraintTop_toBottomOf="@id/titleExercises"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 
