@@ -13,4 +13,16 @@ public class AdminDTO {
         this.name = admin.getName();
         this.status = admin.getStatus();
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
 }

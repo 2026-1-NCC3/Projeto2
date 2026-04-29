@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import styles from "./style.module.css";
+import { getToken } from "../login/auth";
 
 const NAV_ITEMS = [
   {
@@ -119,22 +120,28 @@ export default function DashboardPage() {
     const fetchDashboardData = async () => {
       try {
         // Pegando o token e o ID salvos no login
-        const token = localStorage.getItem("token");
-        const adminId = localStorage.getItem("adminId"); // Substitua pela chave que você usa
+        const token = getToken();
         
         const headers = {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`
         };
 
+        const fetchAdmin = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/me`, { headers });
+
+        if (!fetchAdmin.ok) {
+          alert("Erro ao buscar o fetch admin");
+        }
+
+        const data = await fetchAdmin.json();
+        const adminId = data.subject;
+
         // 1. Busca o nome do Admin (Rota GET /admin/{id})
         if (adminId) {
           const adminResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/${adminId}`, { headers });
-          if (adminResponse.ok) {
-            const adminData = await adminResponse.json();
-            // Assumindo que o model Admin tem um atributo "name" ou "nome"
-            setAdminName(adminData.name || adminData.nome); 
-          }
+
+          const adminData = await adminResponse.json();
+          setAdminName(adminData.name);
         }
 
         // 2. Busca a soma dos pacientes ativos (Rota GET /patients)
