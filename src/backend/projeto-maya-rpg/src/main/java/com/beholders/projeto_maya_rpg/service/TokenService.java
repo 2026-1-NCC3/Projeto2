@@ -41,7 +41,7 @@ public class TokenService {
 
             return JWT.create()
                     .withIssuer("maya-rpg-api")
-                    .withSubject(adm.getEmail())
+                    .withSubject(String.valueOf(adm.getId()))
                     .withExpiresAt(LocalDateTime.now().plusDays(7).toInstant(ZoneOffset.of("-03:00")))
                     .sign(algorithm);
 

@@ -9,8 +9,8 @@ public class AdminDTO {
     private Status status;
 
     public AdminDTO(Admin admin) {
-        this.id = admin.getId;
-        this.name = admin.getName;
-        this.status = admin.getStatus;
+        this.id = admin.getId();
+        this.name = admin.getName();
+        this.status = admin.getStatus();
     }
 }
