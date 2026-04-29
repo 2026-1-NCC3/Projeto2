@@ -56,7 +56,7 @@ public class RetrofitClient {
     // Mantém compatibilidade com o LoginActivity que chama sem contexto
     public static Retrofit getInstance() {
         if (instance == null) {
-            return getInstance(null); // fallback sem token
+            throw new IllegalStateException("Chame getInstance(context) primeiro!");
         }
         return instance;
     }

@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setEnabled(false);
         btnLogin.setText("Entrando...");
 
-        ApiService api = RetrofitClient.getInstance().create(ApiService.class);
+        ApiService api = RetrofitClient.getInstance(LoginActivity.this).create(ApiService.class);
         Call<String> call = api.login(new LoginRequest(email, password));
 
         call.enqueue(new Callback<String>() {
