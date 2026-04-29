@@ -5,110 +5,127 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activitys_javaclass.RegisterExecutionActivity"
-    android:background="@color/lightgrey">
+    android:background="@color/lightgrey"
+    tools:context=".activitys_javaclass.RegisterExecutionActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+    <!-- HEADER AZUL -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/blueSquare"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="-12dp"
+        android:background="@drawable/rounded"
+        android:backgroundTint="@color/lightblue"
+        android:padding="24dp"
+
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="-12dp">
-
-        <LinearLayout
-            android:id="@+id/blueSquare"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="@drawable/rounded"
-            android:backgroundTint="@color/lightblue"
-            android:orientation="vertical"
-            android:padding="24dp">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/confirmar_execucao"
-        android:textSize="26sp"
-        android:fontFamily="@font/roboto_medium"
-        android:textColor="@color/white"
-        android:layout_marginTop="15dp"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/titleExecution"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/blueSquare"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:background="@drawable/rounded"
-            android:layout_margin="10dp"
-            android:padding="10dp"
-            android:elevation="4dp">
+            android:text="@string/confirmar_execucao"
+            android:textSize="26sp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/roboto_medium"
+            android:layout_marginTop="15dp"
 
-            <TextView
-                android:id="@+id/exerciseName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Teste Nome de exercício"
-                android:textSize="20sp"
-                android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/black"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/exerciseFrequency"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Frequência do exercício"
-                android:textSize="15sp"
-                android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/grey"
-                android:layout_marginStart="10dp"
-                android:layout_marginBottom="10dp"/>
 
-        </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <!-- CARD EXERCÍCIO -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cardExercise"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/blueSquare"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="10dp"
         android:background="@drawable/rounded"
-        android:layout_marginHorizontal="10dp"
         android:padding="10dp"
         android:elevation="4dp"
-        android:layout_marginBottom="130dp">
+
+        app:layout_constraintTop_toBottomOf="@id/blueSquare"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
+            android:id="@+id/exerciseName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Teste Nome de exercício"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto_medium"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/exerciseFrequency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Frequência do exercício"
+            android:textSize="15sp"
+            android:textColor="@color/grey"
+            android:fontFamily="@font/roboto_medium"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
+
+            app:layout_constraintTop_toBottomOf="@id/exerciseName"
+            app:layout_constraintStart_toStartOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cardPain"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="130dp"
+        android:background="@drawable/rounded"
+        android:layout_marginTop="30dp"
+        android:padding="10dp"
+        android:elevation="4dp"
+
+        app:layout_constraintTop_toBottomOf="@id/cardExercise"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/tvPainTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/niveis_dor"
             android:textSize="20sp"
-            android:fontFamily="@font/roboto_medium"
             android:textColor="@color/black"
-            android:layout_marginStart="10dp">
-        </TextView>
+            android:fontFamily="@font/roboto_medium"
+            android:layout_marginStart="10dp"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <com.google.android.material.button.MaterialButtonToggleGroup
             android:id="@+id/scalePain"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="8dp"
             app:singleSelection="true"
-            app:selectionRequired="true">
+            app:selectionRequired="true"
+
+            app:layout_constraintTop_toBottomOf="@id/tvPainTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn1Pain"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:text="@string/sem_dor"
                 android:textAllCaps="false"
                 android:textSize="16sp"
@@ -121,7 +138,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn2Pain"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:text="@string/dor_leve_ou_amena"
                 android:textAllCaps="false"
                 android:textSize="16sp"
@@ -134,7 +151,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn3Pain"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:text="@string/dor_moderada"
                 android:textAllCaps="false"
                 android:textSize="16sp"
@@ -147,7 +164,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn4Pain"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:text="@string/dor_intensa"
                 android:textAllCaps="false"
                 android:textSize="16sp"
@@ -160,20 +177,20 @@
         </com.google.android.material.button.MaterialButtonToggleGroup>
 
         <com.google.android.material.button.MaterialButton
-
             android:id="@+id/btnRegisterExecution"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:text="@string/registrar_execução"
             android:textColor="@color/white"
+            android:textSize="17sp"
             android:fontFamily="@font/roboto_medium"
             android:background="@drawable/rounded_button"
             app:backgroundTint="@null"
-            android:textSize="17sp"
-            android:layout_margin="10dp"/>
+            android:layout_margin="10dp"
 
-        </LinearLayout>
-
-    </LinearLayout>
+            app:layout_constraintTop_toBottomOf="@id/scalePain"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
