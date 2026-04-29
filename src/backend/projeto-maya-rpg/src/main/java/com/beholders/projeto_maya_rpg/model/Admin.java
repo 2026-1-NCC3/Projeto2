@@ -47,4 +47,24 @@ public class Admin {
     @OneToMany(mappedBy = "admin")
     @JsonIgnoreProperties({"admin", "hibernateLazyInitializer"})
     private List<MedicalRecords> records;
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
 }

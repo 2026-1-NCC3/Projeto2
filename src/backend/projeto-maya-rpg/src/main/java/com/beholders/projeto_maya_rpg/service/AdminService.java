@@ -1,5 +1,6 @@
 package com.beholders.projeto_maya_rpg.service;
 
+import com.beholders.projeto_maya_rpg.dto.AdminDTO;
 import com.beholders.projeto_maya_rpg.exception.ResourceNotFoundException;
 import com.beholders.projeto_maya_rpg.model.Admin;
 import com.beholders.projeto_maya_rpg.model.Patient;
