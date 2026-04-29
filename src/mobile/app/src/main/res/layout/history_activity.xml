@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/lightgrey"
     tools:context=".activitys_javaclass.HistoryActivity">
 
@@ -12,282 +12,297 @@
         android:id="@+id/scrollHistorycal"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginBottom="15dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNav"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="15dp">
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="-12dp">
+            android:layout_height="wrap_content">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/blueSquare"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="24dp"
                 android:background="@drawable/rounded"
                 android:backgroundTint="@color/lightblue"
-                android:orientation="vertical"
-                android:padding="24dp">
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
                 <TextView
+                    android:id="@+id/titleHistory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/historico_evolucao"
                     android:textSize="26sp"
-                    android:fontFamily="@font/roboto_medium"
                     android:textColor="@color/white"
-                    android:layout_marginTop="15dp"/>
+                    android:fontFamily="@font/roboto_medium"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cardAdesao"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:padding="16dp"
                 android:background="@drawable/rounded"
                 android:elevation="4dp"
-                android:orientation="vertical"
-                android:padding="16dp">
+                app:layout_constraintTop_toBottomOf="@id/blueSquare"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                <FrameLayout
+                    android:id="@+id/iconBox1"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/circle_background"
+                    android:backgroundTint="@color/lightgreen"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
 
-                    <FrameLayout
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/circle_background"
-                        android:backgroundTint="@color/lightgreen"
-                        android:layout_gravity="center">
-
-                        <ImageView
-                            android:layout_width="28dp"
-                            android:layout_height="28dp"
-                            android:src="@drawable/ic_check"
-                            app:tint="@color/green"
-                            android:layout_gravity="center"
-                            android:contentDescription="@string/icone_taxa_adesao"/>
-
-                    </FrameLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/taxa_adesao"
-                        android:textSize="15sp"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/roboto_medium"
-                        android:layout_marginStart="8dp"/>
-                </LinearLayout>
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:src="@drawable/ic_check"
+                        app:tint="@color/green"
+                        android:layout_gravity="center"/>
+                </FrameLayout>
 
                 <TextView
+                    android:id="@+id/txtAdesao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/taxa_adesao"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@id/iconBox1"
+                    app:layout_constraintTop_toTopOf="@id/iconBox1"/>
+
+                <TextView
+                    android:id="@+id/valueAdesao"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="93%"
                     android:textSize="24sp"
-                    android:textColor="@color/black"
                     android:fontFamily="@font/roboto_medium"
-                    android:layout_marginVertical="7dp"/>
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintTop_toBottomOf="@id/iconBox1"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/ultima_semana"
-                    android:textSize="15sp"/>
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintTop_toBottomOf="@id/valueAdesao"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cardDias"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:padding="16dp"
                 android:background="@drawable/rounded"
                 android:elevation="4dp"
-                android:orientation="vertical"
-                android:padding="16dp">
+                app:layout_constraintTop_toBottomOf="@id/cardAdesao"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                <FrameLayout
+                    android:id="@+id/iconBox2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/circle_background"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
 
-                    <FrameLayout
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/circle_background"
-                        android:layout_gravity="center">
-
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:src="@drawable/ic_calendar"
-                            app:tint="@color/blue"
-                            android:layout_gravity="center"
-                            android:contentDescription="@string/icone_atividades_registradas"/>
-
-                    </FrameLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/dias_consecutivos"
-                        android:textSize="15sp"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/roboto_medium"
-                        android:layout_marginStart="8dp"/>
-
-                </LinearLayout>
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/ic_calendar"
+                        app:tint="@color/blue"
+                        android:layout_gravity="center"/>
+                </FrameLayout>
 
                 <TextView
+                    android:id="@+id/txtDias"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dias_consecutivos"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@id/iconBox2"
+                    app:layout_constraintTop_toTopOf="@id/iconBox2"/>
+
+                <TextView
+                    android:id="@+id/valueDias"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="12"
                     android:textSize="24sp"
-                    android:textColor="@color/black"
                     android:fontFamily="@font/roboto_medium"
-                    android:layout_marginVertical="7dp"/>
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintTop_toBottomOf="@id/iconBox2"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/continue_assim"
-                    android:textSize="15sp"/>
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintTop_toBottomOf="@id/valueDias"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cardDor"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:padding="16dp"
                 android:background="@drawable/rounded"
                 android:elevation="4dp"
-                android:orientation="vertical"
-                android:padding="16dp">
+                app:layout_constraintTop_toBottomOf="@id/cardDias"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                <FrameLayout
+                    android:id="@+id/iconBoxDor"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/circle_background"
+                    android:backgroundTint="@color/lightsalmon"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
 
-                    <FrameLayout
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/circle_background"
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:src="@drawable/ic_exclamation"
+                        app:tint="@color/red"
                         android:layout_gravity="center"
-                        android:backgroundTint="@color/lightsalmon">
-
-                        <ImageView
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:src="@drawable/ic_exclamation"
-                            app:tint="@color/red"
-                            android:layout_gravity="center"
-                            android:contentDescription="@string/icone_escala_dor_registrada"/>
-
-                    </FrameLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/nivel_dor_mais_frequente"
-                        android:textSize="15sp"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/roboto_medium"
-                        android:layout_marginStart="8dp"/>
-                </LinearLayout>
+                        android:contentDescription="@string/icone_escala_dor_registrada"/>
+                </FrameLayout>
 
                 <TextView
+                    android:id="@+id/txtDor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/nivel_dor_mais_frequente"
+                    android:textSize="15sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/roboto_medium"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@id/iconBoxDor"
+                    app:layout_constraintTop_toTopOf="@id/iconBoxDor"/>
+
+                <TextView
+                    android:id="@+id/valueDor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Dor leve ou amena"
                     android:textSize="24sp"
                     android:textColor="@color/black"
                     android:fontFamily="@font/roboto_medium"
-                    android:layout_marginVertical="7dp"/>
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintTop_toBottomOf="@id/iconBoxDor"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/ultima_semana"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintTop_toBottomOf="@id/valueDor"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cardHistorical"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:padding="16dp"
                 android:background="@drawable/rounded"
                 android:elevation="4dp"
-                android:orientation="vertical"
-                android:padding="16dp">
+                app:layout_constraintTop_toBottomOf="@id/cardDor"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
                 <TextView
+                    android:id="@+id/titleExec"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/historico_execucao"
                     android:textSize="18sp"
-                    android:textColor="@color/black"
                     android:fontFamily="@font/roboto_medium"
-                    android:layout_marginStart="8dp"/>
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
                 <TextView
                     android:id="@+id/date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Segunda, 13 de Abril"
-                    android:textSize="15sp"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/roboto_medium"
-                    android:layout_marginVertical="10dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginBottom="10dp"/>
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintTop_toBottomOf="@id/titleExec"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/itemExec"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:padding="14dp"
                     android:background="@drawable/rounded"
                     android:backgroundTint="@color/lightgrey"
-                    android:orientation="vertical"
-                    android:padding="14dp">
+                    app:layout_constraintTop_toBottomOf="@id/date"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
 
-                <TextView
-                    android:id="@+id/exerciseName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:textColor="@color/black"
-                    android:text="Alongamento Cervical"
-                    android:fontFamily="@font/roboto_medium"/>
+                    <TextView
+                        android:id="@+id/exerciseName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Alongamento Cervical"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/roboto_medium"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
 
                     <TextView
                         android:id="@+id/timeOfExercution"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:text="11:23"
                         android:textSize="12sp"
                         android:textColor="@color/grey"
-                        android:text="11:23"
-                        android:fontFamily="@font/roboto_medium"/>
+                        app:layout_constraintTop_toBottomOf="@id/exerciseName"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
 
-                </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 
