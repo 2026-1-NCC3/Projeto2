@@ -1,5 +1,6 @@
 package com.beholders.projeto_maya_rpg.controller;
 
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.beholders.projeto_maya_rpg.dto.LoginRequestDTO;
 import com.beholders.projeto_maya_rpg.model.Patient;
 import com.beholders.projeto_maya_rpg.service.PatientService;
@@ -32,6 +33,13 @@ public class PatientController {
     @GetMapping("/{id}")
     public ResponseEntity<Patient> getById(@PathVariable Long id) {
         return ResponseEntity.ok(patientService.getById(id));
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<DecodedJWT> getMe(@RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.replace("Bearer ", "");
+        DecodedJWT result = tokenService.decodeToken(token);
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping
