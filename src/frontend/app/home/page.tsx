@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import styles from "./style.module.css";
 import { getToken } from "../login/auth";
+import { useRouter } from "next/navigation";
 
 const NAV_ITEMS = [
   {
@@ -108,6 +109,8 @@ export default function DashboardPage() {
   const [adminName, setAdminName] = useState("Carregando...");
   const [totalPatients, setTotalPatients] = useState(0);
 
+  const router = useRouter();
+
   // Data dinâmica formatada para o subtítulo
   const today = new Date().toLocaleDateString('pt-BR', {
     weekday: 'long',
@@ -184,13 +187,19 @@ export default function DashboardPage() {
               <li key={item.id}>
                 <button
                   className={`${styles.navItem} ${activeNav === item.id ? styles.navItemActive : ""}`}
-                  onClick={() => setActiveNav(item.id)}
+                  onClick={() => {
+                    if (item.id === "exercises") {
+                      router.push("/exercise");
+                      return;
+                    }
+                    setActiveNav(item.id);
+                  }}
                 >
                   <span className={styles.navIcon}>{item.icon}</span>
                   {item.label}
                 </button>
               </li>
-            ))}
+))}
           </ul>
         </nav>
 
