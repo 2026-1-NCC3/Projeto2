@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activitys_javaclass.ExercisesDescriptionActivity"
-    android:background="@color/lightgrey">
+    android:background="@color/lightgrey"
+    tools:context=".activitys_javaclass.ExercisesDescriptionActivity">
 
     <ScrollView
         android:layout_width="0dp"
@@ -16,320 +16,332 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="match_parent"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBackExercises"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:text="Alongamento Cervical"
+                android:textColor="@color/black"
+                app:icon="@drawable/ic_arrow_back"
+                app:iconTint="@color/black"
+                app:iconSize="25dp"
+                android:background="@android:color/transparent"
+                android:textSize="20sp"
+                android:fontFamily="@font/roboto_medium"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnBackExercises"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Alongamento Cervical"
-                    android:textColor="@color/black"
-                    app:icon="@drawable/ic_arrow_back"
-                    app:iconTint="@color/black"
-                    app:iconSize="25dp"
-                    android:background="@android:color/transparent"
-                    android:layout_marginStart="-10dp"
-                    android:layout_marginTop="10dp"
-                    android:textSize="20sp"
-                    android:fontFamily="@font/roboto_medium"/>
-
-                <ImageView
-                    android:id="@+id/exerciseImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    app:srcCompat="@drawable/alongamento_cervical"
-                    android:background="@drawable/rounded"
-                    android:layout_marginTop="10dp"
-                    android:padding="10dp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginHorizontal="10dp">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="100dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded"
-                    android:orientation="vertical"
-                    android:padding="15dp">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        app:srcCompat="@drawable/ic_clock"
-                        app:tint="@color/babyblue"
-                        android:contentDescription="@string/icone_duracao_exercicio"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/duracao_exercicio"
-                        android:textSize="14sp"
-                        android:textColor="@color/grey"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginStart="4dp"/>
-
-                    <TextView
-                        android:id="@+id/exerciseDuration"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="10 Minutos"
-                        android:textSize="14sp"
-                        android:textColor="@color/black"
-                        android:layout_marginStart="4dp"/>
-
-                </LinearLayout>
-
-                <Space
-                    android:layout_width="10dp"
-                    android:layout_height="wrap_content"/>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="100dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded"
-                    android:orientation="vertical"
-                    android:padding="15dp">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        app:srcCompat="@drawable/ic_exclamation"
-                        app:tint="@color/salmon"
-                        android:contentDescription="@string/icone_frequencia_exercicio"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/frequencia_exercicio"
-                        android:textSize="14sp"
-                        android:textColor="@color/grey"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginStart="4dp"/>
-
-                    <TextView
-                        android:id="@+id/exerciseFrequency"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="3x ao dia"
-                        android:textSize="14sp"
-                        android:textColor="@color/black"
-                        android:layout_marginStart="4dp"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
+            <ImageView
+                android:id="@+id/exerciseImage"
+                android:layout_width="0dp"
+                android:layout_height="300dp"
+                android:layout_margin="10dp"
                 android:background="@drawable/rounded"
                 android:padding="10dp"
-                android:layout_margin="10dp"
-                android:elevation="4dp">
+                app:srcCompat="@drawable/alongamento_cervical"
+                app:layout_constraintTop_toBottomOf="@id/btnBackExercises"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cardDuration"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded"
+                android:padding="15dp"
+                app:layout_constraintTop_toBottomOf="@id/exerciseImage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/cardFrequency">
+
+                <ImageView
+                    android:id="@+id/iconDuration"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:srcCompat="@drawable/ic_clock"
+                    app:tint="@color/babyblue"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:id="@+id/textDurationLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/duracao_exercicio"
+                    android:textSize="14sp"
+                    android:textColor="@color/grey"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintTop_toBottomOf="@id/iconDuration"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/exerciseDuration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10 Minutos"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    app:layout_constraintTop_toBottomOf="@id/textDurationLabel"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cardFrequency"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded"
+                android:padding="15dp"
+                app:layout_constraintTop_toBottomOf="@id/exerciseImage"
+                app:layout_constraintStart_toEndOf="@id/cardDuration"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <ImageView
+                    android:id="@+id/iconFrequency"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:srcCompat="@drawable/ic_exclamation"
+                    app:tint="@color/salmon"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/textFrequencyLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/frequencia_exercicio"
+                    android:textSize="14sp"
+                    android:textColor="@color/grey"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintTop_toBottomOf="@id/iconFrequency"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/exerciseFrequency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3x ao dia"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    app:layout_constraintTop_toBottomOf="@id/textFrequencyLabel"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cardDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/rounded"
+                android:padding="10dp"
+                android:elevation="4dp"
+                app:layout_constraintTop_toBottomOf="@id/cardDuration"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <TextView
+                    android:id="@+id/titleDescription"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/descricao_exercicio"
+                    android:textSize="18sp"
                     android:textColor="@color/black"
                     android:fontFamily="@font/roboto_medium"
-                    android:textSize="18sp"
-                    android:padding="10dp"/>
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
                 <TextView
                     android:id="@+id/exerciseDescription"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="Alongamento suave da musculatura do pescoço para aliviar a tensão e melhorar a mobilidade"
-                    android:textColor="@color/grey"
-                    android:fontFamily="@font/roboto_medium"
                     android:textSize="16sp"
-                    android:padding="10dp"
-                    android:layout_marginTop="-10dp"/>
+                    android:textColor="@color/grey"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintTop_toBottomOf="@id/titleDescription"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cardSteps"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:background="@drawable/rounded"
                 android:padding="10dp"
-                android:layout_marginHorizontal="10dp"
-                android:elevation="4dp">
+                android:elevation="4dp"
+                app:layout_constraintTop_toBottomOf="@id/cardDescription"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:id="@+id/titleSteps"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/como_executar_exercicio"
+                    android:textSize="18sp"
                     android:textColor="@color/black"
                     android:fontFamily="@font/roboto_medium"
-                    android:textSize="18sp"
-                    android:padding="10dp"/>
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/step1Circle"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:background="@drawable/ic_circle"
+                    android:text="1"
+                    android:textColor="@android:color/white"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/titleSteps"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/step1Text"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="8dp">
+                    android:text="Sente-se em uma cadeira com as costas retas"
+                    android:textSize="16sp"
+                    android:textColor="@color/grey"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintTop_toTopOf="@id/step1Circle"
+                    app:layout_constraintStart_toEndOf="@id/step1Circle"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
-                    <TextView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:background="@drawable/ic_circle"
-                        android:text="1"
-                        android:textColor="@android:color/white"
-                        android:gravity="center"
-                        android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/step2Circle"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:background="@drawable/ic_circle"
+                    android:text="2"
+                    android:textColor="@android:color/white"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/step1Circle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="10dp"/>
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Sente-se em uma cadeira com as costas retas"
-                        android:textSize="16sp"
-                        android:layout_marginStart="10dp"
-                        android:textColor="@color/grey"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/step2Text"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="8dp">
+                    android:text="Incline lentamente a cabeça para o lado direito..."
+                    android:textSize="16sp"
+                    android:textColor="@color/grey"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintTop_toTopOf="@id/step2Circle"
+                    app:layout_constraintStart_toEndOf="@id/step2Circle"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
-                    <TextView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:background="@drawable/ic_circle"
-                        android:text="2"
-                        android:textColor="@android:color/white"
-                        android:gravity="center"
-                        android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/step3Circle"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:background="@drawable/ic_circle"
+                    android:text="3"
+                    android:textColor="@android:color/white"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintTop_toBottomOf="@id/step2Circle"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Incline lentamente a cabeça para o lado direito, aproximando a orelha do ombro"
-                        android:textSize="16sp"
-                        android:layout_marginStart="10dp"
-                        android:textColor="@color/grey"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/step3Text"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="8dp">
+                    android:text="Mantenha por 15-20 segundos"
+                    android:textSize="16sp"
+                    android:textColor="@color/grey"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintTop_toTopOf="@id/step3Circle"
+                    app:layout_constraintStart_toEndOf="@id/step3Circle"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
-                    <TextView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:background="@drawable/ic_circle"
-                        android:text="3"
-                        android:textColor="@android:color/white"
-                        android:gravity="center"
-                        android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/step4Circle"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:background="@drawable/ic_circle"
+                    android:text="4"
+                    android:textColor="@android:color/white"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintTop_toBottomOf="@id/step3Circle"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Mantenha por 15-20 segundos"
-                        android:textSize="16sp"
-                        android:layout_marginStart="10dp"
-                        android:textColor="@color/grey"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/step4Text"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="8dp">
+                    android:text="Retorne à posição inicial..."
+                    android:textSize="16sp"
+                    android:textColor="@color/grey"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintTop_toTopOf="@id/step4Circle"
+                    app:layout_constraintStart_toEndOf="@id/step4Circle"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
-                    <TextView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:background="@drawable/ic_circle"
-                        android:text="4"
-                        android:textColor="@android:color/white"
-                        android:gravity="center"
-                        android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/step5Circle"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:background="@drawable/ic_circle"
+                    android:text="5"
+                    android:textColor="@android:color/white"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintTop_toBottomOf="@id/step4Circle"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Retorne à posição inicial e repita para o lado esquerdo"
-                        android:textSize="16sp"
-                        android:layout_marginStart="10dp"
-                        android:textColor="@color/grey"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/step5Text"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="8dp">
+                    android:text="Realize 3 repetições de cada lado"
+                    android:textSize="16sp"
+                    android:textColor="@color/grey"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintTop_toTopOf="@id/step5Circle"
+                    app:layout_constraintStart_toEndOf="@id/step5Circle"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
-                    <TextView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:background="@drawable/ic_circle"
-                        android:text="5"
-                        android:textColor="@android:color/white"
-                        android:gravity="center"
-                        android:textStyle="bold"/>
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Realize 3 repetições de cada lado"
-                        android:textSize="16sp"
-                        android:layout_marginStart="10dp"
-                        android:textColor="@color/grey"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnRegister"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="55dp"
+                android:layout_margin="10dp"
                 android:text="@string/confirmar_execucao"
                 android:textColor="@color/white"
+                android:textSize="17sp"
                 android:fontFamily="@font/roboto_medium"
                 android:background="@drawable/rounded_button"
                 app:backgroundTint="@null"
-                android:textSize="17sp"
-                android:layout_margin="10dp"/>
+                app:layout_constraintTop_toBottomOf="@id/cardSteps"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 
