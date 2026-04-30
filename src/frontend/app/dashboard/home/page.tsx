@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import styles from "./style.module.css";
-import { getToken } from "../login/auth";
+import { getToken } from "../../login/auth";
 import { useRouter } from "next/navigation";
 
 const NAV_ITEMS = [

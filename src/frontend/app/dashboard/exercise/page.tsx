@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./style.module.css";
-import { getToken } from "../login/auth";
+import { getToken } from "../../login/auth";
 
 // ─── Nav items (same as home) ────────────────────────────
 const NAV_ITEMS = [
