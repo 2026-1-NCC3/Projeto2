@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import styles from "./layout.module.css";
-import { getToken } from "../login/auth";
+import { getToken, removeToken } from "../login/auth";
 
 // ─── Nav items ────────────────────────────────────────────
 const NAV_ITEMS = [
@@ -40,6 +40,17 @@ function getInitials(name: string) {
   return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
 }
 
+// ─── Search result types ─────────────────────────────────
+type ResultKind = "patient" | "exercise";
+
+interface SearchResult {
+  id: number;
+  label: string;
+  sub: string;
+  kind: ResultKind;
+  href: string;
+}
+
 interface CurrentAdmin {
   id: number;
   name: string;
@@ -51,13 +62,26 @@ interface CurrentAdmin {
 export default function PagesLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
+
   const [currentAdmin, setCurrentAdmin] = useState<CurrentAdmin | null>(null);
 
-  const authHeaders = () => ({
+  // ── Search state ────────────────────────────────────
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
+  const searchDebounce = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // ── Logout modal state ───────────────────────────────
+  const [logoutModalOpen, setLogoutModalOpen] = useState(false);
+
+  const authHeaders = useCallback(() => ({
     Authorization: `Bearer ${getToken()}`,
     "Content-Type": "application/json",
-  });
+  }), []);
 
+  // ── Fetch current admin ──────────────────────────────
   const fetchCurrentAdmin = async () => {
     try {
       const meRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/me`, { headers: authHeaders() });
@@ -73,10 +97,114 @@ export default function PagesLayout({ children }: { children: React.ReactNode })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // ── Close search dropdown on outside click ───────────
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+        setSearchOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  // ── Debounced search ─────────────────────────────────
+  useEffect(() => {
+    if (searchDebounce.current) clearTimeout(searchDebounce.current);
+
+    const q = searchQuery.trim();
+    if (!q) {
+      setSearchResults([]);
+      setSearchOpen(false);
+      return;
+    }
+
+    searchDebounce.current = setTimeout(async () => {
+      setSearchLoading(true);
+      setSearchOpen(true);
+      try {
+        const headers = authHeaders();
+
+        const [patientsRes, exercisesRes] = await Promise.allSettled([
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/patients?page=0&size=100`, { headers }),
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/exercise?page=0&size=100`, { headers }),
+        ]);
+
+        const results: SearchResult[] = [];
+        const lq = q.toLowerCase();
+
+        // Patients
+        if (patientsRes.status === "fulfilled" && patientsRes.value.ok) {
+          const data = await patientsRes.value.json();
+          const patients: any[] = data.content ?? [];
+          patients
+            .filter((p: any) =>
+              p.name?.toLowerCase().includes(lq) ||
+              p.email?.toLowerCase().includes(lq) ||
+              p.cpf?.toLowerCase().includes(lq)
+            )
+            .slice(0, 5)
+            .forEach((p: any) => {
+              results.push({
+                id: p.id,
+                label: p.name,
+                sub: p.email ?? "Paciente",
+                kind: "patient",
+                href: `/dashboard/patients/${p.id}`,
+              });
+            });
+        }
+
+        // Exercises
+        if (exercisesRes.status === "fulfilled" && exercisesRes.value.ok) {
+          const data = await exercisesRes.value.json();
+          const exercises: any[] = data.content ?? [];
+          exercises
+            .filter((ex: any) =>
+              ex.name?.toLowerCase().includes(lq) ||
+              ex.exerciseDescription?.toLowerCase().includes(lq)
+            )
+            .slice(0, 5)
+            .forEach((ex: any) => {
+              results.push({
+                id: ex.id,
+                label: ex.name,
+                sub: ex.exerciseDescription ?? "Exercício",
+                kind: "exercise",
+                href: `/dashboard/exercise`,
+              });
+            });
+        }
+
+        setSearchResults(results);
+      } catch {
+        setSearchResults([]);
+      } finally {
+        setSearchLoading(false);
+      }
+    }, 320);
+
+    return () => {
+      if (searchDebounce.current) clearTimeout(searchDebounce.current);
+    };
+  }, [searchQuery, authHeaders]);
+
+  // ── Navigate to result ───────────────────────────────
+  const handleSelectResult = (result: SearchResult) => {
+    setSearchQuery("");
+    setSearchOpen(false);
+    setSearchResults([]);
+    router.push(result.href);
+  };
+
+  // ── Logout ───────────────────────────────────────────
+  const handleConfirmLogout = () => {
+    removeToken();
+    router.push("/login");
+  };
+
   const initials = currentAdmin ? getInitials(currentAdmin.name) : "A";
   const displayName = currentAdmin?.name ?? "Admin";
-
-  // Determina o item ativo baseado no pathname atual
   const activeNavId = NAV_ITEMS.find((item) => pathname.startsWith(item.href))?.id ?? "";
 
   return (
@@ -107,32 +235,95 @@ export default function PagesLayout({ children }: { children: React.ReactNode })
             ))}
           </ul>
         </nav>
-
-        <div className={styles.sidebarFooter}>
-          <div className={styles.footerAvatar}>{initials}</div>
-          <div className={styles.footerInfo}>
-            <span className={styles.footerName}>{displayName}</span>
-            <span className={styles.footerRole}>Fisioterapeuta</span>
-          </div>
-        </div>
+        {/* sidebar footer removido */}
       </aside>
 
       {/* ── Main ── */}
       <div className={styles.mainWrapper}>
         <header className={styles.topbar}>
-          <div className={styles.searchWrapper}>
+          {/* ── Search ── */}
+          <div className={styles.searchWrapper} ref={searchRef}>
             <span className={styles.searchIcon}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
+              {searchLoading ? (
+                <span className={styles.searchSpinner} />
+              ) : (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+              )}
             </span>
-            <input type="text" className={styles.searchInput} placeholder="Buscar pacientes, exercícios..." />
+            <input
+              type="text"
+              className={styles.searchInput}
+              placeholder="Buscar pacientes, exercícios..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onFocus={() => { if (searchResults.length > 0) setSearchOpen(true); }}
+            />
+
+            {/* Dropdown */}
+            {searchOpen && (
+              <div className={styles.searchDropdown}>
+                {searchResults.length === 0 && !searchLoading ? (
+                  <div className={styles.searchEmpty}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.3 }}>
+                      <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
+                    <span>Nenhum resultado para <strong>"{searchQuery}"</strong></span>
+                  </div>
+                ) : (
+                  <>
+                    {/* Group: Patients */}
+                    {searchResults.filter(r => r.kind === "patient").length > 0 && (
+                      <div className={styles.searchGroup}>
+                        <span className={styles.searchGroupLabel}>
+                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /></svg>
+                          Pacientes
+                        </span>
+                        {searchResults.filter(r => r.kind === "patient").map(r => (
+                          <button key={`p-${r.id}`} className={styles.searchItem} onClick={() => handleSelectResult(r)}>
+                            <span className={styles.searchItemIcon} data-kind="patient">
+                              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /></svg>
+                            </span>
+                            <span className={styles.searchItemText}>
+                              <span className={styles.searchItemLabel}>{r.label}</span>
+                              <span className={styles.searchItemSub}>{r.sub}</span>
+                            </span>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.3 }}><polyline points="9 18 15 12 9 6" /></svg>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Group: Exercises */}
+                    {searchResults.filter(r => r.kind === "exercise").length > 0 && (
+                      <div className={styles.searchGroup}>
+                        <span className={styles.searchGroupLabel}>
+                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1" /><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" /></svg>
+                          Exercícios
+                        </span>
+                        {searchResults.filter(r => r.kind === "exercise").map(r => (
+                          <button key={`e-${r.id}`} className={styles.searchItem} onClick={() => handleSelectResult(r)}>
+                            <span className={styles.searchItemIcon} data-kind="exercise">
+                              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1" /><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" /></svg>
+                            </span>
+                            <span className={styles.searchItemText}>
+                              <span className={styles.searchItemLabel}>{r.label}</span>
+                              <span className={styles.searchItemSub}>{r.sub}</span>
+                            </span>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.3 }}><polyline points="9 18 15 12 9 6" /></svg>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+            )}
           </div>
 
+          {/* ── Topbar right: user + logout ── */}
           <div className={styles.topbarRight}>
-            <button className={styles.iconBtn}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg>
-              <span className={styles.notifDot} />
-            </button>
-
             <div className={styles.topbarUser}>
               <div className={styles.topbarAvatar}>{initials}</div>
               <div className={styles.topbarUserInfo}>
@@ -141,8 +332,17 @@ export default function PagesLayout({ children }: { children: React.ReactNode })
               </div>
             </div>
 
-            <button className={styles.iconBtn} onClick={() => router.push("/login")}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg>
+            <button
+              className={styles.iconBtn}
+              onClick={() => setLogoutModalOpen(true)}
+              aria-label="Sair"
+              title="Sair"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+              </svg>
             </button>
           </div>
         </header>
@@ -151,6 +351,47 @@ export default function PagesLayout({ children }: { children: React.ReactNode })
           {children}
         </main>
       </div>
+
+      {/* ── Logout Confirmation Modal ── */}
+      {logoutModalOpen && (
+        <div className={styles.logoutOverlay} onClick={() => setLogoutModalOpen(false)}>
+          <div className={styles.logoutModal} onClick={(e) => e.stopPropagation()}>
+            {/* Icon */}
+            <div className={styles.logoutIconWrap}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+              </svg>
+            </div>
+
+            <h2 className={styles.logoutTitle}>Sair da conta</h2>
+            <p className={styles.logoutDesc}>
+              Tem certeza que deseja encerrar a sessão? Você precisará fazer login novamente para acessar o sistema.
+            </p>
+
+            <div className={styles.logoutActions}>
+              <button
+                className={styles.logoutCancel}
+                onClick={() => setLogoutModalOpen(false)}
+              >
+                Cancelar
+              </button>
+              <button
+                className={styles.logoutConfirm}
+                onClick={handleConfirmLogout}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                  <polyline points="16 17 21 12 16 7" />
+                  <line x1="21" y1="12" x2="9" y2="12" />
+                </svg>
+                Sim, sair
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
