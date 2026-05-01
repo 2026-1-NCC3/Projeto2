@@ -50,7 +50,7 @@ export default function LoginPage() {
         setToken(data);
       }
 
-      window.location.href = "/home";
+      window.location.href = "/dashboard/home";
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);
