@@ -15,7 +15,7 @@ interface Appointment {
   id: number;
   patient: { id: number; name: string };
   admin?: { id: number; name: string };
-  scheduledAt: string; // ISO datetime
+  appointmentDatetime: string; // ISO datetime
   sessionType: string;
   status: string;
   notes?: string;
@@ -75,12 +75,12 @@ function addDays(d: Date, n: number) {
 }
 
 function getAppointmentTime(ap: Appointment) {
-  try { return new Date(ap.scheduledAt).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }); }
+  try { return new Date(ap.appointmentDatetime).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }); }
   catch { return ""; }
 }
 
 function getAppointmentDate(ap: Appointment): Date {
-  return new Date(ap.scheduledAt);
+  return new Date(ap.appointmentDatetime);
 }
 
 // ─── Main component ──────────────────────────────────────
@@ -180,11 +180,10 @@ export default function CalendarPage() {
     if (!apptDate || !apptTime) { setApptError("Informe data e horário."); return; }
     setApptError(""); setApptSubmitting(true);
     try {
-      const scheduledAt = `${apptDate}T${apptTime}:00`;
+      const appointmentDatetime = `${apptDate}T${apptTime}:00`;
       const body: any = {
         patient: { id: Number(apptPatientId) },
-        scheduledAt,
-        sessionType: apptType,
+        appointmentDatetime,
         status: apptStatus,
         notes: apptNotes,
       };
@@ -478,7 +477,7 @@ export default function CalendarPage() {
           ) : (
             <div className={styles.dayPanelList}>
               {selectedDayAppts
-                .sort((a, b) => new Date(a.scheduledAt).getTime() - new Date(b.scheduledAt).getTime())
+                .sort((a, b) => new Date(a.appointmentDatetime).getTime() - new Date(b.appointmentDatetime).getTime())
                 .map((a) => (
                 <div
                   key={a.id}
@@ -732,7 +731,7 @@ export default function CalendarPage() {
               <p className={styles.deleteMessage}>
                 Deseja remover o agendamento de <strong>{deleteTarget.patient?.name}</strong>{" "}
                 ({deleteTarget.sessionType}) em{" "}
-                <strong>{new Date(deleteTarget.scheduledAt).toLocaleDateString("pt-BR", { day: "2-digit", month: "long" })} às {getAppointmentTime(deleteTarget)}</strong>?
+                <strong>{new Date(deleteTarget.appointmentDatetime).toLocaleDateString("pt-BR", { day: "2-digit", month: "long" })} às {getAppointmentTime(deleteTarget)}</strong>?
               </p>
             </div>
             <div className={styles.modalFooter}>
