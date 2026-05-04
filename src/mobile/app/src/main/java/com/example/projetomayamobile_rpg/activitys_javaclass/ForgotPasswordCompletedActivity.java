@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projetomayamobile_rpg.R;
 
+
 public class ForgotPasswordCompletedActivity extends AppCompatActivity {
 
     Button btnReturnLoginForgotPassword;
@@ -17,13 +18,12 @@ public class ForgotPasswordCompletedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.forgot_password_completed_activity);
 
-
         btnReturnLoginForgotPassword = findViewById(R.id.btnReturnLoginForgotPassword);
 
         btnReturnLoginForgotPassword.setOnClickListener(v -> {
-            startActivity(new Intent(ForgotPasswordCompletedActivity.this, LoginActivity.class));
-            finish();
+            Intent intent = new Intent(ForgotPasswordCompletedActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
         });
-
     }
 }

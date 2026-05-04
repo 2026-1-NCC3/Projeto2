@@ -26,7 +26,7 @@ public class ExercisePlanAdapter extends RecyclerView.Adapter<ExercisePlanAdapte
         this.context = context;
         this.exercises = exercises;
     }
-
+    // TODO: arrumar esse "item_exercise_plan" para o nome correto
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
