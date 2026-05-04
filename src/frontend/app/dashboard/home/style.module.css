@@ -1,6 +1,5 @@
 /* =============================================
    Home / Dashboard — style.module.css
-   Estilos específicos da página inicial
    ============================================= */
 
 /* Greeting */
@@ -119,28 +118,6 @@
   color: var(--primary);
 }
 
-/* Progress bar */
-.progressBar {
-  margin-top: 14px;
-  height: 6px;
-  border-radius: 99px;
-  background: var(--gray-100);
-  overflow: hidden;
-}
-
-.progressFill {
-  height: 100%;
-  border-radius: 99px;
-  background: linear-gradient(90deg, var(--primary), var(--primary-dark));
-  animation: growBar 0.8s 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
-  transform-origin: left;
-}
-
-@keyframes growBar {
-  from { transform: scaleX(0); }
-  to   { transform: scaleX(1); }
-}
-
 /* Bottom grid */
 .bottomGrid {
   display: grid;
@@ -217,6 +194,35 @@
   gap: 12px;
 }
 
+/* Empty state — sem sessões ou carregando */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 40px 24px;
+  color: var(--gray-400);
+  font-size: 13.5px;
+  text-align: center;
+}
+
+/* Spinner de carregamento */
+.skeletonSpinner {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2.5px solid var(--gray-200);
+  border-top-color: var(--primary);
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Status icons */
 .statusIcon {
   width: 28px;
   height: 28px;
@@ -320,6 +326,10 @@
   background: var(--gray-50);
 }
 
+.actionItem:active {
+  background: var(--gray-100);
+}
+
 .actionIcon {
   width: 38px;
   height: 38px;
@@ -341,14 +351,16 @@
 }
 
 .actionIconPurple {
-  background: var(--purple-bg);
-  color: var(--purple);
+  background: var(--purple-bg, #f5f0ff);
+  color: var(--purple, #7c3aed);
 }
 
 .actionText {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  flex: 1;
+  min-width: 0;
 }
 
 .actionTitle {
@@ -362,7 +374,7 @@
   color: var(--gray-400);
 }
 
-/* Next session */
+/* Next session banner */
 .nextSession {
   margin: 0 16px 16px;
   padding: 16px 18px;
@@ -403,8 +415,23 @@
   opacity: 0.75;
 }
 
-/* ── Responsive ── */
+/* Placeholder quando não há próxima sessão */
+.nextSessionEmpty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 16px 16px;
+  padding: 14px 18px;
+  background: var(--gray-50);
+  border: 1.5px dashed var(--gray-200);
+  border-radius: 12px;
+  font-size: 13px;
+  color: var(--gray-400);
+  font-weight: 500;
+}
 
+/* ── Responsive ── */
 @media (max-width: 1100px) {
   .bottomGrid {
     grid-template-columns: 1fr;
@@ -420,7 +447,6 @@
     grid-column: 1 / -1;
   }
 }
-
 
 @media (max-width: 700px) {
   .statsGrid {
