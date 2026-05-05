@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projetomayamobile_rpg.R;
-import com.example.projetomayamobile_rpg.adapters.ExercisePlanAdapter;
 import com.example.projetomayamobile_rpg.model.PageResponse;
 import com.example.projetomayamobile_rpg.model.PlanExerciseResponse;
 import com.example.projetomayamobile_rpg.model.PlanResponse;

@@ -43,6 +43,5 @@ public interface ApiService {
     @POST("auth/reset-password")
     Call<Void> resetPassword(@Body ResetPasswordRequest body);
 
-    // TODO: placeholder temporário para criar a build, apagar depois
-    Call<Void> registerExecution(Map<String, Object> body);
+
 }
