@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure(Call<String> call, Throwable t) {
                 setLoginLoading(false);
                 Toast.makeText(LoginActivity.this,
-                        "Sem conexão com o servidor. Verifique sua internet.",
+                        "Sem conexão com o servidor. Algum erro ocorreu.",
                         Toast.LENGTH_LONG).show();
             }
         });

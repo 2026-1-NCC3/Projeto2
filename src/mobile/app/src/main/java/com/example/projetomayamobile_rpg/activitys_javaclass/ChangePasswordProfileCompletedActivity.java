@@ -17,13 +17,12 @@ public class ChangePasswordProfileCompletedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.change_password_profile_completed_activity);
 
-
         btnReturnLoginChangePassword = findViewById(R.id.btnReturnLoginChangePassword);
 
         btnReturnLoginChangePassword.setOnClickListener(v -> {
-            startActivity(new Intent(ChangePasswordProfileCompletedActivity.this, LoginActivity.class));
-            finish();
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
         });
-
     }
 }
