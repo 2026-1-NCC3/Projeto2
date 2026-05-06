@@ -54,3 +54,21 @@
 .recordItem { background: #f9fafb; border-radius: 8px; padding: 0.85rem 1rem; border-left: 3px solid #0d9488; }
 .recordDate { font-size: 0.75rem; color: #6b7280; font-weight: 500; }
 .recordText { font-size: 0.88rem; color: #374151; margin: 4px 0 0; line-height: 1.5; }
+.drawerSectionHeader { display: flex; justify-content: space-between; align-items: center; }
+.addNoteBtn { display: flex; align-items: center; gap: 5px; font-size: 0.78rem; font-weight: 600; color: #0d9488; background: #f0fdfa; border: 1px solid #99f6e4; border-radius: 6px; padding: 4px 10px; cursor: pointer; }
+.addNoteBtn:hover { background: #ccfbf1; }
+.noteForm { display: flex; flex-direction: column; gap: 0.5rem; }
+.noteTextarea { width: 100%; border: 1px solid #e5e7eb; border-radius: 8px; padding: 0.75rem; font-size: 0.85rem; color: #374151; resize: vertical; outline: none; font-family: inherit; }
+.noteTextarea:focus { border-color: #0d9488; }
+.noteFormActions { display: flex; justify-content: flex-end; gap: 0.5rem; }
+.cancelNoteBtn { font-size: 0.8rem; padding: 5px 12px; border-radius: 6px; border: 1px solid #e5e7eb; background: #fff; color: #6b7280; cursor: pointer; }
+.cancelNoteBtn:hover { background: #f3f4f6; }
+.saveNoteBtn { font-size: 0.8rem; padding: 5px 12px; border-radius: 6px; border: none; background: #0d9488; color: #fff; cursor: pointer; font-weight: 600; }
+.saveNoteBtn:hover { background: #0f766e; }
+.saveNoteBtn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.recordHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.recordActions { display: flex; gap: 4px; }
+.recordActionBtn { background: transparent; border: none; cursor: pointer; color: #9ca3af; padding: 3px; border-radius: 4px; display: flex; align-items: center; }
+.recordActionBtn:hover { background: #f3f4f6; color: #374151; }
+.recordActionBtnDanger:hover { background: #fee2e2; color: #dc2626; }
