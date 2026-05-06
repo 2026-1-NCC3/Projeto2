@@ -200,23 +200,6 @@ export default function CalendarPage() {
     finally { setApptSubmitting(false); }
   };
 
-  // ── Block day ─────────────────────────────────────────
-  const handleBlockDay = async () => {
-    if (!blockDate) { setBlockError("Informe a data."); return; }
-    setBlockError(""); setBlockSubmitting(true);
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/calendar`, {
-        method: "POST", headers: authHeaders(),
-        body: JSON.stringify({ blockedDate: blockDate, reason: blockReason || null }),
-      });
-      if (!res.ok) throw new Error("Erro ao bloquear dia.");
-      setBlockModal(false); setBlockDate(toLocalDateStr(today)); setBlockReason("");
-      showToast("Dia bloqueado com sucesso!");
-      fetchAll();
-    } catch (e: any) { setBlockError(e.message); }
-    finally { setBlockSubmitting(false); }
-  };
-
   // ── Delete appointment ────────────────────────────────
   const handleDelete = async () => {
     if (!deleteTarget) return;
@@ -297,13 +280,6 @@ export default function CalendarPage() {
           </p>
         </div>
         <div className={styles.headerActions}>
-          <button className={styles.blockBtn} onClick={() => setBlockModal(true)}>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-              <line x1="9" y1="14" x2="15" y2="20"/><line x1="15" y1="14" x2="9" y2="20"/>
-            </svg>
-            Bloquear Dia
-          </button>
           <button className={styles.newApptBtn} onClick={() => setApptModal(true)}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
@@ -699,9 +675,6 @@ export default function CalendarPage() {
             </div>
             <div className={styles.modalFooter}>
               <button className={styles.cancelBtn} onClick={() => setBlockModal(false)}>Cancelar</button>
-              <button className={styles.submitBtn} onClick={handleBlockDay} disabled={blockSubmitting}>
-                {blockSubmitting ? <><div className={styles.spinnerSm} />Bloqueando...</> : "Bloquear Dia"}
-              </button>
             </div>
           </div>
         </div>

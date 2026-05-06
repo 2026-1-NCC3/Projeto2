@@ -21,10 +21,7 @@ interface Message {
   admin: { id: number };
 }
 
-// Cache: patientId → mensagens ordenadas por sentAt
 type MessagesByPatient = Record<number, Message[]>;
-
-type TabType = "chat" | "notes";
 
 // ─── Helpers ──────────────────────────────────────────────
 function getInitials(name: string): string {
@@ -91,11 +88,9 @@ export default function MessagesPage() {
 
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
 
-  // Cache global: uma única chamada GET /messages agrupa tudo no cliente
   const [messagesByPatient, setMessagesByPatient] = useState<MessagesByPatient>({});
   const [loadingMessages, setLoadingMessages] = useState(false);
 
-  const [activeTab, setActiveTab] = useState<TabType>("chat");
   const [inputValue, setInputValue] = useState("");
   const [sending, setSending] = useState(false);
 
@@ -129,10 +124,7 @@ export default function MessagesPage() {
     fetchAdmin();
   }, [authHeaders]);
 
-  // ── Busca todas as mensagens e agrupa por patientId ───
-  // O MessagesController expõe GET /messages?page=0&size=N (paginado).
-  // Como não há endpoint /messages/patient/{id}, buscamos tudo de uma vez
-  // e filtramos no cliente. Funciona bem para clínicas de pequeno porte.
+  // ── Fetch all messages, grouped by patientId ──────────
   const fetchAllMessages = useCallback(
     async (silent = false) => {
       if (!silent) setLoadingMessages(true);
@@ -146,7 +138,6 @@ export default function MessagesPage() {
         const data = await res.json();
         const all: Message[] = data.content ?? [];
 
-        // Agrupa por patient.id
         const grouped: MessagesByPatient = {};
         all.forEach((msg) => {
           const pid = msg.patient?.id;
@@ -155,7 +146,6 @@ export default function MessagesPage() {
           grouped[pid].push(msg);
         });
 
-        // Ordena cada conversa por sentAt (mais antigo → mais novo)
         Object.keys(grouped).forEach((pid) => {
           grouped[Number(pid)].sort(
             (a, b) => new Date(a.sentAt).getTime() - new Date(b.sentAt).getTime()
@@ -169,7 +159,7 @@ export default function MessagesPage() {
     [authHeaders]
   );
 
-  // ── Fetch inicial: pacientes + mensagens ──────────────
+  // ── Initial fetch ─────────────────────────────────────
   useEffect(() => {
     const fetchPatients = async () => {
       try {
@@ -206,11 +196,10 @@ export default function MessagesPage() {
   // ── Select patient ────────────────────────────────────
   const handleSelectPatient = (patient: Patient) => {
     setSelectedPatient(patient);
-    setActiveTab("chat");
     setInputValue("");
   };
 
-  // ── Polling a cada 5s enquanto há conversa aberta ─────
+  // ── Polling every 5s while a conversation is open ─────
   useEffect(() => {
     if (pollRef.current) clearInterval(pollRef.current);
     if (!selectedPatient) return;
@@ -218,7 +207,7 @@ export default function MessagesPage() {
     return () => { if (pollRef.current) clearInterval(pollRef.current); };
   }, [selectedPatient, fetchAllMessages]);
 
-  // ── Auto-scroll ao receber novas mensagens ────────────
+  // ── Auto-scroll on new messages ───────────────────────
   const currentMessages = selectedPatient
     ? (messagesByPatient[selectedPatient.id] ?? [])
     : [];
@@ -237,8 +226,7 @@ export default function MessagesPage() {
     el.style.height = `${Math.min(el.scrollHeight, 120)}px`;
   };
 
-  // ── Send message via POST /messages ───────────────────
-  // Body esperado pelo MessagesController: { senderType, message, patient: {id}, admin: {id} }
+  // ── Send message ──────────────────────────────────────
   const handleSend = async () => {
     const text = inputValue.trim();
     if (!text || !selectedPatient || sending) return;
@@ -265,7 +253,7 @@ export default function MessagesPage() {
     finally { setSending(false); }
   };
 
-  // ── Enter envia, Shift+Enter quebra linha ─────────────
+  // ── Enter sends, Shift+Enter breaks line ──────────────
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -273,7 +261,7 @@ export default function MessagesPage() {
     }
   };
 
-  // ── Ordena sidebar: conversa mais recente no topo ─────
+  // ── Sort sidebar: most recent conversation first ──────
   const sortedPatients = [...filteredPatients].sort((a, b) => {
     const msgsA = messagesByPatient[a.id];
     const msgsB = messagesByPatient[b.id];
@@ -390,31 +378,6 @@ export default function MessagesPage() {
                 </span>
               </div>
             </div>
-
-            {/* Tabs */}
-            <div className={styles.tabGroup}>
-              <button
-                className={`${styles.tabBtn} ${activeTab === "chat" ? styles.tabBtnActive : ""}`}
-                onClick={() => setActiveTab("chat")}
-              >
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                </svg>
-                Chat
-              </button>
-              <button
-                className={`${styles.tabBtn} ${activeTab === "notes" ? styles.tabBtnActive : ""}`}
-                onClick={() => setActiveTab("notes")}
-              >
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                  <polyline points="14 2 14 8 20 8" />
-                  <line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" />
-                  <polyline points="10 9 9 9 8 9" />
-                </svg>
-                Notas Internas
-              </button>
-            </div>
           </div>
 
           {/* Messages feed */}
@@ -480,22 +443,18 @@ export default function MessagesPage() {
           )}
 
           {/* Input bar */}
-          <div className={`${styles.inputBar} ${activeTab === "notes" ? styles.noteInputBar : ""}`}>
+          <div className={styles.inputBar}>
             <textarea
               ref={textareaRef}
               className={styles.messageInput}
-              placeholder={
-                activeTab === "chat"
-                  ? `Mensagem para ${selectedPatient.name}...`
-                  : "Escrever nota interna (visível apenas para a equipe)..."
-              }
+              placeholder={`Mensagem para ${selectedPatient.name}...`}
               value={inputValue}
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
               rows={1}
             />
             <button
-              className={`${styles.sendBtn} ${activeTab === "notes" ? styles.sendBtnNote : ""}`}
+              className={styles.sendBtn}
               onClick={handleSend}
               disabled={!inputValue.trim() || sending}
               aria-label="Enviar"
