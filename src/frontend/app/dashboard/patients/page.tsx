@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import styles from "./style.module.css";
 import { getToken } from "../../login/auth";
 
@@ -24,45 +24,138 @@ const STATUS_LABEL: Record<string, string> = {
   INATIVO: "Inativo",
 };
 
- //substituir por fetch da API quando backend estiver integrado
-const MOCK_PATIENTS: Patient[] = [
-  { id: 1, name: "Ana Paula Costa", email: "ana@email.com", phoneNumber: "11999990001", status: "ATIVO", birthDate: "1990-03-15" },
-  { id: 2, name: "Bruno Ferreira", email: "bruno@email.com", phoneNumber: "11999990002", status: "ATIVO", birthDate: "1985-07-22" },
-  { id: 3, name: "Elena Rodrigues", email: "elena@email.com", phoneNumber: "11999990003", status: "ATIVO", birthDate: "1995-11-08" },
-  { id: 4, name: "Diego Lima", email: "diego@email.com", phoneNumber: "11999990004", status: "INATIVO", birthDate: "1988-01-30" },
-  { id: 5, name: "Gabriela Oliveira", email: "gabriela@email.com", phoneNumber: "11999990005", status: "ATIVO", birthDate: "2000-05-19" },
-];
-
-const MOCK_RECORDS: Record<number, MedicalRecord[]> = {
-  1: [
-    { id: 1, patientDescription: "Paciente relata dor lombar há 2 semanas.", recordedAt: "2026-04-01T10:00:00" },
-    { id: 2, patientDescription: "Melhora significativa após sessões de RPG.", recordedAt: "2026-04-15T10:00:00" },
-  ],
-  2: [
-    { id: 3, patientDescription: "Queixa de tensão cervical e dores de cabeça frequentes.", recordedAt: "2026-03-20T09:00:00" },
-  ],
-  3: [],
-  4: [
-    { id: 4, patientDescription: "Paciente em reabilitação pós-cirurgia no joelho.", recordedAt: "2026-02-10T14:00:00" },
-  ],
-  5: [],
-};
-
 export default function PatientsPage() {
-  const [search, setSearch] = useState("");
+  const [patients, setPatients] = useState<Patient[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [totalPatients, setTotalPatients] = useState(0);
+
   const [selected, setSelected] = useState<Patient | null>(null);
   const [records, setRecords] = useState<MedicalRecord[]>([]);
+  const [recordsLoading, setRecordsLoading] = useState(false);
+
+  const [newNote, setNewNote] = useState("");
+  const [addingNote, setAddingNote] = useState(false);
+  const [showAddNote, setShowAddNote] = useState(false);
+
+
+  const [editingRecord, setEditingRecord] = useState<MedicalRecord | null>(null);
+  const [editText, setEditText] = useState("");
+
+  const authHeaders = useCallback(() => ({
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${getToken()}`,
+  }), []);
+
+  // ── fetch pacientes ──────────────────────────────────
+  useEffect(() => {
+    const fetchPatients = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/patients?page=0&size=100`,
+          { headers: authHeaders() }
+        );
+        if (!res.ok) throw new Error("Erro ao buscar pacientes");
+        const data = await res.json();
+        setPatients(data.content ?? []);
+        setTotalPatients(data.totalElements ?? 0);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchPatients();
+  }, [authHeaders]);
+
+  // ── fetch prontuário ─────────────────────────────────
+  const fetchRecords = useCallback(async (patientId: number) => {
+    setRecordsLoading(true);
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/medical-records/patient/${patientId}`,
+        { headers: authHeaders() }
+      );
+      if (!res.ok) throw new Error("Erro ao buscar prontuário");
+      const data = await res.json();
+      setRecords(data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setRecordsLoading(false);
+    }
+  }, [authHeaders]);
 
   const handleSelectPatient = (patient: Patient) => {
     setSelected(patient);
-    setRecords(MOCK_RECORDS[patient.id] ?? []);
+    setShowAddNote(false);
+    setNewNote("");
+    setEditingRecord(null);
+    fetchRecords(patient.id);
   };
 
-  const filtered = MOCK_PATIENTS.filter(
-    (p) =>
-      p.name.toLowerCase().includes(search.toLowerCase()) ||
-      p.email.toLowerCase().includes(search.toLowerCase())
-  );
+  // ── adicionar anotação ───────────────────────────────
+  const handleAddNote = async () => {
+    if (!newNote.trim() || !selected) return;
+    setAddingNote(true);
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/medical-records`, {
+        method: "POST",
+        headers: authHeaders(),
+        body: JSON.stringify({
+          patientDescription: newNote.trim(),
+          patient: { id: selected.id },
+        }),
+      });
+      if (!res.ok) throw new Error("Erro ao adicionar anotação");
+      setNewNote("");
+      setShowAddNote(false);
+      fetchRecords(selected.id);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setAddingNote(false);
+    }
+  };
+
+  // ── editar anotação ──────────────────────────────────
+  const handleEditSave = async () => {
+    if (!editingRecord || !editText.trim() || !selected) return;
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/medical-records/${editingRecord.id}`,
+        {
+          method: "PUT",
+          headers: authHeaders(),
+          body: JSON.stringify({
+            patientDescription: editText.trim(),
+            patient: { id: selected.id },
+          }),
+        }
+      );
+      if (!res.ok) throw new Error("Erro ao editar anotação");
+      setEditingRecord(null);
+      setEditText("");
+      fetchRecords(selected.id);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // ── deletar anotação ─────────────────────────────────
+  const handleDelete = async (recordId: number) => {
+    if (!selected) return;
+    if (!confirm("Deseja deletar esta anotação?")) return;
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/medical-records/${recordId}`,
+        { method: "DELETE", headers: authHeaders() }
+      );
+      if (!res.ok) throw new Error("Erro ao deletar anotação");
+      fetchRecords(selected.id);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <>
@@ -86,50 +179,49 @@ export default function PatientsPage() {
               </svg>
             </div>
           </div>
-          <div className={styles.statValue}>{MOCK_PATIENTS.length}</div>
+          <div className={styles.statValue}>{totalPatients}</div>
         </div>
       </div>
 
       <div className={styles.card}>
         <div className={styles.cardHeader}>
           <h2 className={styles.cardTitle}>Lista de Pacientes</h2>
-          <div className={styles.searchBox}>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
-            </svg>
-            <input
-              type="text"
-              placeholder="Buscar por nome ou e-mail..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className={styles.searchInput}
-            />
-          </div>
         </div>
 
-        <ul className={styles.patientList}>
-          {filtered.map((p) => (
-            <li key={p.id} className={styles.patientRow} onClick={() => handleSelectPatient(p)}>
-              <div className={styles.patientAvatar}>
-                {p.name.charAt(0).toUpperCase()}
-              </div>
-              <div className={styles.patientInfo}>
-                <span className={styles.patientName}>{p.name}</span>
-                <span className={styles.patientEmail}>{p.email}</span>
-              </div>
-              <span className={styles.patientPhone}>{p.phoneNumber}</span>
-              <span className={`${styles.badge} ${styles[`badge_${p.status}`]}`}>
-                {STATUS_LABEL[p.status] ?? p.status}
-              </span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.3 }}>
-                <polyline points="9 18 15 12 9 6" />
-              </svg>
-            </li>
-          ))}
-        </ul>
+        {isLoading ? (
+          <div className={styles.loadingState}>
+            <div className={styles.loadingSpinner} />
+            <p>Carregando pacientes...</p>
+          </div>
+        ) : patients.length === 0 ? (
+          <div className={styles.emptyState}>
+            <p>Nenhum paciente encontrado.</p>
+          </div>
+        ) : (
+          <ul className={styles.patientList}>
+            {patients.map((p) => (
+              <li key={p.id} className={styles.patientRow} onClick={() => handleSelectPatient(p)}>
+                <div className={styles.patientAvatar}>
+                  {p.name.charAt(0).toUpperCase()}
+                </div>
+                <div className={styles.patientInfo}>
+                  <span className={styles.patientName}>{p.name}</span>
+                  <span className={styles.patientEmail}>{p.email}</span>
+                </div>
+                <span className={styles.patientPhone}>{p.phoneNumber}</span>
+                <span className={`${styles.badge} ${styles[`badge_${p.status}`]}`}>
+                  {STATUS_LABEL[p.status] ?? p.status}
+                </span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.3 }}>
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
-      {/* ── prontuário que abre ao clicar no paciente ── */}
+      {/* ── drawer prontuário ── */}
       {selected && (
         <div className={styles.overlay} onClick={() => setSelected(null)}>
           <div className={styles.drawer} onClick={(e) => e.stopPropagation()}>
@@ -170,8 +262,46 @@ export default function PatientsPage() {
               </div>
 
               <div className={styles.drawerSection}>
-                <span className={styles.drawerSectionLabel}>Prontuário</span>
-                {records.length === 0 ? (
+                <div className={styles.drawerSectionHeader}>
+                  <span className={styles.drawerSectionLabel}>Prontuário</span>
+                  <button
+                    className={styles.addNoteBtn}
+                    onClick={() => { setShowAddNote(!showAddNote); setEditingRecord(null); }}
+                  >
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
+                    </svg>
+                    Nova anotação
+                  </button>
+                </div>
+
+                {/* Form nova anotação */}
+                {showAddNote && (
+                  <div className={styles.noteForm}>
+                    <textarea
+                      className={styles.noteTextarea}
+                      placeholder="Descreva a anotação..."
+                      value={newNote}
+                      onChange={(e) => setNewNote(e.target.value)}
+                      rows={3}
+                    />
+                    <div className={styles.noteFormActions}>
+                      <button className={styles.cancelNoteBtn} onClick={() => { setShowAddNote(false); setNewNote(""); }}>
+                        Cancelar
+                      </button>
+                      <button className={styles.saveNoteBtn} onClick={handleAddNote} disabled={addingNote}>
+                        {addingNote ? "Salvando..." : "Salvar"}
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {recordsLoading ? (
+                  <div className={styles.loadingState}>
+                    <div className={styles.loadingSpinner} />
+                    <p>Carregando prontuário...</p>
+                  </div>
+                ) : records.length === 0 ? (
                   <div className={styles.emptyState}>
                     <p>Nenhum registro encontrado.</p>
                   </div>
@@ -179,12 +309,55 @@ export default function PatientsPage() {
                   <ul className={styles.recordList}>
                     {records.map((r) => (
                       <li key={r.id} className={styles.recordItem}>
-                        <span className={styles.recordDate}>
-                          {new Date(r.recordedAt).toLocaleDateString("pt-BR", {
-                            day: "2-digit", month: "short", year: "numeric"
-                          })}
-                        </span>
-                        <p className={styles.recordText}>{r.patientDescription}</p>
+                        {editingRecord?.id === r.id ? (
+                          <>
+                            <textarea
+                              className={styles.noteTextarea}
+                              value={editText}
+                              onChange={(e) => setEditText(e.target.value)}
+                              rows={3}
+                            />
+                            <div className={styles.noteFormActions}>
+                              <button className={styles.cancelNoteBtn} onClick={() => setEditingRecord(null)}>Cancelar</button>
+                              <button className={styles.saveNoteBtn} onClick={handleEditSave}>Salvar</button>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div className={styles.recordHeader}>
+                              <span className={styles.recordDate}>
+                                {new Date(r.recordedAt).toLocaleDateString("pt-BR", {
+                                  day: "2-digit", month: "short", year: "numeric"
+                                })}
+                              </span>
+                              <div className={styles.recordActions}>
+                                <button
+                                  className={styles.recordActionBtn}
+                                  onClick={() => { setEditingRecord(r); setEditText(r.patientDescription); setShowAddNote(false); }}
+                                  title="Editar"
+                                >
+                                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                                  </svg>
+                                </button>
+                                <button
+                                  className={`${styles.recordActionBtn} ${styles.recordActionBtnDanger}`}
+                                  onClick={() => handleDelete(r.id)}
+                                  title="Deletar"
+                                >
+                                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <polyline points="3 6 5 6 21 6" />
+                                    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                                    <path d="M10 11v6" /><path d="M14 11v6" />
+                                    <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+                                  </svg>
+                                </button>
+                              </div>
+                            </div>
+                            <p className={styles.recordText}>{r.patientDescription}</p>
+                          </>
+                        )}
                       </li>
                     ))}
                   </ul>
