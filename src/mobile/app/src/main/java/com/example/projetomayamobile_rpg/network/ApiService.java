@@ -22,7 +22,7 @@ public interface ApiService {
     @GET("patients")
     Call<PageResponse<PatientResponse>> getPatients(@Query("page") int page, @Query("size") int size);
 
-    @POST("/patients/login")
+    @POST("patients/login")
     Call<String> login(@Body LoginRequest body);
 
     @GET("patients/{id}")

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projetomayamobile_rpg.R;
+import com.example.projetomayamobile_rpg.adapters.ExerciseAdapter;
 import com.example.projetomayamobile_rpg.model.PageResponse;
 import com.example.projetomayamobile_rpg.model.PlanExerciseResponse;
 import com.example.projetomayamobile_rpg.model.PlanResponse;
@@ -28,7 +29,7 @@ public class ExercisesActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNav;
     RecyclerView recyclerExercisesPlan;
-    ExercisePlanAdapter adapter;
+    ExerciseAdapter adapter;
     List<PlanExerciseResponse> exerciseList = new ArrayList<>();
     private Long patientId;
 
@@ -39,7 +40,7 @@ public class ExercisesActivity extends AppCompatActivity {
 
         recyclerExercisesPlan = findViewById(R.id.recyclerExercisesPlan);
         recyclerExercisesPlan.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ExercisePlanAdapter(this, exerciseList);
+        adapter = new ExerciseAdapter(exerciseList);
         recyclerExercisesPlan.setAdapter(adapter);
 
         SharedPreferences prefs = getSharedPreferences("auth", MODE_PRIVATE);
