@@ -97,7 +97,6 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editPassword"
-                android:inputType="textPassword"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:hint="@string/preencher_senha"
