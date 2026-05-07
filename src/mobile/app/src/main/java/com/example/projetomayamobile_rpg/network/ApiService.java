@@ -7,6 +7,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
+import com.example.projetomayamobile_rpg.model.ExecutionRequest;
 import com.example.projetomayamobile_rpg.model.ForgotPasswordRequest;
 import com.example.projetomayamobile_rpg.model.LoginRequest;
 import com.example.projetomayamobile_rpg.model.PageResponse;
@@ -14,8 +15,6 @@ import com.example.projetomayamobile_rpg.model.PatientResponse;
 import com.example.projetomayamobile_rpg.model.PlanResponse;
 import com.example.projetomayamobile_rpg.model.ResetPasswordRequest;
 import com.example.projetomayamobile_rpg.model.VerifyCodeRequest;
-
-import java.util.Map;
 
 public interface ApiService {
 
@@ -31,18 +30,19 @@ public interface ApiService {
     @GET("plan")
     Call<PageResponse<PlanResponse>> getPlans(@Query("page") int page, @Query("size") int size);
 
+    @GET("plan/patient/{patientId}")
+    Call<PageResponse<PlanResponse>> getPlansByPatient(@Path("patientId") Long patientId, @Query("page") int page, @Query("size") int size);
+
+    @POST("executions")
+    Call<Void> registerExecution(@Body ExecutionRequest body);
+
     // TODO: substituir pelo path real
     @POST("auth/forgot-password")
     Call<Void> forgotPassword(@Body ForgotPasswordRequest body);
 
-    // TODO: substituir pelo path real
     @POST("auth/verify-code")
     Call<Void> verifyCode(@Body VerifyCodeRequest body);
 
-    // TODO: substituir pelo path real
     @POST("auth/reset-password")
     Call<Void> resetPassword(@Body ResetPasswordRequest body);
-
-    // TODO: placeholder temporário para criar a build, apagar depois
-    Call<Void> registerExecution(Map<String, Object> body);
 }

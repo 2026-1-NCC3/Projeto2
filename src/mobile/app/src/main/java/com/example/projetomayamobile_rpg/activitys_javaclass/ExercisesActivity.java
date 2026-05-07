@@ -10,7 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projetomayamobile_rpg.R;
-import com.example.projetomayamobile_rpg.adapters.ExerciseAdapter;
+import com.example.projetomayamobile_rpg.adapters.ExercisePlanAdapter;
+import com.example.projetomayamobile_rpg.model.ExerciseMediaResponse;
 import com.example.projetomayamobile_rpg.model.PageResponse;
 import com.example.projetomayamobile_rpg.model.PlanExerciseResponse;
 import com.example.projetomayamobile_rpg.model.PlanResponse;
@@ -27,9 +28,8 @@ import retrofit2.Response;
 
 public class ExercisesActivity extends AppCompatActivity {
 
-    BottomNavigationView bottomNav;
     RecyclerView recyclerExercisesPlan;
-    ExerciseAdapter adapter;
+    ExercisePlanAdapter adapter;
     List<PlanExerciseResponse> exerciseList = new ArrayList<>();
     private Long patientId;
 
@@ -40,15 +40,17 @@ public class ExercisesActivity extends AppCompatActivity {
 
         recyclerExercisesPlan = findViewById(R.id.recyclerExercisesPlan);
         recyclerExercisesPlan.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ExerciseAdapter(exerciseList);
-        recyclerExercisesPlan.setAdapter(adapter);
 
         SharedPreferences prefs = getSharedPreferences("auth", MODE_PRIVATE);
         patientId = prefs.getLong("patient_id", -1);
 
-        loadExercises();
+        adapter = new ExercisePlanAdapter(exerciseList, this::openExerciseDetail);
+        recyclerExercisesPlan.setAdapter(adapter);
 
-        bottomNav = findViewById(R.id.bottomNav);
+        loadExercisesByPatient();
+
+
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
         bottomNav.setSelectedItemId(R.id.menu_exercises);
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
@@ -69,26 +71,21 @@ public class ExercisesActivity extends AppCompatActivity {
         });
     }
 
-    private void loadExercises() {
+    private void loadExercisesByPatient() {
         ApiService api = RetrofitClient.getInstance(this).create(ApiService.class);
 
-        api.getPlans(0, 50).enqueue(new Callback<PageResponse<PlanResponse>>() {
+        api.getPlansByPatient(patientId, 0, 50).enqueue(new Callback<PageResponse<PlanResponse>>() {
             @Override
             public void onResponse(Call<PageResponse<PlanResponse>> call,
                                    Response<PageResponse<PlanResponse>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-
-                    // Acha o plano ATIVO do paciente logado
+                    exerciseList.clear();
                     for (PlanResponse plan : response.body().getContent()) {
-                        if ("ATIVO".equals(plan.getStatus()) &&
-                                plan.getPatient().getId().equals(patientId)) {
-
-                            exerciseList.clear();
+                        if ("ATIVO".equals(plan.getStatus()) && plan.getPlanExercises() != null) {
                             exerciseList.addAll(plan.getPlanExercises());
-                            adapter.notifyDataSetChanged();
-                            break;
                         }
                     }
+                    adapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(ExercisesActivity.this,
                             "Erro ao carregar exercícios.", Toast.LENGTH_SHORT).show();
@@ -101,5 +98,22 @@ public class ExercisesActivity extends AppCompatActivity {
                         "Erro de conexão: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+
+    private void openExerciseDetail(PlanExerciseResponse pe) {
+        Intent intent = new Intent(this, ExercisesDescriptionActivity.class);
+        intent.putExtra("planExerciseId", pe.getId());
+        intent.putExtra("exerciseName", pe.getExercise().getName());
+        intent.putExtra("exerciseDescription", pe.getExercise().getExerciseDescription());
+        intent.putExtra("exerciseInstructions", pe.getExercise().getInstructions());
+        intent.putExtra("frequency", pe.getFrequency());
+        intent.putExtra("specificNotes", pe.getSpecificNotes());
+
+        List<ExerciseMediaResponse> mediaList = pe.getExercise().getMediaList();
+        if (mediaList != null && !mediaList.isEmpty()) {
+            intent.putExtra("youtubeUrl", mediaList.get(0).getImageUrl());
+        }
+        startActivity(intent);
     }
 }
