@@ -31,6 +31,11 @@ public class PlanController {
         return ResponseEntity.ok(plansService.getById(id));
     }
 
+    @GetMapping("/patient/{patientId}")
+    public ResponseEntity<Page<Plan>> getByPatientId(@PathVariable Long patientId, Pageable pageable) {
+        return ResponseEntity.ok(plansService.getByPatientId(patientId, pageable));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Plan> update(@PathVariable Long id, @RequestBody Plan plan) {
         return ResponseEntity.ok(plansService.update(id, plan));
