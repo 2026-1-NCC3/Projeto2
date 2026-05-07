@@ -3,9 +3,9 @@ package com.example.projetomayamobile_rpg.activitys_javaclass;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,7 +26,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNav;
     MaterialSwitch switchNotifications;
-    LinearLayout itemChangePassword, itemPrivacy;
+    ConstraintLayout itemChangePassword, itemPrivacy;
     MaterialButton btnLogout;
     TextView tvProfileName, tvProfileEmail, tvProfilePhone;
 
