@@ -26,7 +26,9 @@
         <activity android:name=".activitys_javaclass.ChangePasswordProfileCompletedActivity"/>
         <activity android:name=".activitys_javaclass.DashboardActivity"/>
         <activity android:name=".activitys_javaclass.ExercisesActivity"/>
-        <activity android:name=".activitys_javaclass.ExercisesDescriptionActivity"/>
+        <activity android:name=".activitys_javaclass.ExercisesDescriptionActivity"
+            android:hardwareAccelerated="true"
+            />
         <activity android:name=".activitys_javaclass.ForgotPasswordActivity"/>
         <activity android:name=".activitys_javaclass.ForgotPasswordCompletedActivity"/>
         <activity android:name=".activitys_javaclass.ForgotPasswordSequelActivity"/>

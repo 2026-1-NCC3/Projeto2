@@ -78,24 +78,48 @@ public class ExercisesDescriptionActivity extends AppCompatActivity {
 
         WebSettings settings = wvYoutube.getSettings();
         settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
         settings.setLoadWithOverviewMode(true);
         settings.setUseWideViewPort(true);
         settings.setMediaPlaybackRequiresUserGesture(false);
+
         wvYoutube.setWebChromeClient(new WebChromeClient());
 
         if (videoId != null) {
-            String embedUrl = "https://www.youtube.com/embed/" + videoId
-                    + "?rel=0&modestbranding=1&playsinline=1";
-            wvYoutube.loadUrl(embedUrl);
+            String html =
+                    "<html>"
+                            + "<body style='margin:0;padding:0;background:#000;'>"
+                            + "<iframe "
+                            +   "width='100%' height='100%' "
+                            +   "src='https://www.youtube.com/embed/" + videoId
+                            +     "?rel=0&modestbranding=1&playsinline=1' "
+                            +   "frameborder='0' "
+                            +   "allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' "
+                            +   "allowfullscreen>"
+                            + "</iframe>"
+                            + "</body>"
+                            + "</html>";
+
+            // loadDataWithBaseURL é mais confiável que loadData
+            wvYoutube.loadDataWithBaseURL(
+                    "https://www.youtube.com",  // baseUrl
+                    html,                        // data
+                    "text/html",                 // mimeType
+                    "UTF-8",                     // encoding
+                    null                         // historyUrl
+            );
         } else {
-            // Sem vídeo: mostra placeholder simples
-            wvYoutube.loadData(
-                    "<html><body style='background:#f1f5f8;display:flex;align-items:center;"
+            String placeholder =
+                    "<html>"
+                            + "<body style='background:#f1f5f8;display:flex;align-items:center;"
                             + "justify-content:center;height:100%;margin:0;'>"
                             + "<p style='color:#999;font-family:sans-serif;font-size:16px;'>"
-                            + "Sem vídeo disponível</p></body></html>",
-                    "text/html", "UTF-8"
-            );
+                            + "Sem vídeo disponível"
+                            + "</p>"
+                            + "</body>"
+                            + "</html>";
+
+            wvYoutube.loadDataWithBaseURL(null, placeholder, "text/html", "UTF-8", null);
         }
     }
 
