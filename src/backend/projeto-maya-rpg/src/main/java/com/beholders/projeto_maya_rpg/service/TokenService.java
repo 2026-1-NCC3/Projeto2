@@ -125,18 +125,25 @@ public class TokenService {
         return isMatch;
     }
 
-//    public Token forgetPasswordTokenPatient(Patient patient) {
-//        Random generator = new Random();
-//        String resultToken = "";
-//        for (int i = 0; i < 6; i++) {
-//            int generatedNumber = generator.nextInt(10);
-//            resultToken += String.valueOf(generatedNumber);
-//        }
-//
-//        String encodeToken = passwordEncoder.encode(resultToken);
-//
-//        Token token = new Token(encodeToken, patient);
-//
-//        return tokenRepository.save(token);
-//    }
+    @Transactional
+    public Token forgetPasswordTokenPatient(AdminTokenDTO dto, Patient patient) {
+        Random generator = new Random();
+        String resultToken = "";
+        for (int i = 0; i < 6; i++) {
+            int generatedNumber = generator.nextInt(10);
+            resultToken += String.valueOf(generatedNumber);
+        }
+
+        String encodeToken = passwordEncoder.encode(resultToken);
+
+        emailService.sendEmail(
+                dto.getEmail(),
+                dto.getSubject(),
+                "Seu código de recuperação é: " + resultToken
+        );
+
+        Token token = new Token(encodeToken, patient, dto.getEmail());
+
+        return tokenRepository.save(token);
+    }
 }
