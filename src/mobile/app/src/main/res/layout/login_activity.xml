@@ -31,6 +31,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
+        <!-- ======== CAMPO E-MAIL ======== -->
         <TextView
             android:id="@+id/txtEmailLabel"
             android:layout_width="wrap_content"
@@ -41,23 +42,33 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
-        <EditText
-            android:id="@+id/editEmail"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/emailInputLayout"
             android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:hint="@string/seu_email"
-            android:inputType="textEmailAddress"
-            android:autofillHints="emailAddress"
-            android:textSize="15sp"
-            android:fontFamily="@font/roboto_medium"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
             android:background="@drawable/rounded"
             android:backgroundTint="@color/lightgrey"
-            android:padding="10dp"
-            android:layout_marginTop="6dp"
+            app:boxBackgroundMode="none"
+            app:hintEnabled="false"
             app:layout_constraintTop_toBottomOf="@id/txtEmailLabel"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent">
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editEmail"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:hint="@string/seu_email"
+                android:inputType="textEmailAddress"
+                android:autofillHints="emailAddress"
+                android:textSize="15sp"
+                android:fontFamily="@font/roboto_medium"
+                android:background="@android:color/transparent"
+                android:padding="10dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- ======== CAMPO SENHA ======== -->
         <TextView
             android:id="@+id/txtSenhaLabel"
             android:layout_width="wrap_content"
@@ -66,7 +77,7 @@
             android:textColor="@color/grey"
             android:fontFamily="@font/roboto_medium"
             android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/editEmail"
+            app:layout_constraintTop_toBottomOf="@id/emailInputLayout"
             app:layout_constraintStart_toStartOf="parent"/>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -74,7 +85,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
+            android:background="@drawable/rounded"
+            android:backgroundTint="@color/lightgrey"
+            app:boxBackgroundMode="none"
+            app:hintEnabled="false"
             app:endIconMode="password_toggle"
+            app:endIconTint="@color/grey"
             app:layout_constraintTop_toBottomOf="@id/txtSenhaLabel"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
@@ -84,14 +100,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:hint="@string/preencher_senha"
+                android:inputType="textPassword"
                 android:textSize="15sp"
                 android:fontFamily="@font/roboto_medium"
-                android:background="@drawable/rounded"
-                android:backgroundTint="@color/lightgrey"
+                android:background="@android:color/transparent"
                 android:padding="10dp"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- ======== BOTÕES ======== -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLogin"
             android:layout_width="0dp"

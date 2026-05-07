@@ -37,12 +37,10 @@ public interface ApiService {
     @POST("executions")
     Call<Void> registerExecution(@Body ExecutionRequest body);
     @POST("token/patient")
-    @POST("auth/forgot-password")
     Call<Void> forgotPassword(@Body ForgotPasswordRequest body);
     // Passo 2: verifica o código e redefine a senha
     // Body: { "email": "...", "code": "...", "newPassword": "..." }
     @POST("token/verify")
-    @POST("auth/verify-code")
     Call<Void> verifyCode(@Body VerifyCodeRequest body);
 
     // TODO: substituir pelo path real

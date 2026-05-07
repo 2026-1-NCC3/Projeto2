@@ -94,16 +94,22 @@ public class ExercisePlanAdapter extends RecyclerView.Adapter<ExercisePlanAdapte
 
     public static String extractYoutubeId(String url) {
         if (url == null || url.isEmpty()) return null;
+        // Remove protocolo e www
+        url = url.replace("https://", "").replace("http://", "").replace("www.", "");
         String[] patterns = {
                 "youtube\\.com/watch\\?v=([^&\\n?#]+)",
                 "youtu\\.be/([^&\\n?#]+)",
                 "youtube\\.com/embed/([^&\\n?#]+)",
-                "youtube\\.com/shorts/([^&\\n?#]+)"
+                "youtube\\.com/shorts/([^&\\n?#]+)",
+                "youtube\\.com/v/([^&\\n?#]+)"
         };
         for (String p : patterns) {
             Matcher m = Pattern.compile(p).matcher(url);
             if (m.find()) return m.group(1);
         }
+        // fallback: tenta pegar o v=ID em qualquer lugar
+        Matcher m = Pattern.compile("v=([^&\\n?#]+)").matcher(url);
+        if (m.find()) return m.group(1);
         return null;
     }
 }
