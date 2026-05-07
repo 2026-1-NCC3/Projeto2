@@ -120,6 +120,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="24dp"
                 android:elevation="6dp"
+                android:layout_marginTop="20dp"
                 app:layout_constraintTop_toBottomOf="@id/progressCard"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
@@ -129,6 +130,7 @@
                     android:layout_width="0dp"
                     android:layout_height="100dp"
                     android:padding="18dp"
+                    android:layout_marginEnd="5dp"
                     android:background="@drawable/rounded"
                     android:layout_marginEnd="8dp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -229,6 +231,7 @@
                 android:id="@+id/recyclerExercises"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:nestedScrollingEnabled="false"
                 app:layout_constraintTop_toBottomOf="@id/titleExercises"
                 app:layout_constraintStart_toStartOf="parent"
