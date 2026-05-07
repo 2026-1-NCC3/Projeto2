@@ -9,6 +9,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 import com.example.projetomayamobile_rpg.model.ChangePasswordRequest;
+import com.example.projetomayamobile_rpg.model.ExecutionRequest;
 import com.example.projetomayamobile_rpg.model.ForgotPasswordRequest;
 import com.example.projetomayamobile_rpg.model.LoginRequest;
 import com.example.projetomayamobile_rpg.model.PageResponse;
@@ -29,15 +30,22 @@ public interface ApiService {
 
     @GET("plan")
     Call<PageResponse<PlanResponse>> getPlans(@Query("page") int page, @Query("size") int size);
-    @POST("token/patient")
-    Call<Void> forgotPassword(@Body ForgotPasswordRequest body);
 
+    @GET("plan/patient/{patientId}")
+    Call<PageResponse<PlanResponse>> getPlansByPatient(@Path("patientId") Long patientId, @Query("page") int page, @Query("size") int size);
+
+    @POST("executions")
+    Call<Void> registerExecution(@Body ExecutionRequest body);
+    @POST("token/patient")
+    @POST("auth/forgot-password")
+    Call<Void> forgotPassword(@Body ForgotPasswordRequest body);
     // Passo 2: verifica o código e redefine a senha
     // Body: { "email": "...", "code": "...", "newPassword": "..." }
     @POST("token/verify")
+    @POST("auth/verify-code")
     Call<Void> verifyCode(@Body VerifyCodeRequest body);
 
-
+    // TODO: substituir pelo path real
     // ════════════════════════════════════════════════════════
     //  CHANGE PASSWORD — usuário autenticado (placeholder)
     //  TODO: substituir pelo path real quando definido

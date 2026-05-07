@@ -2,6 +2,7 @@ package com.beholders.projeto_maya_rpg.service;
 
 import com.beholders.projeto_maya_rpg.exception.ResourceNotFoundException;
 import com.beholders.projeto_maya_rpg.model.Plan;
+import com.beholders.projeto_maya_rpg.model.PlanExercises;
 import com.beholders.projeto_maya_rpg.repository.PlansRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,13 +18,24 @@ public class PlanService {
         this.plansRepository = plansRepository;
     }
 
+
     @Transactional
     public Plan save(Plan plan) {
+        if (plan.getPlanExercises() != null) {
+            for (PlanExercises pe : plan.getPlanExercises()) {
+                pe.setPlan(plan); // <-- essa linha resolve o erro!
+            }
+        }
         return plansRepository.save(plan);
     }
 
+
     public Page<Plan> getAll(Pageable pageable) {
         return plansRepository.findAll(pageable);
+    }
+
+    public Page<Plan> getByPatientId(Long patientId, Pageable pageable) {
+        return plansRepository.findByPatientId(patientId, pageable);
     }
 
     public Plan getById(Long id) {

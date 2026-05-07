@@ -12,7 +12,7 @@
         android:id="@+id/centerBlock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-100dp"
+        android:layout_marginTop="-60dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +33,7 @@
                 android:layout_height="70dp"
                 android:src="@drawable/ic_check_rounded"
                 android:layout_gravity="center"
-                android:contentDescription="@string/icone_exercicio_registrado"/>
+                android:contentDescription="@string/icone_exercicio_registrado" />
         </FrameLayout>
 
         <TextView
@@ -47,7 +47,7 @@
             android:layout_marginTop="10dp"
             app:layout_constraintTop_toBottomOf="@id/frameSuccess"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
             android:id="@+id/tvSubtitleSuccess"
@@ -57,10 +57,28 @@
             android:textSize="15sp"
             android:textColor="@color/grey"
             android:fontFamily="@font/roboto_medium"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             app:layout_constraintTop_toBottomOf="@id/tvTitleSuccess"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Botão voltar ao início -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnBackToHome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:paddingHorizontal="32dp"
+            android:text="Voltar ao início"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:fontFamily="@font/roboto_medium"
+            app:backgroundTint="@color/babyblue"
+            app:cornerRadius="12dp"
+            app:layout_constraintTop_toBottomOf="@id/tvSubtitleSuccess"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
