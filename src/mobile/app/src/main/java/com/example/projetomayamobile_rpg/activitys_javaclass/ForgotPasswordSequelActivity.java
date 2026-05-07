@@ -2,17 +2,16 @@ package com.example.projetomayamobile_rpg.activitys_javaclass;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projetomayamobile_rpg.R;
-import com.example.projetomayamobile_rpg.model.ResetPasswordRequest;
 import com.example.projetomayamobile_rpg.model.VerifyCodeRequest;
 import com.example.projetomayamobile_rpg.network.ApiService;
 import com.example.projetomayamobile_rpg.network.RetrofitClient;
+import com.google.android.material.button.MaterialButton;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -21,9 +20,10 @@ import retrofit2.Response;
 
 public class ForgotPasswordSequelActivity extends AppCompatActivity {
 
-    Button btnChangePassword;
+    MaterialButton btnChangePassword;
     EditText editCode;
     EditText editNewPassword;
+    EditText editConfirmNewPassword;
 
     private String email;
 
@@ -34,54 +34,76 @@ public class ForgotPasswordSequelActivity extends AppCompatActivity {
 
         email = getIntent().getStringExtra("email");
 
-        btnChangePassword = findViewById(R.id.btnChangePassword);
-        editCode = findViewById(R.id.editCode);
+        btnChangePassword    = findViewById(R.id.btnChangePassword);
+        editCode             = findViewById(R.id.editCode);
         editNewPassword      = findViewById(R.id.editNewPassword);
+        editConfirmNewPassword = findViewById(R.id.editConfirmNewPassword);
 
-        btnChangePassword.setOnClickListener(v -> changePassword());
+        btnChangePassword.setOnClickListener(v -> verifyAndReset());
     }
 
-    private void changePassword() {
-        /* TODO: descomentar e ajustar quando o layout tiver os campos
-         String code        = editCode.getText().toString().trim();
-         String newPassword = editNewPassword.getText().toString().trim();
+    private void verifyAndReset() {
+        String code           = editCode.getText().toString().trim();
+        String newPassword    = editNewPassword.getText().toString().trim();
+        String confirmPassword = editConfirmNewPassword.getText().toString().trim();
 
-         if (code.isEmpty()) {
-             Toast.makeText(this, "Informe o código recebido.", Toast.LENGTH_SHORT).show();
-             return;
-         }
-         if (newPassword.isEmpty()) {
-             Toast.makeText(this, "Informe a nova senha.", Toast.LENGTH_SHORT).show();
-             return;
-         }
+        // Validações locais
+        if (code.isEmpty()) {
+            editCode.setError("Informe o código.");
+            editCode.requestFocus();
+            return;
+        }
+        if (newPassword.isEmpty()) {
+            editNewPassword.setError("Informe a nova senha.");
+            editNewPassword.requestFocus();
+            return;
+        }
+        if (newPassword.length() < 6) {
+            editNewPassword.setError("A senha deve ter ao menos 6 caracteres.");
+            editNewPassword.requestFocus();
+            return;
+        }
+        if (!newPassword.equals(confirmPassword)) {
+            editConfirmNewPassword.setError("As senhas não podem ser diferentes.");
+            editConfirmNewPassword.requestFocus();
+            return;
+        }
 
-         btnChangePassword.setEnabled(false);
-         ApiService api = RetrofitClient.getInstance(this).create(ApiService.class);
+        setLoading(true);
 
-         ── Reset direto ──
-         api.resetPassword(new ResetPasswordRequest(email, code, newPassword))
-                 .enqueue(new Callback<Void>() {
-             @Override
-             public void onResponse(Call<Void> call, Response<Void> response) {
-                 btnChangePassword.setEnabled(true);
-                 if (response.isSuccessful()) {
-                     startActivity(new Intent(ForgotPasswordSequelActivity.this,
-                                              ForgotPasswordCompletedActivity.class));
-                     finish();
-                 } else {
-                     Toast.makeText(ForgotPasswordSequelActivity.this,
-                             "Código inválido ou expirado.", Toast.LENGTH_LONG).show();
-                 }
-             }
-             @Override
-             public void onFailure(Call<Void> call, Throwable t) {
-                 btnChangePassword.setEnabled(true);
-                 Toast.makeText(ForgotPasswordSequelActivity.this,
-                         "Erro de conexão: " + t.getMessage(), Toast.LENGTH_LONG).show();
-             }
-        }); */
+        ApiService api = RetrofitClient.getInstance(this).create(ApiService.class);
+        api.verifyCode(new VerifyCodeRequest(email, code, newPassword))
+                .enqueue(new Callback<Void>() {
 
-        startActivity(new Intent(this, ForgotPasswordCompletedActivity.class));
-        finish();
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        setLoading(false);
+                        if (response.isSuccessful()) {
+                            startActivity(new Intent(ForgotPasswordSequelActivity.this,
+                                    ForgotPasswordCompletedActivity.class));
+                            finish();
+                        } else if (response.code() == 400 || response.code() == 401) {
+                            editCode.setError("Código inválido ou expirado.");
+                            editCode.requestFocus();
+                        } else {
+                            Toast.makeText(ForgotPasswordSequelActivity.this,
+                                    "Erro ao redefinir senha (código " + response.code() + ").",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        setLoading(false);
+                        Toast.makeText(ForgotPasswordSequelActivity.this,
+                                "Erro de conexão: " + t.getMessage(),
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    private void setLoading(boolean loading) {
+        btnChangePassword.setEnabled(!loading);
+        btnChangePassword.setText(loading ? "Verificando..." : getString(R.string.alterar_a_senha));
     }
 }

@@ -2,7 +2,6 @@ package com.example.projetomayamobile_rpg.activitys_javaclass;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -12,6 +11,7 @@ import com.example.projetomayamobile_rpg.R;
 import com.example.projetomayamobile_rpg.model.ForgotPasswordRequest;
 import com.example.projetomayamobile_rpg.network.ApiService;
 import com.example.projetomayamobile_rpg.network.RetrofitClient;
+import com.google.android.material.button.MaterialButton;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -19,7 +19,10 @@ import retrofit2.Response;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
-    Button btnSendCode;
+    private static final String EMAIL_SUBJECT = "Recuperação de senha";
+
+    MaterialButton btnSendCode;
+    MaterialButton btnBackLogin;
     EditText editEmail;
 
     @Override
@@ -27,51 +30,61 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.forgot_password_activity);
 
-        btnSendCode      = findViewById(R.id.btnSendCode);
-        editEmail  = findViewById(R.id.editEmail);
+        btnSendCode  = findViewById(R.id.btnSendCode);
+        btnBackLogin = findViewById(R.id.btnBackLogin);
+        editEmail    = findViewById(R.id.editEmail);
+
+        btnBackLogin.setOnClickListener(v -> {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        });
 
         btnSendCode.setOnClickListener(v -> sendCode());
     }
 
     private void sendCode() {
-        /* TODO: descomentar e ajustar quando tiver e-mail
-         String email = editEmailForgot.getText().toString().trim();
-         if (email.isEmpty()) {
-             Toast.makeText(this, "Informe seu e-mail.", Toast.LENGTH_SHORT).show();
-             return;
-         }
+        String email = editEmail.getText().toString().trim();
 
-         btnSendCode.setEnabled(false);
-         ApiService api = RetrofitClient.getInstance(this).create(ApiService.class);
-         api.forgotPassword(new ForgotPasswordRequest(email)).enqueue(new Callback<Void>() {
+        if (email.isEmpty()) {
+            editEmail.setError("Informe seu e-mail.");
+            editEmail.requestFocus();
+            return;
+        }
 
-             @Override
-             public void onResponse(Call<Void> call, Response<Void> response) {
-                 btnSendCode.setEnabled(true);
-                 if (response.isSuccessful()) {
-                     // Passa o e-mail para a próxima tela via Intent
-                     Intent intent = new Intent(ForgotPasswordActivity.this,
-                                                ForgotPasswordSequelActivity.class);
-                     intent.putExtra("email", email);
-                     startActivity(intent);
-                     finish();
-                 } else {
-                     Toast.makeText(ForgotPasswordActivity.this,
-                             "Não foi possível enviar o código. Verifique o e-mail.",
-                             Toast.LENGTH_LONG).show();
-                 }
-             }
+        setLoading(true);
 
-             @Override
-             public void onFailure(Call<Void> call, Throwable t) {
-                 btnSendCode.setEnabled(true);
-                 Toast.makeText(ForgotPasswordActivity.this,
-                         "Erro de conexão: " + t.getMessage(), Toast.LENGTH_LONG).show();
-             }
-         });
-        */
+        ApiService api = RetrofitClient.getInstance(this).create(ApiService.class);
+        api.forgotPassword(new ForgotPasswordRequest(email, EMAIL_SUBJECT))
+                .enqueue(new Callback<Void>() {
 
-        startActivity(new Intent(this, ForgotPasswordSequelActivity.class));
-        finish();
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        setLoading(false);
+                        if (response.isSuccessful()) {
+                            Intent intent = new Intent(ForgotPasswordActivity.this,
+                                    ForgotPasswordSequelActivity.class);
+                            intent.putExtra("email", email);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Toast.makeText(ForgotPasswordActivity.this,
+                                    "Não foi possível enviar o código. Verifique se o e-mail está correto.",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        setLoading(false);
+                        Toast.makeText(ForgotPasswordActivity.this,
+                                "Erro de conexão: " + t.getMessage(),
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    private void setLoading(boolean loading) {
+        btnSendCode.setEnabled(!loading);
+        btnSendCode.setText(loading ? "Enviando código..." : getString(R.string.enviar_codigo));
     }
 }
