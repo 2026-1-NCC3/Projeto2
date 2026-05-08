@@ -34,6 +34,7 @@ interface PlanExerciseEntry {
 interface PlanExerciseDetailItem {
   id?: number;
   frequency: string;
+  daysOfWeek?: string | null;
   specificNotes: string | null;
   exercise: {
     id: number;
@@ -53,14 +54,33 @@ interface PlanDetail {
 }
 
 const DAYS = [
-  { key: "SEGUNDA",  label: "Seg" },
-  { key: "TERÇA",    label: "Ter" },
-  { key: "QUARTA",   label: "Qua" },
-  { key: "QUINTA",   label: "Qui" },
-  { key: "SEXTA",    label: "Sex" },
-  { key: "SÁBADO",   label: "Sáb" },
-  { key: "DOMINGO",  label: "Dom" },
+  { key: "SEGUNDA",  label: "Seg", dow: "2" },
+  { key: "TERÇA",    label: "Ter", dow: "3" },
+  { key: "QUARTA",   label: "Qua", dow: "4" },
+  { key: "QUINTA",   label: "Qui", dow: "5" },
+  { key: "SEXTA",    label: "Sex", dow: "6" },
+  { key: "SÁBADO",   label: "Sáb", dow: "7" },
+  { key: "DOMINGO",  label: "Dom", dow: "1" },
 ];
+
+// ─── Day <-> DaysOfWeek helpers ──────────────────────────
+// Converte array de day keys (ex: ["SEGUNDA","SEXTA"]) para
+// string de Calendar.DAY_OF_WEEK separada por vírgula ("2,6")
+function dayKeysToDaysOfWeek(days: string[]): string {
+  return days
+    .map((d) => DAYS.find((day) => day.key === d)?.dow)
+    .filter(Boolean)
+    .join(",");
+}
+
+// Converte string de Calendar.DAY_OF_WEEK ("2,6") de volta
+// para array de day keys (["SEGUNDA","SEXTA"])
+function daysOfWeekToDayKeys(daysOfWeek: string): string[] {
+  return daysOfWeek
+    .split(",")
+    .map((dow) => DAYS.find((d) => d.dow === dow.trim())?.key)
+    .filter(Boolean) as string[];
+}
 
 // ─── YouTube helpers ─────────────────────────────────────
 function extractYoutubeId(url: string): string | null {
@@ -257,6 +277,7 @@ export default function ExercisesPage() {
         admin: { id: adminId },
         planExercises: planEntries.map((e) => ({
           frequency: e.days.join(", "),
+          daysOfWeek: dayKeysToDaysOfWeek(e.days),
           specificNotes: e.specificNotes.trim() || null,
           exercise: { id: e.exerciseId },
         })),
@@ -436,7 +457,9 @@ export default function ExercisesPage() {
     setEditPlanEntries(
       plan.planExercises.map((pe) => ({
         exerciseId: pe.exercise.id,
-        days: pe.frequency ? pe.frequency.split(", ").filter(Boolean) : [],
+        days: pe.daysOfWeek
+          ? daysOfWeekToDayKeys(pe.daysOfWeek)
+          : pe.frequency ? pe.frequency.split(", ").filter(Boolean) : [],
         specificNotes: pe.specificNotes ?? "",
       }))
     );
@@ -494,6 +517,7 @@ export default function ExercisesPage() {
         admin: { id: adminId },
         planExercises: editPlanEntries.map((e) => ({
           frequency: e.days.join(", "),
+          daysOfWeek: dayKeysToDaysOfWeek(e.days),
           specificNotes: e.specificNotes.trim() || null,
           exercise: { id: e.exerciseId },
         })),
