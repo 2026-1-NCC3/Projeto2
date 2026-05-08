@@ -23,6 +23,9 @@ public class PlanExercises {
     @Column(nullable = false)
     private String frequency;
 
+    @Column(name = "days_of_week")
+    private String daysOfWeek;
+
     @Column(name = "specific_notes")
     private String specificNotes;
 
@@ -33,7 +36,7 @@ public class PlanExercises {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "exercise_id", nullable = false)
-    @JsonIgnoreProperties({"mediaList", "hibernateLazyInitializer"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer"})
     private Exercise exercise;
 
     @OneToMany(mappedBy = "planExercise", cascade = CascadeType.ALL)
