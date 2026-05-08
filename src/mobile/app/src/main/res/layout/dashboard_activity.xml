@@ -225,13 +225,28 @@
                 app:layout_constraintTop_toBottomOf="@id/cardsRow"
                 app:layout_constraintStart_toStartOf="parent"/>
 
+            <TextView
+                android:id="@+id/tvEmptyExercises"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Nenhum exercício programado para hoje 😌"
+                android:textSize="14sp"
+                android:textColor="@color/grey"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:paddingVertical="40dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/titleExercises"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerExercises"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:nestedScrollingEnabled="false"
-                app:layout_constraintTop_toBottomOf="@id/titleExercises"
+                app:layout_constraintTop_toBottomOf="@id/tvEmptyExercises"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
