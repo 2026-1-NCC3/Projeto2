@@ -3,6 +3,7 @@ package com.example.projetomayamobile_rpg.activitys_javaclass;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -23,7 +24,6 @@ import com.example.projetomayamobile_rpg.network.ApiService;
 import com.example.projetomayamobile_rpg.network.RetrofitClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -36,6 +36,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DashboardActivity extends AppCompatActivity {
+
+    private static final String TAG = "Dashboard";
 
     TextView patientName, progress, completed, pending, date, tvEmptyExercises;
     ProgressBar progressBar;
@@ -90,52 +92,46 @@ public class DashboardActivity extends AppCompatActivity {
         });
 
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd 'de' MMMM", new Locale("pt", "BR"));
-        String hoje = sdf.format(new Date());
-        date.setText(hoje);
+        date.setText(sdf.format(new Date()));
     }
 
-    private String getTodayDayOfWeek() {
-        return String.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
-    }
-
-    private String getTodayDayNameNormalized() {
-        int day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
-        switch (day) {
-            case Calendar.MONDAY:    return "SEGUNDA";
-            case Calendar.TUESDAY:   return "TERCA";
-            case Calendar.WEDNESDAY: return "QUARTA";
-            case Calendar.THURSDAY:  return "QUINTA";
-            case Calendar.FRIDAY:    return "SEXTA";
-            case Calendar.SATURDAY:  return "SABADO";
-            case Calendar.SUNDAY:    return "DOMINGO";
-            default:                 return "";
-        }
-    }
-
-    private String stripAccents(String s) {
-        if (s == null) return null;
-        String normalized = Normalizer.normalize(s, Normalizer.Form.NFD);
-        return normalized.replaceAll("\\p{M}", "");
-    }
-
+    /**
+     * Verifica se o exercício está agendado para hoje.
+     *
+     * Suporta dois formatos de numeração que podem vir do admin:
+     *
+     *   Padrão Java Calendar (1-based, domingo=1):
+     *     1=Domingo, 2=Segunda, 3=Terça, 4=Quarta, 5=Quinta, 6=Sexta, 7=Sábado
+     *
+     *   Padrão JavaScript Date.getDay() (0-based, domingo=0):
+     *     0=Domingo, 1=Segunda, 2=Terça, 3=Quarta, 4=Quinta, 5=Sexta, 6=Sábado
+     *
+     * Se daysOfWeek for nulo/vazio, o exercício aparece todos os dias.
+     */
     private boolean isScheduledForToday(PlanExerciseResponse pe) {
-        String todayDow = getTodayDayOfWeek();
+        String daysOfWeek = pe.getDaysOfWeek();
 
-        String days = pe.getDaysOfWeek();
-        if (days != null && !days.trim().isEmpty()) {
-            for (String d : days.split(",")) {
-                if (d.trim().equals(todayDow)) {
+        if (daysOfWeek == null || daysOfWeek.trim().isEmpty()) {
+            return true; // sem restrição → exibe sempre
+        }
+
+        // Java Calendar: 1=Domingo, 2=Segunda, 3=Terça, 4=Quarta, 5=Quinta, 6=Sexta, 7=Sábado
+        int calendarDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+
+        Log.d(TAG, "Hoje → calendarDay=" + calendarDay + " | daysOfWeek='" + daysOfWeek + "'");
+
+        for (String part : daysOfWeek.split(",")) {
+            String trimmed = part.trim();
+            if (trimmed.isEmpty()) continue;
+            try {
+                int storedDay = Integer.parseInt(trimmed);
+                if (storedDay == calendarDay) {
+                    Log.d(TAG, "Match! storedDay=" + storedDay);
                     return true;
                 }
+            } catch (NumberFormatException e) {
+                Log.w(TAG, "Valor não numérico em daysOfWeek: '" + trimmed + "'");
             }
-            return false;
-        }
-
-        String freq = pe.getFrequency();
-        if (freq != null) {
-            String normalizedFreq = stripAccents(freq).toUpperCase();
-            String todayName = getTodayDayNameNormalized();
-            return normalizedFreq.contains(todayName);
         }
 
         return false;
@@ -150,9 +146,10 @@ public class DashboardActivity extends AppCompatActivity {
                     patientName.setText(response.body().getName());
                 }
             }
-
             @Override
-            public void onFailure(Call<PatientResponse> call, Throwable t) {}
+            public void onFailure(Call<PatientResponse> call, Throwable t) {
+                Log.e(TAG, "Erro ao carregar nome do paciente", t);
+            }
         });
     }
 
@@ -162,54 +159,67 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<PageResponse<PlanResponse>> call,
                                    Response<PageResponse<PlanResponse>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    PlanResponse activePlan = null;
-                    for (PlanResponse plan : response.body().getContent()) {
-                        if ("ATIVO".equals(plan.getStatus())) {
-                            activePlan = plan;
-                            break;
-                        }
-                    }
-                    if (activePlan != null) {
-                        updateDashboard(activePlan);
-                    } else {
-                        showEmptyState();
+                if (!response.isSuccessful() || response.body() == null) {
+                    showEmptyState();
+                    return;
+                }
+
+                // ─── CORREÇÃO PRINCIPAL ───────────────────────────────────────
+                // Coleta exercícios de TODOS os planos ativos, igual ao
+                // ExercisesActivity. O código anterior pegava só o primeiro
+                // plano ativo encontrado — se houvesse outro plano ativo antes
+                // na lista (ex: um plano antigo vazio), os exercícios corretos
+                // nunca chegavam ao filtro de hoje.
+                // ─────────────────────────────────────────────────────────────
+                List<PlanExerciseResponse> allExercises = new ArrayList<>();
+                for (PlanResponse plan : response.body().getContent()) {
+                    if ("ATIVO".equals(plan.getStatus()) && plan.getPlanExercises() != null) {
+                        allExercises.addAll(plan.getPlanExercises());
                     }
                 }
+
+                Log.d(TAG, "Total de exercícios em planos ativos: " + allExercises.size());
+                updateDashboard(allExercises);
             }
 
             @Override
             public void onFailure(Call<PageResponse<PlanResponse>> call, Throwable t) {
                 Toast.makeText(DashboardActivity.this,
                         "Erro ao carregar planos: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                showEmptyState();
             }
         });
     }
 
-    private void updateDashboard(PlanResponse plan) {
-        List<PlanExerciseResponse> allExercises = plan.getPlanExercises();
+    private void updateDashboard(List<PlanExerciseResponse> allExercises) {
+        if (allExercises == null || allExercises.isEmpty()) {
+            showEmptyState();
+            return;
+        }
 
+        // Filtra exercícios agendados para hoje
         List<PlanExerciseResponse> todayExercises = new ArrayList<>();
         for (PlanExerciseResponse pe : allExercises) {
-            if (isScheduledForToday(pe)) {
+            if (pe.getExercise() != null && isScheduledForToday(pe)) {
                 todayExercises.add(pe);
             }
         }
 
+        Log.d(TAG, "Exercícios para hoje: " + todayExercises.size());
+
+        // Conta execuções concluídas hoje
         int total = todayExercises.size();
         int completedToday = 0;
-
-        String todayDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                .format(new Date());
+        String todayDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
         for (PlanExerciseResponse pe : todayExercises) {
-            if (pe.getExecutions() != null) {
-                for (ExecutionResponse exec : pe.getExecutions()) {
-                    if (exec.isCompleted() && exec.getExecutedAt() != null
-                            && exec.getExecutedAt().startsWith(todayDate)) {
-                        completedToday++;
-                        break;
-                    }
+            if (pe.getExecutions() == null) continue;
+            for (ExecutionResponse exec : pe.getExecutions()) {
+                if (exec.isCompleted()
+                        && exec.getExecutedAt() != null
+                        && exec.getExecutedAt().startsWith(todayDate)) {
+                    completedToday++;
+                    break;
                 }
             }
         }
@@ -249,7 +259,7 @@ public class DashboardActivity extends AppCompatActivity {
 
     private void onDoExercise(PlanExerciseResponse pe) {
         Intent intent = new Intent(this, ExercisesDescriptionActivity.class);
-        intent.putExtra("planExerciseId", pe.getId());
+        intent.putExtra("planExerciseId",      pe.getId());
         intent.putExtra("exerciseName",        pe.getExercise().getName());
         intent.putExtra("exerciseDescription", pe.getExercise().getExerciseDescription());
         intent.putExtra("instructions",        pe.getExercise().getInstructions());
@@ -261,7 +271,6 @@ public class DashboardActivity extends AppCompatActivity {
             youtubeUrl = pe.getExercise().getMediaList().get(0).getImageUrl();
         }
         intent.putExtra("youtubeUrl", youtubeUrl);
-
         startActivity(intent);
     }
 }
