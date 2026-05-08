@@ -23,6 +23,7 @@ import com.example.projetomayamobile_rpg.network.ApiService;
 import com.example.projetomayamobile_rpg.network.RetrofitClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -62,14 +63,12 @@ public class DashboardActivity extends AppCompatActivity {
         exercisePlanAdapter = new ExercisePlanAdapter(exerciseList, this::onDoExercise);
         recyclerExercises.setAdapter(exercisePlanAdapter);
 
-        // Recupera o ID do paciente salvo no login
         SharedPreferences prefs = getSharedPreferences("auth", MODE_PRIVATE);
         patientId = prefs.getLong("patient_id", -1);
 
         loadPatientName();
         loadPlans();
 
-        // ── Bottom Navigation ──
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
         bottomNav.setSelectedItemId(R.id.menu_home);
         bottomNav.setOnItemSelectedListener(item -> {
@@ -90,29 +89,56 @@ public class DashboardActivity extends AppCompatActivity {
             return false;
         });
 
-        // ── Data formatada em português ──
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd 'de' MMMM", new Locale("pt", "BR"));
         String hoje = sdf.format(new Date());
         date.setText(hoje);
     }
 
-    // ══════════════════════════════════════════════════════════
-    //  Helper: retorna o nome do dia da semana em português
-    //  Deve coincidir com os valores salvos no campo "frequency"
-    //  do PlanExercises (ex: "SEGUNDA, QUARTA, SEXTA")
-    // ══════════════════════════════════════════════════════════
-    private String getTodayDayName() {
+    private String getTodayDayOfWeek() {
+        return String.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
+    }
+
+    private String getTodayDayNameNormalized() {
         int day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
         switch (day) {
             case Calendar.MONDAY:    return "SEGUNDA";
-            case Calendar.TUESDAY:   return "TERÇA";
+            case Calendar.TUESDAY:   return "TERCA";
             case Calendar.WEDNESDAY: return "QUARTA";
             case Calendar.THURSDAY:  return "QUINTA";
             case Calendar.FRIDAY:    return "SEXTA";
-            case Calendar.SATURDAY:  return "SÁBADO";
+            case Calendar.SATURDAY:  return "SABADO";
             case Calendar.SUNDAY:    return "DOMINGO";
             default:                 return "";
         }
+    }
+
+    private String stripAccents(String s) {
+        if (s == null) return null;
+        String normalized = Normalizer.normalize(s, Normalizer.Form.NFD);
+        return normalized.replaceAll("\\p{M}", "");
+    }
+
+    private boolean isScheduledForToday(PlanExerciseResponse pe) {
+        String todayDow = getTodayDayOfWeek();
+
+        String days = pe.getDaysOfWeek();
+        if (days != null && !days.trim().isEmpty()) {
+            for (String d : days.split(",")) {
+                if (d.trim().equals(todayDow)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        String freq = pe.getFrequency();
+        if (freq != null) {
+            String normalizedFreq = stripAccents(freq).toUpperCase();
+            String todayName = getTodayDayNameNormalized();
+            return normalizedFreq.contains(todayName);
+        }
+
+        return false;
     }
 
     private void loadPatientName() {
@@ -162,13 +188,10 @@ public class DashboardActivity extends AppCompatActivity {
 
     private void updateDashboard(PlanResponse plan) {
         List<PlanExerciseResponse> allExercises = plan.getPlanExercises();
-        String todayDay = getTodayDayName();
 
-        // ── Filtra apenas os exercícios programados para HOJE ──
         List<PlanExerciseResponse> todayExercises = new ArrayList<>();
         for (PlanExerciseResponse pe : allExercises) {
-            String freq = pe.getFrequency();
-            if (freq != null && freq.toUpperCase().contains(todayDay)) {
+            if (isScheduledForToday(pe)) {
                 todayExercises.add(pe);
             }
         }
@@ -176,7 +199,6 @@ public class DashboardActivity extends AppCompatActivity {
         int total = todayExercises.size();
         int completedToday = 0;
 
-        // Verifica quais exercícios de hoje já foram concluídos
         String todayDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                 .format(new Date());
 
@@ -186,7 +208,7 @@ public class DashboardActivity extends AppCompatActivity {
                     if (exec.isCompleted() && exec.getExecutedAt() != null
                             && exec.getExecutedAt().startsWith(todayDate)) {
                         completedToday++;
-                        break; // conta apenas uma execução por exercício
+                        break;
                     }
                 }
             }
@@ -194,19 +216,16 @@ public class DashboardActivity extends AppCompatActivity {
 
         int pendingCount = total - completedToday;
 
-        // Atualiza os indicadores de progresso
         progress.setText(completedToday + " de " + total + " exercícios realizados");
         completed.setText(String.valueOf(completedToday));
         pending.setText(String.valueOf(pendingCount));
         progressBar.setMax(total > 0 ? total : 1);
         progressBar.setProgress(completedToday);
 
-        // Atualiza a lista do RecyclerView
         exerciseList.clear();
         exerciseList.addAll(todayExercises);
         exercisePlanAdapter.notifyDataSetChanged();
 
-        // ── Mostra/esconde empty state ──
         if (todayExercises.isEmpty()) {
             tvEmptyExercises.setVisibility(View.VISIBLE);
             recyclerExercises.setVisibility(View.GONE);
@@ -222,26 +241,21 @@ public class DashboardActivity extends AppCompatActivity {
         pending.setText("0");
         progressBar.setMax(1);
         progressBar.setProgress(0);
-
         exerciseList.clear();
         exercisePlanAdapter.notifyDataSetChanged();
         tvEmptyExercises.setVisibility(View.VISIBLE);
         recyclerExercises.setVisibility(View.GONE);
     }
 
-    // ══════════════════════════════════════════════════════════
-    //  Clique em "Realizar Exercício" → abre tela de detalhes
-    // ══════════════════════════════════════════════════════════
     private void onDoExercise(PlanExerciseResponse pe) {
         Intent intent = new Intent(this, ExercisesDescriptionActivity.class);
         intent.putExtra("planExerciseId", pe.getId());
-        intent.putExtra("exerciseName", pe.getExercise().getName());
+        intent.putExtra("exerciseName",        pe.getExercise().getName());
         intent.putExtra("exerciseDescription", pe.getExercise().getExerciseDescription());
-        intent.putExtra("instructions", pe.getExercise().getInstructions());
-        intent.putExtra("frequency", pe.getFrequency());
-        intent.putExtra("specificNotes", pe.getSpecificNotes() != null ? pe.getSpecificNotes() : "");
+        intent.putExtra("instructions",        pe.getExercise().getInstructions());
+        intent.putExtra("frequency",           pe.getFrequency());
+        intent.putExtra("specificNotes",       pe.getSpecificNotes() != null ? pe.getSpecificNotes() : "");
 
-        // Pega a primeira mídia (URL do YouTube) se existir
         String youtubeUrl = "";
         if (pe.getExercise().getMediaList() != null && !pe.getExercise().getMediaList().isEmpty()) {
             youtubeUrl = pe.getExercise().getMediaList().get(0).getImageUrl();
