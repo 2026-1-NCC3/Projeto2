@@ -11,38 +11,43 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.projetomayamobile_rpg.R;
 
 public class LgpdTermActivity extends AppCompatActivity {
-        Button btnAcceptTerms;
-        Button btnBackLogin;
-        CheckBox checkAcceptTerms;
+    Button btnAcceptTerms;
+    Button btnBackLogin;
+    CheckBox checkAcceptTerms;
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.lgpd_term_activity);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-            btnAcceptTerms = findViewById(R.id.btnAcceptTerms);
-            btnBackLogin     = findViewById(R.id.btnBackLogin);
-            checkAcceptTerms = findViewById(R.id.checkBox);
+        // Se já aceitou os termos antes, pula direto pro Dashboard
+        SharedPreferences prefs = getSharedPreferences("maya_prefs", MODE_PRIVATE);
+        if (prefs.getBoolean("lgpd_aceito", false)) {
+            startActivity(new Intent(this, DashboardActivity.class));
+            finish();
+            return;
+        }
 
-            btnAcceptTerms.setEnabled(false);
+        setContentView(R.layout.lgpd_term_activity);
 
-            checkAcceptTerms.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                btnAcceptTerms.setEnabled(isChecked);
+        btnAcceptTerms   = findViewById(R.id.btnAcceptTerms);
+        btnBackLogin     = findViewById(R.id.btnBackLogin);
+        checkAcceptTerms = findViewById(R.id.checkBox);
 
-            btnAcceptTerms.setOnClickListener(v -> {
+        btnAcceptTerms.setEnabled(false);
 
-                SharedPreferences prefs = getSharedPreferences("maya_prefs", MODE_PRIVATE);
-                prefs.edit().putBoolean("lgpd_aceito", true).apply();
+        checkAcceptTerms.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            btnAcceptTerms.setEnabled(isChecked);
+        });
 
-                startActivity(new Intent(LgpdTermActivity.this, DashboardActivity.class));
-                finish();
-            });
+        btnAcceptTerms.setOnClickListener(v -> {
+            prefs.edit().putBoolean("lgpd_aceito", true).apply();
+            startActivity(new Intent(LgpdTermActivity.this, DashboardActivity.class));
+            finish();
+        });
 
-            btnBackLogin.setOnClickListener(v -> {
-
-                startActivity(new Intent(LgpdTermActivity.this, LoginActivity.class));
-                finish();
-            });
+        btnBackLogin.setOnClickListener(v -> {
+            startActivity(new Intent(LgpdTermActivity.this, LoginActivity.class));
+            finish();
         });
     }
 }

@@ -30,6 +30,17 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // ✅ Verifica se já existe token salvo e se ainda é válido no servidor
+        SharedPreferences prefs = getSharedPreferences("auth", MODE_PRIVATE);
+        String token = prefs.getString("token", "");
+        long patientId = prefs.getLong("patient_id", -1L);
+
+        if (!token.isEmpty() && patientId != -1L) {
+            validateTokenWithServer(patientId);
+            return; // importante: interrompe o resto do onCreate enquanto valida
+        }
+
         setContentView(R.layout.login_activity);
 
         editEmail         = findViewById(R.id.editEmail);
@@ -39,6 +50,58 @@ public class LoginActivity extends AppCompatActivity {
 
         btnLogin.setOnClickListener(v -> attemptLogin());
 
+        btnForgotPassword.setOnClickListener(v ->
+                startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class))
+        );
+    }
+
+    private void validateTokenWithServer(long patientId) {
+        ApiService api = RetrofitClient.getInstance(this).create(ApiService.class);
+        api.getPatientById(patientId).enqueue(new Callback<PatientResponse>() {
+
+            @Override
+            public void onResponse(Call<PatientResponse> call, Response<PatientResponse> response) {
+                if (response.isSuccessful()) {
+                    // Token válido → pula o login
+                    startActivity(new Intent(LoginActivity.this, LgpdTermActivity.class));
+                    finish();
+                } else {
+                    // Token expirado ou inválido (401/403) → limpa e mostra login
+                    clearSession();
+                    showLoginScreen();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PatientResponse> call, Throwable t) {
+                // Sem conexão → bloqueia e mostra login com aviso
+                Toast.makeText(LoginActivity.this,
+                        "Sem conexão com o servidor. Faça login novamente.",
+                        Toast.LENGTH_LONG).show();
+                clearSession();
+                showLoginScreen();
+            }
+        });
+    }
+
+    private void clearSession() {
+        getSharedPreferences("auth", MODE_PRIVATE)
+                .edit()
+                .remove("token")
+                .remove("patient_id")
+                .apply();
+        RetrofitClient.resetInstance();
+    }
+
+    private void showLoginScreen() {
+        setContentView(R.layout.login_activity);
+
+        editEmail         = findViewById(R.id.editEmail);
+        editPassword      = findViewById(R.id.editPassword);
+        btnLogin          = findViewById(R.id.btnLogin);
+        btnForgotPassword = findViewById(R.id.btnForgotPassword);
+
+        btnLogin.setOnClickListener(v -> attemptLogin());
         btnForgotPassword.setOnClickListener(v ->
                 startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class))
         );
@@ -80,7 +143,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void onLoginSuccess(String email, String token) {
-        // Salva o token e reinicia o Retrofit para injetar o Bearer
         getSharedPreferences("auth", MODE_PRIVATE)
                 .edit()
                 .putString("token", token)
@@ -88,7 +150,6 @@ public class LoginActivity extends AppCompatActivity {
 
         RetrofitClient.resetInstance();
 
-        // Tenta buscar o ID do paciente pelo e-mail
         ApiService apiAutenticado = RetrofitClient.getInstance(LoginActivity.this).create(ApiService.class);
         apiAutenticado.getPatients(0, 100).enqueue(new Callback<PageResponse<PatientResponse>>() {
 
@@ -111,7 +172,6 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<PageResponse<PatientResponse>> call, Throwable t) {
-                // Continua mesmo sem o ID
                 navigateToNext();
             }
         });
