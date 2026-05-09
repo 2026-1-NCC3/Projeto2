@@ -21,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <!-- ── Cabeçalho azul ─────────────────────────────────────────── -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/blueSquare"
                 android:layout_width="0dp"
@@ -45,6 +46,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <!-- ── Card: Taxa de Adesão ───────────────────────────────────── -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cardAdesao"
                 android:layout_width="0dp"
@@ -87,11 +89,12 @@
                     app:layout_constraintStart_toEndOf="@id/iconBox1"
                     app:layout_constraintTop_toTopOf="@id/iconBox1"/>
 
+                <!-- Valor calculado dinamicamente -->
                 <TextView
                     android:id="@+id/valueAdesao"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="93%"
+                    android:text="–"
                     android:textSize="24sp"
                     android:fontFamily="@font/roboto_medium"
                     android:textColor="@color/black"
@@ -109,6 +112,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <!-- ── Card: Dias Consecutivos ────────────────────────────────── -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cardDias"
                 android:layout_width="0dp"
@@ -150,11 +154,12 @@
                     app:layout_constraintStart_toEndOf="@id/iconBox2"
                     app:layout_constraintTop_toTopOf="@id/iconBox2"/>
 
+                <!-- Valor calculado dinamicamente -->
                 <TextView
                     android:id="@+id/valueDias"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="12"
+                    android:text="–"
                     android:textSize="24sp"
                     android:fontFamily="@font/roboto_medium"
                     android:textColor="@color/black"
@@ -172,6 +177,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <!-- ── Card: Nível de Dor ─────────────────────────────────────── -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cardDor"
                 android:layout_width="0dp"
@@ -215,17 +221,19 @@
                     app:layout_constraintStart_toEndOf="@id/iconBoxDor"
                     app:layout_constraintTop_toTopOf="@id/iconBoxDor"/>
 
+                <!-- Valor calculado dinamicamente -->
                 <TextView
                     android:id="@+id/valueDor"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Dor leve ou amena"
-                    android:textSize="24sp"
+                    android:text="–"
+                    android:textSize="20sp"
                     android:fontFamily="@font/roboto_medium"
                     android:textColor="@color/black"
                     android:layout_marginTop="10dp"
                     app:layout_constraintTop_toBottomOf="@id/iconBoxDor"
-                    app:layout_constraintStart_toStartOf="parent"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -238,17 +246,22 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <!-- ── Card: Histórico de Execuções ──────────────────────────── -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cardHistorical"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:padding="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:background="@drawable/rounded"
                 android:elevation="4dp"
                 app:layout_constraintTop_toBottomOf="@id/cardDor"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
 
                 <TextView
                     android:id="@+id/titleExec"
@@ -261,55 +274,21 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"/>
 
-                <TextView
-                    android:id="@+id/date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Segunda, 13 de Abril"
-                    android:layout_marginTop="10dp"
-                    app:layout_constraintTop_toBottomOf="@id/titleExec"
-                    app:layout_constraintStart_toStartOf="parent"/>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/itemExec"
+                <!-- RecyclerView com itens agrupados por data -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvExecutionHistory"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:padding="14dp"
-                    android:background="@drawable/rounded"
-                    android:backgroundTint="@color/lightgrey"
-                    app:layout_constraintTop_toBottomOf="@id/date"
+                    android:nestedScrollingEnabled="false"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@id/titleExec"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent">
-
-                    <TextView
-                        android:id="@+id/exerciseName"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="Alongamento Cervical"
-                        android:textSize="14sp"
-                        android:fontFamily="@font/roboto_medium"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"/>
-
-                    <TextView
-                        android:id="@+id/timeOfExercution"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="11:23"
-                        android:textSize="12sp"
-                        android:textColor="@color/grey"
-                        app:layout_constraintTop_toBottomOf="@id/exerciseName"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"/>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </ScrollView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projetomayamobile_rpg.R;
 import com.example.projetomayamobile_rpg.model.LoginRequest;
-import com.example.projetomayamobile_rpg.model.PageResponse;
+import com.example.projetomayamobile_rpg.model.LoginResponse;
 import com.example.projetomayamobile_rpg.model.PatientResponse;
 import com.example.projetomayamobile_rpg.network.ApiService;
 import com.example.projetomayamobile_rpg.network.RetrofitClient;
@@ -31,29 +31,20 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // ✅ Verifica se já existe token salvo e se ainda é válido no servidor
+        // Verifica se já existe sessão salva e valida no servidor
         SharedPreferences prefs = getSharedPreferences("auth", MODE_PRIVATE);
-        String token = prefs.getString("token", "");
-        long patientId = prefs.getLong("patient_id", -1L);
+        String token     = prefs.getString("token", "");
+        long   patientId = prefs.getLong("patient_id", -1L);
 
         if (!token.isEmpty() && patientId != -1L) {
             validateTokenWithServer(patientId);
-            return; // importante: interrompe o resto do onCreate enquanto valida
+            return;
         }
 
-        setContentView(R.layout.login_activity);
-
-        editEmail         = findViewById(R.id.editEmail);
-        editPassword      = findViewById(R.id.editPassword);
-        btnLogin          = findViewById(R.id.btnLogin);
-        btnForgotPassword = findViewById(R.id.btnForgotPassword);
-
-        btnLogin.setOnClickListener(v -> attemptLogin());
-
-        btnForgotPassword.setOnClickListener(v ->
-                startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class))
-        );
+        showLoginScreen();
     }
+
+    // ── Validação de sessão existente ──────────────────────────────────────────
 
     private void validateTokenWithServer(long patientId) {
         ApiService api = RetrofitClient.getInstance(this).create(ApiService.class);
@@ -62,11 +53,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<PatientResponse> call, Response<PatientResponse> response) {
                 if (response.isSuccessful()) {
-                    // Token válido → pula o login
-                    startActivity(new Intent(LoginActivity.this, LgpdTermActivity.class));
-                    finish();
+                    navigateToNext();
                 } else {
-                    // Token expirado ou inválido (401/403) → limpa e mostra login
                     clearSession();
                     showLoginScreen();
                 }
@@ -74,7 +62,6 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<PatientResponse> call, Throwable t) {
-                // Sem conexão → bloqueia e mostra login com aviso
                 Toast.makeText(LoginActivity.this,
                         "Sem conexão com o servidor. Faça login novamente.",
                         Toast.LENGTH_LONG).show();
@@ -84,14 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void clearSession() {
-        getSharedPreferences("auth", MODE_PRIVATE)
-                .edit()
-                .remove("token")
-                .remove("patient_id")
-                .apply();
-        RetrofitClient.resetInstance();
-    }
+    // ── Tela de login ──────────────────────────────────────────────────────────
 
     private void showLoginScreen() {
         setContentView(R.layout.login_activity);
@@ -107,6 +87,8 @@ public class LoginActivity extends AppCompatActivity {
         );
     }
 
+    // ── Tentativa de login ─────────────────────────────────────────────────────
+
     private void attemptLogin() {
         String email    = editEmail.getText().toString().trim();
         String password = editPassword.getText().toString().trim();
@@ -118,22 +100,24 @@ public class LoginActivity extends AppCompatActivity {
 
         setLoginLoading(true);
 
-        ApiService api = RetrofitClient.getInstance(LoginActivity.this).create(ApiService.class);
-        api.login(new LoginRequest(email, password)).enqueue(new Callback<String>() {
+        ApiService api = RetrofitClient.getInstance(this).create(ApiService.class);
+
+        // O endpoint agora retorna { "token": "...", "id": 123 }
+        api.login(new LoginRequest(email, password)).enqueue(new Callback<LoginResponse>() {
 
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 setLoginLoading(false);
 
                 if (response.isSuccessful() && response.body() != null) {
-                    onLoginSuccess(email, response.body());
+                    onLoginSuccess(response.body());
                 } else {
                     onLoginError(response.code());
                 }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
                 setLoginLoading(false);
                 Toast.makeText(LoginActivity.this,
                         "Sem conexão com o servidor. Algum erro ocorreu.",
@@ -142,40 +126,23 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void onLoginSuccess(String email, String token) {
+    /**
+     * Salva token + patientId no SharedPreferences e reinicia o RetrofitClient
+     * para que as próximas requisições usem o header Authorization correto.
+     */
+    private void onLoginSuccess(LoginResponse loginResponse) {
         getSharedPreferences("auth", MODE_PRIVATE)
                 .edit()
-                .putString("token", token)
+                .putString("token", loginResponse.token)
+                .putLong("patient_id", loginResponse.id)
                 .apply();
 
-        RetrofitClient.resetInstance();
+        RetrofitClient.resetInstance(); // reconstrói o cliente com o novo token
 
-        ApiService apiAutenticado = RetrofitClient.getInstance(LoginActivity.this).create(ApiService.class);
-        apiAutenticado.getPatients(0, 100).enqueue(new Callback<PageResponse<PatientResponse>>() {
-
-            @Override
-            public void onResponse(Call<PageResponse<PatientResponse>> call,
-                                   Response<PageResponse<PatientResponse>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    for (PatientResponse patient : response.body().getContent()) {
-                        if (patient.getEmail() != null && patient.getEmail().equalsIgnoreCase(email)) {
-                            getSharedPreferences("auth", MODE_PRIVATE)
-                                    .edit()
-                                    .putLong("patient_id", patient.getId())
-                                    .apply();
-                            break;
-                        }
-                    }
-                }
-                navigateToNext();
-            }
-
-            @Override
-            public void onFailure(Call<PageResponse<PatientResponse>> call, Throwable t) {
-                navigateToNext();
-            }
-        });
+        navigateToNext();
     }
+
+    // ── Tratamento de erros ────────────────────────────────────────────────────
 
     private void onLoginError(int httpCode) {
         String mensagem;
@@ -201,6 +168,8 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(this, mensagem, Toast.LENGTH_LONG).show();
     }
 
+    // ── Utilitários ────────────────────────────────────────────────────────────
+
     private void navigateToNext() {
         startActivity(new Intent(LoginActivity.this, LgpdTermActivity.class));
         finish();
@@ -209,5 +178,14 @@ public class LoginActivity extends AppCompatActivity {
     private void setLoginLoading(boolean loading) {
         btnLogin.setEnabled(!loading);
         btnLogin.setText(loading ? "Entrando..." : "Entrar");
+    }
+
+    private void clearSession() {
+        getSharedPreferences("auth", MODE_PRIVATE)
+                .edit()
+                .remove("token")
+                .remove("patient_id")
+                .apply();
+        RetrofitClient.resetInstance();
     }
 }

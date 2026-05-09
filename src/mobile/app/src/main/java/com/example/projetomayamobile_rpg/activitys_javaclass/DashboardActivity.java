@@ -80,6 +80,10 @@ public class DashboardActivity extends AppCompatActivity {
                 startActivity(new Intent(this, ExercisesActivity.class));
                 return true;
             }
+            if (id == R.id.menu_messages) {
+                startActivity(new Intent(this, MessagesActivity.class));
+                return true;
+            }
             if (id == R.id.menu_history) {
                 startActivity(new Intent(this, HistoryActivity.class));
                 return true;
@@ -100,11 +104,11 @@ public class DashboardActivity extends AppCompatActivity {
      *
      * Suporta dois formatos de numeração que podem vir do admin:
      *
-     *   Padrão Java Calendar (1-based, domingo=1):
-     *     1=Domingo, 2=Segunda, 3=Terça, 4=Quarta, 5=Quinta, 6=Sexta, 7=Sábado
+     * Padrão Java Calendar (1-based, domingo=1):
+     * 1=Domingo, 2=Segunda, 3=Terça, 4=Quarta, 5=Quinta, 6=Sexta, 7=Sábado
      *
-     *   Padrão JavaScript Date.getDay() (0-based, domingo=0):
-     *     0=Domingo, 1=Segunda, 2=Terça, 3=Quarta, 4=Quinta, 5=Sexta, 6=Sábado
+     * Padrão JavaScript Date.getDay() (0-based, domingo=0):
+     * 0=Domingo, 1=Segunda, 2=Terça, 3=Quarta, 4=Quinta, 5=Sexta, 6=Sábado
      *
      * Se daysOfWeek for nulo/vazio, o exercício aparece todos os dias.
      */
@@ -164,13 +168,7 @@ public class DashboardActivity extends AppCompatActivity {
                     return;
                 }
 
-                // ─── CORREÇÃO PRINCIPAL ───────────────────────────────────────
-                // Coleta exercícios de TODOS os planos ativos, igual ao
-                // ExercisesActivity. O código anterior pegava só o primeiro
-                // plano ativo encontrado — se houvesse outro plano ativo antes
-                // na lista (ex: um plano antigo vazio), os exercícios corretos
-                // nunca chegavam ao filtro de hoje.
-                // ─────────────────────────────────────────────────────────────
+                // Coleta exercícios de TODOS os planos ativos
                 List<PlanExerciseResponse> allExercises = new ArrayList<>();
                 for (PlanResponse plan : response.body().getContent()) {
                     if ("ATIVO".equals(plan.getStatus()) && plan.getPlanExercises() != null) {

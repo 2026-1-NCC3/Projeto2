@@ -39,6 +39,7 @@
         <activity android:name=".activitys_javaclass.ProfileActivity"/>
         <activity android:name=".activitys_javaclass.RegisterExecutionActivity"/>
         <activity android:name=".activitys_javaclass.RegisterExecutionCompletedActivity"/>
+        <activity android:name=".activitys_javaclass.MessagesActivity" android:exported="false" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"/>
