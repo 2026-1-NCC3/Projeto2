@@ -25,7 +25,6 @@ import retrofit2.Response;
 public class ProfileActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNav;
-    MaterialSwitch switchNotifications;
     ConstraintLayout itemChangePassword, itemPrivacy;
     MaterialButton btnLogout;
     TextView tvProfileName, tvProfileEmail, tvProfilePhone;
@@ -42,7 +41,6 @@ public class ProfileActivity extends AppCompatActivity {
         tvProfileEmail = findViewById(R.id.tvProfileEmail);
         tvProfilePhone = findViewById(R.id.tvProfilePhone);
 
-        switchNotifications = findViewById(R.id.switchNotifications);
         itemChangePassword  = findViewById(R.id.itemChangePassword);
         itemPrivacy         = findViewById(R.id.itemPrivacy);
         btnLogout           = findViewById(R.id.btnLogout);
@@ -53,11 +51,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Busca dados na API
         loadProfile();
-
-        switchNotifications.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            String msg = isChecked ? "Notificações ativadas" : "Notificações desativadas";
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-        });
 
         itemChangePassword.setOnClickListener(v ->
                 startActivity(new Intent(this, ChangePasswordProfileActivity.class))
