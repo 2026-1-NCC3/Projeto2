@@ -32,6 +32,6 @@ public class Appointments {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "admin_id", nullable = false)
-    @JsonIgnoreProperties({"appointments", "hibernateLazyInitializer"})
+    @JsonIgnoreProperties({"appointments", "plans", "messages", "records", "hibernateLazyInitializer"})
     private Admin admin;
 }
