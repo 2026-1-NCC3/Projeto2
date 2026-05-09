@@ -1,22 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/menu_home"
-        android:title="Início"
-        android:icon="@drawable/ic_home"/>
+        android:icon="@drawable/ic_home"
+        android:title="Início" />
 
     <item
         android:id="@+id/menu_exercises"
-        android:title="Exercícios"
-        android:icon="@drawable/ic_exercise"/>
+        android:icon="@drawable/ic_exercise"
+        android:title="Exercícios" />
+
+    <item
+        android:id="@+id/menu_messages"
+        android:icon="@drawable/ic_chat"
+        android:title="Mensagens" />
 
     <item
         android:id="@+id/menu_history"
-        android:title="Histórico"
-        android:icon="@drawable/ic_history"/>
+        android:icon="@drawable/ic_history"
+        android:title="Histórico" />
 
     <item
         android:id="@+id/menu_profile"
-        android:title="Perfil"
-        android:icon="@drawable/ic_profile"/>
+        android:icon="@drawable/ic_profile"
+        android:title="Perfil" />
+
 </menu>

@@ -14,6 +14,8 @@ import com.example.projetomayamobile_rpg.model.ExecutionResponse;
 import com.example.projetomayamobile_rpg.model.ForgotPasswordRequest;
 import com.example.projetomayamobile_rpg.model.LoginRequest;
 import com.example.projetomayamobile_rpg.model.LoginResponse;
+import com.example.projetomayamobile_rpg.model.MessageRequest;
+import com.example.projetomayamobile_rpg.model.MessageResponse;
 import com.example.projetomayamobile_rpg.model.PageResponse;
 import com.example.projetomayamobile_rpg.model.PatientResponse;
 import com.example.projetomayamobile_rpg.model.PlanResponse;
@@ -56,4 +58,10 @@ public interface ApiService {
 
     @PUT("patients/change-password")
     Call<Void> changePassword(@Body ChangePasswordRequest body);
+
+    @GET("messages")
+    Call<PageResponse<MessageResponse>> getMessages(@Query("page") int page, @Query("size") int size);
+
+    @POST("messages")
+    Call<MessageResponse> sendMessage(@Body MessageRequest body);
 }
