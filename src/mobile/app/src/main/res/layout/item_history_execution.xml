@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="6dp"
+    android:padding="14dp"
+    android:background="@drawable/rounded"
+    android:backgroundTint="@color/lightgrey">
+
+    <!-- Nome do exercício -->
+    <TextView
+        android:id="@+id/tvExerciseNameHistory"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/roboto_medium"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tvExecutionTime"/>
+
+    <!-- Horário da execução (canto direito) -->
+    <TextView
+        android:id="@+id/tvExecutionTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@color/grey"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Nível de dor -->
+    <TextView
+        android:id="@+id/tvPainLevel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@color/grey"
+        android:layout_marginTop="4dp"
+        app:layout_constraintTop_toBottomOf="@id/tvExerciseNameHistory"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tvExecutionStatus"/>
+
+    <!-- Status concluído / incompleto -->
+    <TextView
+        android:id="@+id/tvExecutionStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:fontFamily="@font/roboto_medium"
+        android:layout_marginTop="4dp"
+        app:layout_constraintTop_toBottomOf="@id/tvExecutionTime"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
