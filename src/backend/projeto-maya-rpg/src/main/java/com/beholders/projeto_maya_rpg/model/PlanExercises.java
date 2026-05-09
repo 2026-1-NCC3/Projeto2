@@ -23,6 +23,10 @@ public class PlanExercises {
     @Column(nullable = false)
     private String frequency;
 
+    // Dias da semana em que o exercício deve ser realizado.
+    // Armazena valores de Calendar.DAY_OF_WEEK separados por vírgula.
+    // Ex: "2,4,6" = Segunda, Quarta, Sexta
+    // (1=Domingo, 2=Segunda, 3=Terça, 4=Quarta, 5=Quinta, 6=Sexta, 7=Sábado)
     @Column(name = "days_of_week")
     private String daysOfWeek;
 
@@ -34,6 +38,9 @@ public class PlanExercises {
     @JsonIgnoreProperties({"planExercises", "hibernateLazyInitializer"})
     private Plan plan;
 
+    // Sem "mediaList" no ignore — serializa as URLs do YouTube no GET.
+    // O Exercise.mediaList agora é @JsonProperty(READ_ONLY), então o
+    // Jackson ignora mediaList na deserialização (POST/PUT) automaticamente.
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "exercise_id", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer"})

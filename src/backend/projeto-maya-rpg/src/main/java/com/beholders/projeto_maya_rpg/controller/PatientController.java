@@ -2,6 +2,7 @@ package com.beholders.projeto_maya_rpg.controller;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.beholders.projeto_maya_rpg.dto.LoginRequestDTO;
+import com.beholders.projeto_maya_rpg.dto.PatientLoginResponseDTO;
 import com.beholders.projeto_maya_rpg.model.Patient;
 import com.beholders.projeto_maya_rpg.service.PatientService;
 import com.beholders.projeto_maya_rpg.service.TokenService;
@@ -53,13 +54,15 @@ public class PatientController {
         return ResponseEntity.created(location).body(saved);
     }
 
+    /**
+     * Login agora retorna { "token": "...", "id": 123 }
+     * para que o Android possa armazenar o patientId no SharedPreferences.
+     */
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequestDTO loginData) {
+    public ResponseEntity<PatientLoginResponseDTO> login(@RequestBody LoginRequestDTO loginData) {
         Patient isAuth = patientService.verifyPatient(loginData.getEmail(), loginData.getPassword());
-
         String token = tokenService.generateToken(isAuth);
-
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(new PatientLoginResponseDTO(token, isAuth.getId()));
     }
 
     @DeleteMapping("/{id}")
