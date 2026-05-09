@@ -21,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <!-- ── Header ──────────────────────────────────────────────────── -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/header"
                 android:layout_width="0dp"
@@ -67,6 +68,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <!-- ── Card de progresso ───────────────────────────────────────── -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/progressCard"
                 android:layout_width="0dp"
@@ -112,6 +114,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <!-- ── Cards concluídos / pendentes ───────────────────────────── -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cardsRow"
                 android:layout_width="0dp"
@@ -214,6 +217,23 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <include
+                android:id="@+id/cardNextAppointment"
+                layout="@layout/card_next_appointment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintTop_toBottomOf="@id/cardsRow"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <!-- ── Título "Exercícios de hoje" ────────────────────────────── -->
+            <!--
+                ATENÇÃO: constraint alterada de @id/cardsRow → @id/cardNextAppointment
+                para que o título fique abaixo do card de sessão (mesmo quando gone,
+                o ConstraintLayout respeita a posição do include).
+            -->
             <TextView
                 android:id="@+id/titleExercises"
                 android:layout_width="wrap_content"
@@ -222,9 +242,10 @@
                 android:textSize="18sp"
                 android:fontFamily="@font/roboto_medium"
                 android:layout_margin="16dp"
-                app:layout_constraintTop_toBottomOf="@id/cardsRow"
+                app:layout_constraintTop_toBottomOf="@id/cardNextAppointment"
                 app:layout_constraintStart_toStartOf="parent"/>
 
+            <!-- ── Estado vazio ────────────────────────────────────────────── -->
             <TextView
                 android:id="@+id/tvEmptyExercises"
                 android:layout_width="0dp"
@@ -238,8 +259,9 @@
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/titleExercises"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"/>
 
+            <!-- ── Lista de exercícios ─────────────────────────────────────── -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerExercises"
                 android:layout_width="0dp"

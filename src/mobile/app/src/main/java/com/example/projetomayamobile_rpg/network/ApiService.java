@@ -8,6 +8,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
+import com.example.projetomayamobile_rpg.model.AppointmentResponse;
 import com.example.projetomayamobile_rpg.model.ChangePasswordRequest;
 import com.example.projetomayamobile_rpg.model.ExecutionRequest;
 import com.example.projetomayamobile_rpg.model.ExecutionResponse;
@@ -28,7 +29,6 @@ public interface ApiService {
     @GET("patients")
     Call<PageResponse<PatientResponse>> getPatients(@Query("page") int page, @Query("size") int size);
 
-    /** Login agora retorna { token, id } */
     @POST("patients/login")
     Call<LoginResponse> login(@Body LoginRequest body);
 
@@ -64,4 +64,8 @@ public interface ApiService {
 
     @POST("messages")
     Call<MessageResponse> sendMessage(@Body MessageRequest body);
+
+    /** Busca todas as consultas de um paciente específico */
+    @GET("appointments/patient/{patientId}")
+    Call<List<AppointmentResponse>> getAppointmentsByPatient(@Path("patientId") Long patientId);
 }

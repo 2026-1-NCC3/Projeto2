@@ -3,8 +3,11 @@ package com.example.projetomayamobile_rpg.activitys_javaclass;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projetomayamobile_rpg.R;
 import com.example.projetomayamobile_rpg.adapters.ExercisePlanAdapter;
+import com.example.projetomayamobile_rpg.model.AppointmentResponse;
 import com.example.projetomayamobile_rpg.model.ExecutionResponse;
 import com.example.projetomayamobile_rpg.model.PageResponse;
 import com.example.projetomayamobile_rpg.model.PatientResponse;
@@ -24,6 +28,7 @@ import com.example.projetomayamobile_rpg.network.ApiService;
 import com.example.projetomayamobile_rpg.network.RetrofitClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -39,19 +44,35 @@ public class DashboardActivity extends AppCompatActivity {
 
     private static final String TAG = "Dashboard";
 
+    // ── Views — exercícios ─────────────────────────────────────────────────────
     TextView patientName, progress, completed, pending, date, tvEmptyExercises;
     ProgressBar progressBar;
     RecyclerView recyclerExercises;
     ExercisePlanAdapter exercisePlanAdapter;
     List<PlanExerciseResponse> exerciseList = new ArrayList<>();
 
+    // ── Views — card de próxima sessão ─────────────────────────────────────────
+    View cardNextAppointment;
+    TextView tvAppointmentDate, tvAppointmentTime, tvAppointmentCountdown, tvAppointmentNotes;
+    LinearLayout layoutAppointmentNotes;
+
+    // ── Countdown ──────────────────────────────────────────────────────────────
+    private final Handler countdownHandler = new Handler(Looper.getMainLooper());
+    private Runnable countdownRunnable;
+    private Date nextAppointmentDate;
+
     private Long patientId;
 
+    private static final SimpleDateFormat ISO_FORMAT =
+            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
+
+    // ── Lifecycle ──────────────────────────────────────────────────────────────
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard_activity);
 
+        // Exercícios
         patientName       = findViewById(R.id.pacientNameDashboard);
         progressBar       = findViewById(R.id.progressBar);
         completed         = findViewById(R.id.completed);
@@ -61,6 +82,14 @@ public class DashboardActivity extends AppCompatActivity {
         tvEmptyExercises  = findViewById(R.id.tvEmptyExercises);
         recyclerExercises = findViewById(R.id.recyclerExercises);
 
+        // Card de sessão
+        cardNextAppointment    = findViewById(R.id.cardNextAppointment);
+        tvAppointmentDate      = findViewById(R.id.tvAppointmentDate);
+        tvAppointmentTime      = findViewById(R.id.tvAppointmentTime);
+        tvAppointmentCountdown = findViewById(R.id.tvAppointmentCountdown);
+        tvAppointmentNotes     = findViewById(R.id.tvAppointmentNotes);
+        layoutAppointmentNotes = findViewById(R.id.layoutAppointmentNotes);
+
         recyclerExercises.setLayoutManager(new LinearLayoutManager(this));
         exercisePlanAdapter = new ExercisePlanAdapter(exerciseList, this::onDoExercise);
         recyclerExercises.setAdapter(exercisePlanAdapter);
@@ -68,8 +97,12 @@ public class DashboardActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("auth", MODE_PRIVATE);
         patientId = prefs.getLong("patient_id", -1);
 
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd 'de' MMMM", new Locale("pt", "BR"));
+        date.setText(sdf.format(new Date()));
+
         loadPatientName();
         loadPlans();
+        loadNextAppointment();
 
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
         bottomNav.setSelectedItemId(R.id.menu_home);
@@ -94,50 +127,168 @@ public class DashboardActivity extends AppCompatActivity {
             }
             return false;
         });
-
-        SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd 'de' MMMM", new Locale("pt", "BR"));
-        date.setText(sdf.format(new Date()));
     }
 
-    /**
-     * Verifica se o exercício está agendado para hoje.
-     *
-     * Suporta dois formatos de numeração que podem vir do admin:
-     *
-     * Padrão Java Calendar (1-based, domingo=1):
-     * 1=Domingo, 2=Segunda, 3=Terça, 4=Quarta, 5=Quinta, 6=Sexta, 7=Sábado
-     *
-     * Padrão JavaScript Date.getDay() (0-based, domingo=0):
-     * 0=Domingo, 1=Segunda, 2=Terça, 3=Quarta, 4=Quinta, 5=Sexta, 6=Sábado
-     *
-     * Se daysOfWeek for nulo/vazio, o exercício aparece todos os dias.
-     */
-    private boolean isScheduledForToday(PlanExerciseResponse pe) {
-        String daysOfWeek = pe.getDaysOfWeek();
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopCountdown();
+    }
 
-        if (daysOfWeek == null || daysOfWeek.trim().isEmpty()) {
-            return true; // sem restrição → exibe sempre
+    // ── Próxima Sessão ─────────────────────────────────────────────────────────
+
+    private void loadNextAppointment() {
+        if (patientId == null || patientId < 0) return;
+
+        ApiService api = RetrofitClient.getInstance(this).create(ApiService.class);
+        api.getAppointmentsByPatient(patientId).enqueue(new Callback<List<AppointmentResponse>>() {
+            @Override
+            public void onResponse(Call<List<AppointmentResponse>> call,
+                                   Response<List<AppointmentResponse>> response) {
+                if (!response.isSuccessful() || response.body() == null) {
+                    Log.w(TAG, "Sem resposta de appointments");
+                    return;
+                }
+                processAppointments(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<AppointmentResponse>> call, Throwable t) {
+                Log.e(TAG, "Erro ao buscar appointments: " + t.getMessage());
+            }
+        });
+    }
+
+    private void processAppointments(List<AppointmentResponse> appointments) {
+        Date now = new Date();
+        long thirtyMinMs = 30L * 60 * 1000;
+
+        AppointmentResponse nextAppt = null;
+        Date nextDate = null;
+
+        for (AppointmentResponse appt : appointments) {
+            if (appt.getAppointmentDatetime() == null) continue;
+            try {
+                Date dt = ISO_FORMAT.parse(appt.getAppointmentDatetime());
+                if (dt == null) continue;
+                // Considera consultas que ainda não passaram de 30 minutos
+                if (dt.getTime() >= now.getTime() - thirtyMinMs) {
+                    if (nextDate == null || dt.before(nextDate)) {
+                        nextDate = dt;
+                        nextAppt = appt;
+                    }
+                }
+            } catch (ParseException e) {
+                Log.w(TAG, "Erro ao parsear data: " + appt.getAppointmentDatetime());
+            }
         }
 
-        // Java Calendar: 1=Domingo, 2=Segunda, 3=Terça, 4=Quarta, 5=Quinta, 6=Sexta, 7=Sábado
-        int calendarDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+        if (nextAppt == null || nextDate == null) return;
 
+        final AppointmentResponse finalAppt = nextAppt;
+        final Date finalDate = nextDate;
+        runOnUiThread(() -> bindAppointmentCard(finalAppt, finalDate));
+    }
+
+    private void bindAppointmentCard(AppointmentResponse appt, Date dt) {
+        SimpleDateFormat dayFmt  = new SimpleDateFormat("EEE", new Locale("pt", "BR"));
+        SimpleDateFormat dateFmt = new SimpleDateFormat("dd", Locale.getDefault());
+        SimpleDateFormat monFmt  = new SimpleDateFormat("MMM", new Locale("pt", "BR"));
+        SimpleDateFormat timeFmt = new SimpleDateFormat("HH:mm", Locale.getDefault());
+
+        String dayName = capitalize(dayFmt.format(dt));
+        String dayNum  = dateFmt.format(dt);
+        String month   = monFmt.format(dt).replace(".", "");
+        String formattedDate = dayName + ", " + dayNum + " de " + month + ".";
+
+        tvAppointmentDate.setText(formattedDate);
+        tvAppointmentTime.setText(timeFmt.format(dt));
+
+        String notes = appt.getNotes();
+        if (notes != null && !notes.trim().isEmpty()) {
+            tvAppointmentNotes.setText(notes);
+            layoutAppointmentNotes.setVisibility(View.VISIBLE);
+        } else {
+            layoutAppointmentNotes.setVisibility(View.GONE);
+        }
+
+        nextAppointmentDate = dt;
+
+        // Exibe card com animação fade + slide
+        cardNextAppointment.setVisibility(View.VISIBLE);
+        cardNextAppointment.setAlpha(0f);
+        cardNextAppointment.setTranslationY(18f);
+        cardNextAppointment.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setDuration(340)
+                .setInterpolator(new android.view.animation.DecelerateInterpolator())
+                .start();
+
+        startCountdown();
+    }
+
+    // ── Countdown ──────────────────────────────────────────────────────────────
+
+    private void startCountdown() {
+        stopCountdown();
+        countdownRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if (nextAppointmentDate == null || tvAppointmentCountdown == null) return;
+
+                long diffMs  = nextAppointmentDate.getTime() - System.currentTimeMillis();
+                long diffMin = diffMs / 60_000;
+
+                String label;
+                if (diffMs < -30L * 60 * 1000) {
+                    stopCountdown();
+                    return;
+                } else if (diffMin <= 0) {
+                    label = "Em andamento";
+                } else if (diffMin < 60) {
+                    label = "Em " + diffMin + "min";
+                } else {
+                    long h = diffMin / 60;
+                    long m = diffMin % 60;
+                    label = m > 0 ? "Em " + h + "h " + m + "min" : "Em " + h + "h";
+                }
+
+                tvAppointmentCountdown.setText(label);
+                countdownHandler.postDelayed(this, 30_000);
+            }
+        };
+        countdownHandler.post(countdownRunnable);
+    }
+
+    private void stopCountdown() {
+        if (countdownRunnable != null) {
+            countdownHandler.removeCallbacks(countdownRunnable);
+            countdownRunnable = null;
+        }
+    }
+
+    // ── Exercícios ─────────────────────────────────────────────────────────────
+
+    private boolean isScheduledForToday(PlanExerciseResponse pe) {
+        String daysOfWeek = pe.getDaysOfWeek();
+        if (daysOfWeek == null || daysOfWeek.trim().isEmpty()) return true;
+
+        int calendarDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
         Log.d(TAG, "Hoje → calendarDay=" + calendarDay + " | daysOfWeek='" + daysOfWeek + "'");
 
         for (String part : daysOfWeek.split(",")) {
             String trimmed = part.trim();
             if (trimmed.isEmpty()) continue;
             try {
-                int storedDay = Integer.parseInt(trimmed);
-                if (storedDay == calendarDay) {
-                    Log.d(TAG, "Match! storedDay=" + storedDay);
+                if (Integer.parseInt(trimmed) == calendarDay) {
+                    Log.d(TAG, "Match! storedDay=" + trimmed);
                     return true;
                 }
             } catch (NumberFormatException e) {
                 Log.w(TAG, "Valor não numérico em daysOfWeek: '" + trimmed + "'");
             }
         }
-
         return false;
     }
 
@@ -167,15 +318,12 @@ public class DashboardActivity extends AppCompatActivity {
                     showEmptyState();
                     return;
                 }
-
-                // Coleta exercícios de TODOS os planos ativos
                 List<PlanExerciseResponse> allExercises = new ArrayList<>();
                 for (PlanResponse plan : response.body().getContent()) {
                     if ("ATIVO".equals(plan.getStatus()) && plan.getPlanExercises() != null) {
                         allExercises.addAll(plan.getPlanExercises());
                     }
                 }
-
                 Log.d(TAG, "Total de exercícios em planos ativos: " + allExercises.size());
                 updateDashboard(allExercises);
             }
@@ -195,7 +343,6 @@ public class DashboardActivity extends AppCompatActivity {
             return;
         }
 
-        // Filtra exercícios agendados para hoje
         List<PlanExerciseResponse> todayExercises = new ArrayList<>();
         for (PlanExerciseResponse pe : allExercises) {
             if (pe.getExercise() != null && isScheduledForToday(pe)) {
@@ -205,7 +352,6 @@ public class DashboardActivity extends AppCompatActivity {
 
         Log.d(TAG, "Exercícios para hoje: " + todayExercises.size());
 
-        // Conta execuções concluídas hoje
         int total = todayExercises.size();
         int completedToday = 0;
         String todayDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
@@ -270,5 +416,10 @@ public class DashboardActivity extends AppCompatActivity {
         }
         intent.putExtra("youtubeUrl", youtubeUrl);
         startActivity(intent);
+    }
+
+    private static String capitalize(String s) {
+        if (s == null || s.isEmpty()) return s;
+        return s.substring(0, 1).toUpperCase() + s.substring(1);
     }
 }
