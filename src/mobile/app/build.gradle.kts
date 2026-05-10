@@ -1,5 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
+    // ✅ Plugin do Firebase
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -12,7 +14,6 @@ android {
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -47,5 +48,7 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("androidx.work:work-runtime:2.9.0")
+    implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
+    implementation("com.google.firebase:firebase-messaging")
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
 }

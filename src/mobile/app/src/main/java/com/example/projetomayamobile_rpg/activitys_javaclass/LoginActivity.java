@@ -127,6 +127,7 @@ public class LoginActivity extends AppCompatActivity {
         RetrofitClient.resetInstance();
 
         NotificationScheduler.schedule(this);
+        sendFcmTokenToBackend();
 
         navigateToNext();
     }
@@ -165,5 +166,34 @@ public class LoginActivity extends AppCompatActivity {
         RetrofitClient.resetInstance();
 
         NotificationScheduler.cancel(this);
+    }
+    private void sendFcmTokenToBackend() {
+        com.google.firebase.messaging.FirebaseMessaging.getInstance().getToken()
+                .addOnSuccessListener(token -> {
+                    if (token == null || token.isEmpty()) return;
+
+                    // Salva localmente
+                    getSharedPreferences("auth", MODE_PRIVATE)
+                            .edit()
+                            .putString("fcm_token", token)
+                            .apply();
+
+                    // Envia ao backend
+                    long patientId = getSharedPreferences("auth", MODE_PRIVATE)
+                            .getLong("patient_id", -1);
+                    if (patientId == -1) return;
+
+                    ApiService api = RetrofitClient.getInstance(this).create(ApiService.class);
+                    api.updateFcmToken(patientId, token).enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            android.util.Log.d("FCM", "Token enviado ao backend.");
+                        }
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+                            android.util.Log.e("FCM", "Falha ao enviar token: " + t.getMessage());
+                        }
+                    });
+                });
     }
 }
