@@ -17,7 +17,7 @@
 
 
 <p align="center"><img src="https://i.ibb.co/GQ44Bnjb/Maya-logo.png" alt="Maya-logo" border="0"></a>
-<p align="center">Feito por: <a href="https://github.com/2026-1-NCC3/Projeto2">beHolders Tech</a> <a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a></a>
+<p align="center">Feito por: <a href="https://github.com/2026-1-NCC3/Projeto2">beHolders Tech</a> - <a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>
 </p>
  
 
@@ -38,7 +38,7 @@
 
 | Disciplina | Entrega 1 | Entrega 2 |  
 | :-------: | :------: | :-------: |
-| Análise Descritiva de Dados | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%201/An%C3%A1lise%20Descritiva%20de%20Dados/Projeto%20Medidas%20de%20Tend%C3%AAncia%20Central%2C%20Posi%C3%A7%C3%A3o%20e%20visualiza%C3%A7%C3%A3o%20gr%C3%A1fica%202026-3.pdf">Medidas Variáveis</a> | X|   
+| Análise Descritiva de Dados | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%201/An%C3%A1lise%20Descritiva%20de%20Dados/Projeto%20Medidas%20de%20Tend%C3%AAncia%20Central%2C%20Posi%C3%A7%C3%A3o%20e%20visualiza%C3%A7%C3%A3o%20gr%C3%A1fica%202026-3.pdf">Medidas Variáveis</a> | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%202/Análise%20Descritiva%20de%20Dados/Entrega%202%20-%20Análise%20Descritiva%20de%20Dados%20-%20beHolders.pdf">Documento Entrega 2</a> |   
 | Programação Orientada | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%201/Programa%C3%A7%C3%A3o%20Orientada%20a%20Objetivos%20e%20Estrutura%20de%20Dados/Diagrama%20de%20Classes%20-%20Entrega%20NI1%20POO%202026-03.pdf">Diagrama de Classes</a> | X |    
 | Dispositivos Móveis | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%201/Programa%C3%A7%C3%A3o%20para%20Dispositivos%20M%C3%B3veis/README.md">Apk</a> | X |  
 | Projeto Interdisciplinar | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%201/Projeto%20Interdisciplinar%20Aplicativo%20M%C3%B3vel/README.md">Link Pro Apk</a>| X |   
@@ -53,7 +53,7 @@ Execute o APK e siga as instruções.
 
 
 ## 📋 Licença/License
-<a href="https://github.com/2026-1-NCC3/Projeto2">MayaCare</a> © 2026 by <a href="https://github.com/2026-1-NCC3/Projeto2">beHolders</a> is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+<a href="https://github.com/2026-1-NCC3/Projeto2">MayaCare</a> © 2026 by <a href="https://github.com/2026-1-NCC3/Projeto2">beHolders</a> is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: .5em;max-height:1em;margin-left: .2em;"> <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 0.5em;max-height:1em;margin-left: .2em;">
 
 ## 🎓 Referências
 
