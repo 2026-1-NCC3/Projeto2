@@ -65,11 +65,6 @@ public interface ApiService {
     @POST("messages")
     Call<MessageResponse> sendMessage(@Body MessageRequest body);
 
-    /* Busca todas as consultas de um paciente específico */
     @GET("appointments/patient/{patientId}")
     Call<List<AppointmentResponse>> getAppointmentsByPatient(@Path("patientId") Long patientId);
-
-    //  Envia o token FCM ao backend para receber notificações
-    @PUT("patients/{id}/fcm-token")
-    Call<Void> updateFcmToken(@Path("id") Long patientId, @Query("token") String token);
 }

@@ -42,7 +42,7 @@ public class MessagesActivity extends AppCompatActivity {
     private List<MessageResponse> messageList = new ArrayList<>();
 
     private Long patientId;
-    private Long knownAdminId = 1L; // Fallback caso ainda não existam mensagens
+    private Long knownAdminId = 1L;
 
     private final Handler pollHandler = new Handler(Looper.getMainLooper());
     private boolean isSending = false;
@@ -51,7 +51,7 @@ public class MessagesActivity extends AppCompatActivity {
         @Override
         public void run() {
             fetchMessages(true);
-            pollHandler.postDelayed(this, 5000); // Polling a cada 5 segundos
+            pollHandler.postDelayed(this, 5000);
         }
     };
 
@@ -68,7 +68,7 @@ public class MessagesActivity extends AppCompatActivity {
         patientId = prefs.getLong("patient_id", -1);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setStackFromEnd(true); // Começa de baixo (estilo WhatsApp)
+        layoutManager.setStackFromEnd(true);
         recyclerMessages.setLayoutManager(layoutManager);
 
         adapter = new MessagesAdapter(messageList);
@@ -82,7 +82,6 @@ public class MessagesActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Dispara o primeiro fetch e inicia o polling
         fetchMessages(false);
         pollHandler.postDelayed(pollRunnable, 5000);
     }
@@ -90,13 +89,11 @@ public class MessagesActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        // Para o polling quando sai da tela
         pollHandler.removeCallbacks(pollRunnable);
     }
 
     private void fetchMessages(boolean silent) {
         ApiService api = RetrofitClient.getInstance(this).create(ApiService.class);
-        // Trazendo um bloco grande para não lidar com paginação complexa agora (igual na Web)
         api.getMessages(0, 1000).enqueue(new Callback<PageResponse<MessageResponse>>() {
             @Override
             public void onResponse(Call<PageResponse<MessageResponse>> call, Response<PageResponse<MessageResponse>> response) {
@@ -104,7 +101,6 @@ public class MessagesActivity extends AppCompatActivity {
                     List<MessageResponse> allMessages = response.body().getContent();
                     List<MessageResponse> myMessages = new ArrayList<>();
 
-                    // Filtra apenas as mensagens DESTE paciente e descobre o AdminId responsável
                     for (MessageResponse msg : allMessages) {
                         if (msg.getPatient() != null && msg.getPatient().getId().equals(patientId)) {
                             myMessages.add(msg);
@@ -114,7 +110,6 @@ public class MessagesActivity extends AppCompatActivity {
                         }
                     }
 
-                    // Ordenar por data mais antiga para mais nova
                     Collections.sort(myMessages, (m1, m2) -> m1.getSentAt().compareTo(m2.getSentAt()));
 
                     boolean shouldScroll = messageList.size() != myMessages.size();
@@ -148,7 +143,7 @@ public class MessagesActivity extends AppCompatActivity {
             public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
                 isSending = false;
                 if (response.isSuccessful()) {
-                    fetchMessages(false); // Atualiza imediatamente
+                    fetchMessages(false);
                 } else {
                     Toast.makeText(MessagesActivity.this, "Erro ao enviar.", Toast.LENGTH_SHORT).show();
                 }
@@ -164,9 +159,7 @@ public class MessagesActivity extends AppCompatActivity {
 
     private void setupBottomNavigation() {
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
-        // Nota: Assumindo que você adicione ou tenha um @id/menu_messages no seu menu_bottom.xml
-        // Caso não tenha, ele funcionará sem Crash se não configurar o SelectedItem,
-        // mas é ideal colocar no seu XML.
+        bottomNav.setSelectedItemId(R.id.menu_messages);             // ← CORRIGIDO
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.menu_home) {
@@ -179,6 +172,7 @@ public class MessagesActivity extends AppCompatActivity {
                 finish();
                 return true;
             }
+            if (id == R.id.menu_messages) return true;               // ← CORRIGIDO
             if (id == R.id.menu_history) {
                 startActivity(new Intent(this, HistoryActivity.class));
                 finish();

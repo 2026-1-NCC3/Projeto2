@@ -49,7 +49,6 @@ public class ExercisesActivity extends AppCompatActivity {
 
         loadExercisesByPatient();
 
-
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
         bottomNav.setSelectedItemId(R.id.menu_exercises);
         bottomNav.setOnItemSelectedListener(item -> {
@@ -59,6 +58,10 @@ public class ExercisesActivity extends AppCompatActivity {
                 return true;
             }
             if (id == R.id.menu_exercises) return true;
+            if (id == R.id.menu_messages) {                          // ← CORRIGIDO
+                startActivity(new Intent(this, MessagesActivity.class));
+                return true;
+            }
             if (id == R.id.menu_history) {
                 startActivity(new Intent(this, HistoryActivity.class));
                 return true;
@@ -99,7 +102,6 @@ public class ExercisesActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void openExerciseDetail(PlanExerciseResponse pe) {
         Intent intent = new Intent(this, ExercisesDescriptionActivity.class);
