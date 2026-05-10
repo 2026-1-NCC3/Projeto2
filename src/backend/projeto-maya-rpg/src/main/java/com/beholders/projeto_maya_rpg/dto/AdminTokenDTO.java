@@ -1,27 +1,19 @@
 package com.beholders.projeto_maya_rpg.dto;
 
-import com.beholders.projeto_maya_rpg.model.Admin;
-
 public class AdminTokenDTO {
-    private Admin adm;
     private String email;
     private String subject;
 
-    public AdminTokenDTO(Admin adm, String email, String subject) {
-        this.adm = adm;
+    public AdminTokenDTO() {}
+
+    public AdminTokenDTO(String email, String subject) {
         this.email = email;
         this.subject = subject;
     }
 
-    public Admin getAdm() {
-        return adm;
-    }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
+    public String getSubject() { return subject; }
+    public void setSubject(String subject) { this.subject = subject; }
 }

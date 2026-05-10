@@ -53,7 +53,7 @@ public class TokenController {
         return ResponseEntity.ok("E-mail enviado com sucesso!");
     }
 
-    @GetMapping("/verify")
+    @PostMapping("/verify")
     public ResponseEntity<Boolean> verifyCode(@RequestBody VerifyCodeDTO dto) {
         return ResponseEntity.ok(tokenService.verifyCode(dto.getCode(), dto.getEmail()));
     }
