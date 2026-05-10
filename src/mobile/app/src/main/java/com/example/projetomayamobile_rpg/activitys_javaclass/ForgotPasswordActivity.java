@@ -10,16 +10,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.projetomayamobile_rpg.R;
 import com.example.projetomayamobile_rpg.model.ForgotPasswordRequest;
 import com.example.projetomayamobile_rpg.network.ApiService;
-import com.example.projetomayamobile_rpg.network.RetrofitClient;
 import com.google.android.material.button.MaterialButton;
 
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
     private static final String EMAIL_SUBJECT = "Recuperação de senha";
+    private static final String BASE_URL = "http://10.1.13.150:8080/";
 
     MaterialButton btnSendCode;
     MaterialButton btnBackLogin;
@@ -53,7 +59,20 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         setLoading(true);
 
-        ApiService api = RetrofitClient.getInstance(this).create(ApiService.class);
+        OkHttpClient clienteComTimeout = new OkHttpClient.Builder()
+                .connectTimeout(25, TimeUnit.SECONDS)
+                .readTimeout(25, TimeUnit.SECONDS)
+                .writeTimeout(25, TimeUnit.SECONDS)
+                .build();
+
+        Retrofit retrofitComTimeout = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(clienteComTimeout)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiService api = retrofitComTimeout.create(ApiService.class);
         api.forgotPassword(new ForgotPasswordRequest(email, EMAIL_SUBJECT))
                 .enqueue(new Callback<Void>() {
 
