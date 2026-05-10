@@ -40,7 +40,6 @@ public class ChangePasswordProfileActivity extends AppCompatActivity {
         String newPassword     = editNewPassword.getText().toString().trim();
         String confirmPassword = editConfirmNewPassword.getText().toString().trim();
 
-        // Validações locais
         if (currentPassword.isEmpty()) {
             editCurrentPassword.setError("Informe sua senha atual.");
             editCurrentPassword.requestFocus();
@@ -69,40 +68,35 @@ public class ChangePasswordProfileActivity extends AppCompatActivity {
 
         setLoading(true);
 
-        /* ApiService api = RetrofitClient.getInstance(this).create(ApiService.class);
-         api.changePassword(new ChangePasswordRequest(currentPassword, newPassword))
-                 .enqueue(new Callback<Void>() {
+        ApiService api = RetrofitClient.getInstance(this).create(ApiService.class);
+        api.changePassword(new ChangePasswordRequest(currentPassword, newPassword))
+                .enqueue(new Callback<Void>() {
 
-             @Override
-             public void onResponse(Call<Void> call, Response<Void> response) {
-                 setLoading(false);
-                 if (response.isSuccessful()) {
-                     startActivity(new Intent(ChangePasswordProfileActivity.this,
-                                              ChangePasswordProfileCompletedActivity.class));
-                     finish();
-                 } else if (response.code() == 401 || response.code() == 403) {
-                     editCurrentPassword.setError("Senha atual incorreta.");
-                     editCurrentPassword.requestFocus();
-                 } else {
-                     Toast.makeText(ChangePasswordProfileActivity.this,
-                             "Erro ao alterar senha (código " + response.code() + ").",
-                             Toast.LENGTH_LONG).show();
-                 }
-             }
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        setLoading(false);
+                        if (response.isSuccessful()) {
+                            startActivity(new Intent(ChangePasswordProfileActivity.this,
+                                    ChangePasswordProfileCompletedActivity.class));
+                            finish();
+                        } else if (response.code() == 401 || response.code() == 403) {
+                            editCurrentPassword.setError("Senha atual incorreta.");
+                            editCurrentPassword.requestFocus();
+                        } else {
+                            Toast.makeText(ChangePasswordProfileActivity.this,
+                                    "Erro ao alterar senha (código " + response.code() + ").",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
 
-             @Override
-             public void onFailure(Call<Void> call, Throwable t) {
-                 setLoading(false);
-                 Toast.makeText(ChangePasswordProfileActivity.this,
-                         "Erro de conexão: " + t.getMessage(), Toast.LENGTH_LONG).show();
-             }
-        });
-        */
-
-        // Remover esse bloco quando ativar a chamada acima
-        setLoading(false);
-        startActivity(new Intent(this, ChangePasswordProfileCompletedActivity.class));
-        finish();
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        setLoading(false);
+                        Toast.makeText(ChangePasswordProfileActivity.this,
+                                "Erro de conexão: " + t.getMessage(),
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 
     private void setLoading(boolean loading) {
