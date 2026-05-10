@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import com.beholders.projeto_maya_rpg.dto.ResetPasswordDTO;
 
 import java.net.URI;
 
@@ -79,6 +80,12 @@ public class PatientController {
     @PatchMapping("/{id}/password")
     public ResponseEntity<Void> updatePassword(@PathVariable Long id, @RequestBody String newPasswordHash) {
         patientService.updatePassword(id, newPasswordHash);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/reset-password")
+    public ResponseEntity<Void> resetPassword(@RequestBody ResetPasswordDTO dto) {
+        patientService.resetPassword(dto.getEmail(), dto.getNewPassword());
         return ResponseEntity.noContent().build();
     }
 }

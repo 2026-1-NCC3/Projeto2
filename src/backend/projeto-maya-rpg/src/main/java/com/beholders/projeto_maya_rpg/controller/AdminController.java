@@ -64,4 +64,10 @@ public class AdminController {
         adminService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/reset-password")
+    public ResponseEntity<Void> resetPassword(@RequestBody ResetPasswordDTO dto) {
+        adminService.resetPassword(dto.getEmail(), dto.getNewPassword());
+        return ResponseEntity.noContent().build();
+    }
 }
