@@ -2,6 +2,7 @@ package com.beholders.projeto_maya_rpg.controller;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.beholders.projeto_maya_rpg.dto.AdminDTO;
+import com.beholders.projeto_maya_rpg.dto.ResetPasswordDTO;
 import com.beholders.projeto_maya_rpg.dto.LoginRequestDTO;
 import com.beholders.projeto_maya_rpg.model.Admin;
 import com.beholders.projeto_maya_rpg.model.Patient;
