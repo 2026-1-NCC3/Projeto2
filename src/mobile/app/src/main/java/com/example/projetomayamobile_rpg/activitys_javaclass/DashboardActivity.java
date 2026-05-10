@@ -11,10 +11,17 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 
 import com.example.projetomayamobile_rpg.R;
 import com.example.projetomayamobile_rpg.adapters.ExercisePlanAdapter;
@@ -63,6 +70,11 @@ public class DashboardActivity extends AppCompatActivity {
 
     private Long patientId;
 
+    private final ActivityResultLauncher<String> requestNotificationPermission =
+            registerForActivityResult(
+                    new ActivityResultContracts.RequestPermission(),
+                    granted -> { /* WorkManager já agendado */ }
+            );
     private static final SimpleDateFormat ISO_FORMAT =
             new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
 
@@ -127,6 +139,7 @@ public class DashboardActivity extends AppCompatActivity {
             }
             return false;
         });
+        requestNotificationPermissionIfNeeded();
     }
 
     @Override
@@ -421,5 +434,13 @@ public class DashboardActivity extends AppCompatActivity {
     private static String capitalize(String s) {
         if (s == null || s.isEmpty()) return s;
         return s.substring(0, 1).toUpperCase() + s.substring(1);
+    }
+    private void requestNotificationPermissionIfNeeded() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+                requestNotificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS);
+            }
+        }
     }
 }

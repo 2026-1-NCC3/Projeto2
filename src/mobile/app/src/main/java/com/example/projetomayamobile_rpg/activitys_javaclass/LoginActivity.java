@@ -15,6 +15,7 @@ import com.example.projetomayamobile_rpg.model.LoginResponse;
 import com.example.projetomayamobile_rpg.model.PatientResponse;
 import com.example.projetomayamobile_rpg.network.ApiService;
 import com.example.projetomayamobile_rpg.network.RetrofitClient;
+import com.example.projetomayamobile_rpg.workers.NotificationScheduler;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,7 +32,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Verifica se já existe sessão salva e valida no servidor
         SharedPreferences prefs = getSharedPreferences("auth", MODE_PRIVATE);
         String token     = prefs.getString("token", "");
         long   patientId = prefs.getLong("patient_id", -1L);
@@ -43,8 +43,6 @@ public class LoginActivity extends AppCompatActivity {
 
         showLoginScreen();
     }
-
-    // ── Validação de sessão existente ──────────────────────────────────────────
 
     private void validateTokenWithServer(long patientId) {
         ApiService api = RetrofitClient.getInstance(this).create(ApiService.class);
@@ -71,8 +69,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    // ── Tela de login ──────────────────────────────────────────────────────────
-
     private void showLoginScreen() {
         setContentView(R.layout.login_activity);
 
@@ -87,8 +83,6 @@ public class LoginActivity extends AppCompatActivity {
         );
     }
 
-    // ── Tentativa de login ─────────────────────────────────────────────────────
-
     private void attemptLogin() {
         String email    = editEmail.getText().toString().trim();
         String password = editPassword.getText().toString().trim();
@@ -101,14 +95,11 @@ public class LoginActivity extends AppCompatActivity {
         setLoginLoading(true);
 
         ApiService api = RetrofitClient.getInstance(this).create(ApiService.class);
-
-        // O endpoint agora retorna { "token": "...", "id": 123 }
         api.login(new LoginRequest(email, password)).enqueue(new Callback<LoginResponse>() {
 
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 setLoginLoading(false);
-
                 if (response.isSuccessful() && response.body() != null) {
                     onLoginSuccess(response.body());
                 } else {
@@ -126,10 +117,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Salva token + patientId no SharedPreferences e reinicia o RetrofitClient
-     * para que as próximas requisições usem o header Authorization correto.
-     */
     private void onLoginSuccess(LoginResponse loginResponse) {
         getSharedPreferences("auth", MODE_PRIVATE)
                 .edit()
@@ -137,38 +124,27 @@ public class LoginActivity extends AppCompatActivity {
                 .putLong("patient_id", loginResponse.id)
                 .apply();
 
-        RetrofitClient.resetInstance(); // reconstrói o cliente com o novo token
+        RetrofitClient.resetInstance();
+
+        NotificationScheduler.schedule(this);
 
         navigateToNext();
     }
 
-    // ── Tratamento de erros ────────────────────────────────────────────────────
-
     private void onLoginError(int httpCode) {
         String mensagem;
         switch (httpCode) {
-            case 400:
-                mensagem = "Dados inválidos. Verifique e-mail e senha.";
-                break;
+            case 400: mensagem = "Dados inválidos. Verifique e-mail e senha."; break;
             case 401:
-            case 403:
-                mensagem = "E-mail ou senha incorretos.";
-                break;
-            case 404:
-                mensagem = "Usuário não encontrado.";
-                break;
+            case 403: mensagem = "E-mail ou senha incorretos."; break;
+            case 404: mensagem = "Usuário não encontrado."; break;
             case 500:
             case 502:
-            case 503:
-                mensagem = "Servidor indisponível. Tente novamente em instantes.";
-                break;
-            default:
-                mensagem = "Erro inesperado (código " + httpCode + "). Tente novamente.";
+            case 503: mensagem = "Servidor indisponível. Tente novamente em instantes."; break;
+            default:  mensagem = "Erro inesperado (código " + httpCode + "). Tente novamente.";
         }
         Toast.makeText(this, mensagem, Toast.LENGTH_LONG).show();
     }
-
-    // ── Utilitários ────────────────────────────────────────────────────────────
 
     private void navigateToNext() {
         startActivity(new Intent(LoginActivity.this, LgpdTermActivity.class));
@@ -187,5 +163,7 @@ public class LoginActivity extends AppCompatActivity {
                 .remove("patient_id")
                 .apply();
         RetrofitClient.resetInstance();
+
+        NotificationScheduler.cancel(this);
     }
 }
