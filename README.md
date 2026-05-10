@@ -5,32 +5,31 @@
 <a href= "https://www.fecap.br/"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhZPrRa89Kma0ZZogxm0pi-tCn_TLKeHGVxywp-LXAFGR3B1DPouAJYHgKZGV0XTEf4AE&usqp=CAU" alt="FECAP - Fundação de Comércio Álvares Penteado"></a>
 </p>
 
-# Maya Yamamoto - RPG
+# MayaCare
 
 ## BeHolders
 
-## Integrantes: <a href="https://github.com/GDiniz12">Gabriel Diniz</a>, <a href="https://github.com/GianLemes">Gian Lemes</a>, <a href="https://github.com/leticia19silva">Leticia Rodrigues</a>, <a href="https://github.com/saidsales">Said Sales</a>
+## Integrantes: <a href="https://github.com/GDiniz12">Gabriel Diniz</a>, <a href="https://github.com/GianLemes">Gian Lemes</a>, <a href="https://github.com/leticia19silva">Leticia Rodrigues</a>, <a href="https://github.com/saidsales">Said Sales</a>.
 
-## Professores Orientadores: <a href="https://www.linkedin.com/">Katia Milani Lara Bossi</a>, <a href="https://www.linkedin.com">Marco Aurelio Lima Barbosa</a>, <a href="https://www.linkedin.com/">Rodrigo da Rosa</a>, <a href="https://www.linkedin.com/in/victorbarq/">Victor Bruno Alexander Rosetti de Quiroz</a>
+## Professores Orientadores: <a href="https://www.linkedin.com/">Katia Milani Lara Bossi</a>, <a href="https://www.linkedin.com">Marco Aurelio Lima Barbosa</a>, <a href="https://www.linkedin.com/">Rodrigo da Rosa</a>, <a href="https://www.linkedin.com/in/victorbarq/">Victor Bruno Alexander Rosetti de Quiroz</a>.
 
 ## Descrição
 
-<!--
-<p align="center">
-<img src="https://pix4free.org/assets/library/2021-01-20/originals/game.jpg" alt="NOME DO JOGO" border="0">
-  Game by <a href="http://www.nyphotographic.com/">Nick Youngson</a> <a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a> <a href="http://pix4free.org/">Pix4free</a>
+
+<p align="center"><img src="https://i.ibb.co/GQ44Bnjb/Maya-logo.png" alt="Maya-logo" border="0"></a>
+<p align="center">Feito por: <a href="https://github.com/2026-1-NCC3/Projeto2">beHolders Tech</a> <a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a></a>
 </p>
- -->
+ 
 
-#### O aplicativo e o site desenvolvidos pelo grupo BeHolders foram criados para auxiliar no dia a dia da fisioterapeuta Maya Yamamoto, facilitando o acesso a informações e a organização de suas atividades profissionais. Além disso, a solução também beneficia seus pacientes, oferecendo uma forma mais prática e eficiente de se manterem atualizados sobre consultas e acompanharem sua rotina de exercícios orientados.
+### O aplicativo e o site desenvolvidos pelo grupo BeHolders foram criados para auxiliar no dia a dia da fisioterapeuta Maya Yamamoto, facilitando o acesso a informações e a organização de suas atividades profissionais. Além disso, a solução também beneficia seus pacientes, oferecendo uma forma mais prática e eficiente de se manterem atualizados sobre consultas e acompanharem sua rotina de exercícios orientados.
 
-#### May the force be with you!
+*May the force be with you!*
 <br>
 
 ## 🛠 Estrutura de pastas
 
 -Raiz<br>
-<br>
+|-->.vscode<br>
 |-->documentos<br>
 |-->src<br>
   &emsp;|-->Mobile<br>
@@ -49,18 +48,17 @@
 
 <b>Android:</b>
 
-Faça o Download do APP.apk no seu celular.
+Faça o Download do APP.apk no seu celular. <br>
 Execute o APK e siga as instruções.
-
-## 💻 Configuração para Desenvolvimento
-
-Para abrir este projeto você necessita das seguintes ferramentas:
 
 
 ## 📋 Licença/License
-Utilize o link <https://chooser-beta.creativecommons.org/> para fazer uma licença CC BY 4.0.
+<a href="https://github.com/2026-1-NCC3/Projeto2">MayaCare</a> © 2026 by <a href="https://github.com/2026-1-NCC3/Projeto2">beHolders</a> is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
 
 ## 🎓 Referências
 
-Aqui estão as referências usadas no projeto.
+### Aqui estão as referências usadas no projeto.<br>
+
+<a href="https://creativecommons.org/build/">Creative Commons</a>.<br>
+<a href="https://github.com/fecaphub/Template_PI">Template PI - FECAP</a>.
 
