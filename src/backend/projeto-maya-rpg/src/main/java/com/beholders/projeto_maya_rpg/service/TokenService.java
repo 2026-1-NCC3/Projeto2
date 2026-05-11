@@ -112,8 +112,12 @@ public class TokenService {
                 "Seu código de recuperação é: " + resultToken
         );
 
-        Token token = new Token(encodeToken, adm, dto.getEmail());
-
+        Token token = tokenRepository.findByEmail(dto.getEmail())
+                .orElse(new Token());
+        token.setToken(encodeToken);
+        token.setAdmin(adm);
+        token.setPatient(null);
+        token.setEmail(dto.getEmail());
         return tokenRepository.save(token);
     }
 
@@ -142,8 +146,12 @@ public class TokenService {
                 "Seu código de recuperação é: " + resultToken
         );
 
-        Token token = new Token(encodeToken, patient, dto.getEmail());
-
+        Token token = tokenRepository.findByEmail(dto.getEmail())
+                .orElse(new Token());
+        token.setToken(encodeToken);
+        token.setPatient(patient);
+        token.setAdmin(null);
+        token.setEmail(dto.getEmail());
         return tokenRepository.save(token);
     }
 }

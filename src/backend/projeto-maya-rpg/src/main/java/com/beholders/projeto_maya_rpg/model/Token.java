@@ -63,7 +63,7 @@ public class Token {
     }
 
     public void setPatient(Patient paciente) {
-        this.patient = patient;
+        this.patient = paciente;
     }
 
     public Admin getAdmin() {
@@ -77,4 +77,6 @@ public class Token {
     public String getEmail() {
         return email;
     }
+
+    public void setEmail(String email) { this.email = email; }
 }
