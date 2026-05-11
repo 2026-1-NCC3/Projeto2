@@ -72,7 +72,6 @@ public class HistoryActivity extends AppCompatActivity {
 
         ApiService api = RetrofitClient.getInstance(this).create(ApiService.class);
 
-        // Busca até 100 planos do paciente (suficiente para histórico)
         api.getPlansByPatient(patientId, 0, 100).enqueue(new Callback<PageResponse<PlanResponse>>() {
             @Override
             public void onResponse(Call<PageResponse<PlanResponse>> call,
@@ -95,7 +94,6 @@ public class HistoryActivity extends AppCompatActivity {
     // ── Processamento dos dados ────────────────────────────────────────────────
 
     private void processPlansData(List<PlanResponse> plans) {
-        // Achata todas as execuções de todos os planos/exercícios
         List<ExecutionEntry> allExecutions = new ArrayList<>();
 
         for (PlanResponse plan : plans) {
@@ -108,7 +106,7 @@ public class HistoryActivity extends AppCompatActivity {
 
                 for (ExecutionResponse exec : pe.getExecutions()) {
                     LocalDateTime dt = DateUtils.parseDateTime(exec.getExecutedAt());
-                    if (dt == null) continue; // ignora datas inválidas
+                    if (dt == null) continue;
 
                     allExecutions.add(new ExecutionEntry(
                             exerciseName, dt, exec.getPainScale(), exec.isCompleted()));
@@ -116,29 +114,19 @@ public class HistoryActivity extends AppCompatActivity {
             }
         }
 
-        // Ordena da mais recente para a mais antiga
         allExecutions.sort((a, b) -> b.executedAt.compareTo(a.executedAt));
-
-        // ── Métricas ──────────────────────────────────────────────────────────
 
         LocalDate today   = LocalDate.now();
         LocalDate weekAgo = today.minusDays(7);
 
-        // 1. Taxa de Adesão (última semana)
         long totalSemana     = countInPeriod(allExecutions, weekAgo, null);
         long completedSemana = countCompletedInPeriod(allExecutions, weekAgo);
         int adherence = totalSemana == 0 ? 0 : (int) (completedSemana * 100L / totalSemana);
 
-        // 2. Dias Consecutivos
         int consecutive = calculateConsecutiveDays(allExecutions, today);
-
-        // 3. Nível de Dor mais Frequente (última semana)
         String painLabel = calculateMostFrequentPain(allExecutions, weekAgo);
-
-        // 4. Lista de histórico agrupada por data
         List<ExecutionHistoryItem> historyItems = buildHistoryList(allExecutions);
 
-        // ── Atualiza UI na main thread ─────────────────────────────────────────
         runOnUiThread(() -> {
             tvValueAdesao.setText(adherence + "%");
             tvValueDias.setText(String.valueOf(consecutive));
@@ -157,7 +145,6 @@ public class HistoryActivity extends AppCompatActivity {
 
     // ── Cálculos ──────────────────────────────────────────────────────────────
 
-    /** Conta execuções a partir de 'from' (inclusive) */
     private long countInPeriod(List<ExecutionEntry> list, LocalDate from, LocalDate to) {
         return list.stream()
                 .filter(e -> {
@@ -169,17 +156,12 @@ public class HistoryActivity extends AppCompatActivity {
                 .count();
     }
 
-    /** Conta execuções concluídas a partir de 'from' (inclusive) */
     private long countCompletedInPeriod(List<ExecutionEntry> list, LocalDate from) {
         return list.stream()
                 .filter(e -> !e.executedAt.toLocalDate().isBefore(from) && e.completed)
                 .count();
     }
 
-    /**
-     * Calcula a sequência de dias consecutivos com pelo menos uma execução,
-     * contando para trás a partir de hoje.
-     */
     private int calculateConsecutiveDays(List<ExecutionEntry> executions, LocalDate today) {
         Set<LocalDate> activeDays = new HashSet<>();
         for (ExecutionEntry e : executions) {
@@ -195,10 +177,6 @@ public class HistoryActivity extends AppCompatActivity {
         return streak;
     }
 
-    /**
-     * Retorna o nível de dor mais frequente nas execuções da última semana.
-     * Usa a moda da escala painScale (0–10).
-     */
     private String calculateMostFrequentPain(List<ExecutionEntry> executions, LocalDate weekAgo) {
         Map<Integer, Integer> freq = new HashMap<>();
         for (ExecutionEntry e : executions) {
@@ -212,12 +190,6 @@ public class HistoryActivity extends AppCompatActivity {
         return DateUtils.mapPainScale(modeScale);
     }
 
-    /**
-     * Constrói a lista de itens do RecyclerView agrupada por data:
-     *   [Header "Segunda, 08 de maio"]
-     *   [Execução: Alongamento Cervical · 10:30 · Dor leve]
-     *   ...
-     */
     private List<ExecutionHistoryItem> buildHistoryList(List<ExecutionEntry> executions) {
         List<ExecutionHistoryItem> items = new ArrayList<>();
         LocalDate lastDate = null;
@@ -259,6 +231,10 @@ public class HistoryActivity extends AppCompatActivity {
                 startActivity(new Intent(this, ExercisesActivity.class));
                 return true;
             }
+            if (id == R.id.menu_messages) {                          // ← CORRIGIDO
+                startActivity(new Intent(this, MessagesActivity.class));
+                return true;
+            }
             if (id == R.id.menu_history) return true;
             if (id == R.id.menu_profile) {
                 startActivity(new Intent(this, ProfileActivity.class));
@@ -268,7 +244,7 @@ public class HistoryActivity extends AppCompatActivity {
         });
     }
 
-    // ── Modelo interno de execução (para processamento) ────────────────────────
+    // ── Modelo interno ────────────────────────────────────────────────────────
 
     private static class ExecutionEntry {
         final String exerciseName;

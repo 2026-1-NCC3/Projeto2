@@ -16,7 +16,6 @@ import com.example.projetomayamobile_rpg.network.ApiService;
 import com.example.projetomayamobile_rpg.network.RetrofitClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.materialswitch.MaterialSwitch;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,7 +35,6 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_activity);
 
-        // Views de dados
         tvProfileName  = findViewById(R.id.tvProfileName);
         tvProfileEmail = findViewById(R.id.tvProfileEmail);
         tvProfilePhone = findViewById(R.id.tvProfilePhone);
@@ -45,11 +43,9 @@ public class ProfileActivity extends AppCompatActivity {
         itemPrivacy         = findViewById(R.id.itemPrivacy);
         btnLogout           = findViewById(R.id.btnLogout);
 
-        // Pega o ID salvo no login
         SharedPreferences prefs = getSharedPreferences("auth", MODE_PRIVATE);
         patientId = prefs.getLong("patient_id", -1);
 
-        // Busca dados na API
         loadProfile();
 
         itemChangePassword.setOnClickListener(v ->
@@ -73,6 +69,11 @@ public class ProfileActivity extends AppCompatActivity {
             }
             if (id == R.id.menu_exercises) {
                 startActivity(new Intent(this, ExercisesActivity.class));
+                finish();
+                return true;
+            }
+            if (id == R.id.menu_messages) {                          // ← CORRIGIDO
+                startActivity(new Intent(this, MessagesActivity.class));
                 finish();
                 return true;
             }
@@ -117,7 +118,6 @@ public class ProfileActivity extends AppCompatActivity {
                 .setTitle("Sair do App")
                 .setMessage("Tem certeza que deseja sair?")
                 .setPositiveButton("Sair", (dialog, which) -> {
-                    // Limpa token e ID ao sair
                     getSharedPreferences("auth", MODE_PRIVATE)
                             .edit()
                             .clear()

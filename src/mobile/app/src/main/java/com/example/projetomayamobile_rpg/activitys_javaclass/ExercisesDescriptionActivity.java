@@ -45,6 +45,10 @@ public class ExercisesDescriptionActivity extends AppCompatActivity {
         btnBackExercises     = findViewById(R.id.btnBackExercises);
         btnRegisterExecution = findViewById(R.id.btnRegisterExecution);
 
+        // ── Correção: garante seleção única e que não seja possível desmarcar ──
+        scalePain.setSingleSelection(true);
+        scalePain.setSelectionRequired(true);
+
         // Recebe dados do Intent
         Intent intent = getIntent();
         planExerciseId             = intent.getLongExtra("planExerciseId", -1);
@@ -66,7 +70,7 @@ public class ExercisesDescriptionActivity extends AppCompatActivity {
         // Botão voltar
         btnBackExercises.setOnClickListener(v -> finish());
 
-        // Seleção de dor padrão: sem dor
+        // Seleção de dor padrão: sem dor (btn1Pain selecionado logo de início)
         scalePain.check(R.id.btn1Pain);
 
         // Registrar execução
@@ -100,13 +104,12 @@ public class ExercisesDescriptionActivity extends AppCompatActivity {
                             + "</body>"
                             + "</html>";
 
-            // loadDataWithBaseURL é mais confiável que loadData
             wvYoutube.loadDataWithBaseURL(
-                    "https://www.youtube.com",  // baseUrl
-                    html,                        // data
-                    "text/html",                 // mimeType
-                    "UTF-8",                     // encoding
-                    null                         // historyUrl
+                    "https://www.youtube.com",
+                    html,
+                    "text/html",
+                    "UTF-8",
+                    null
             );
         } else {
             String placeholder =
@@ -129,7 +132,6 @@ public class ExercisesDescriptionActivity extends AppCompatActivity {
             return;
         }
 
-        // Mapeia o botão selecionado para painScale (0–3)
         int checkedId = scalePain.getCheckedButtonId();
         int painScale;
         if      (checkedId == R.id.btn1Pain) painScale = 0;
@@ -137,6 +139,7 @@ public class ExercisesDescriptionActivity extends AppCompatActivity {
         else if (checkedId == R.id.btn3Pain) painScale = 2;
         else if (checkedId == R.id.btn4Pain) painScale = 3;
         else {
+            // Não deve acontecer com selectionRequired=true, mas mantemos o guard
             Toast.makeText(this, "Selecione seu nível de dor.", Toast.LENGTH_SHORT).show();
             return;
         }
