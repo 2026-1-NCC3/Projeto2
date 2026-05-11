@@ -67,4 +67,7 @@ public interface ApiService {
 
     @GET("appointments/patient/{patientId}")
     Call<List<AppointmentResponse>> getAppointmentsByPatient(@Path("patientId") Long patientId);
+
+    @PUT("patients/{id}/fcm-token")
+    Call<Void> updateFcmToken(@Path("id") Long patientId, @Query("token") String token);
 }

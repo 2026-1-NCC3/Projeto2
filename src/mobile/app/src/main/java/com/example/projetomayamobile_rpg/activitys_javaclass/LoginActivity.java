@@ -7,12 +7,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projetomayamobile_rpg.R;
 import com.example.projetomayamobile_rpg.model.LoginRequest;
 import com.example.projetomayamobile_rpg.model.LoginResponse;
 import com.example.projetomayamobile_rpg.model.PatientResponse;
+import com.example.projetomayamobile_rpg.workers.NotificationScheduler;
 import com.example.projetomayamobile_rpg.network.ApiService;
 import com.example.projetomayamobile_rpg.network.RetrofitClient;
 
@@ -67,6 +70,11 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+    private final ActivityResultLauncher<String> requestNotificationPermission =
+            registerForActivityResult(
+                    new ActivityResultContracts.RequestPermission(),
+                    granted -> { /* WorkManager já agendado */ }
+            );
 
     private void showLoginScreen() {
         setContentView(R.layout.login_activity);
@@ -125,6 +133,9 @@ public class LoginActivity extends AppCompatActivity {
 
         RetrofitClient.resetInstance();
 
+        NotificationScheduler.schedule(this);
+        sendFcmTokenToBackend();
+
         navigateToNext();
     }
 
@@ -160,5 +171,37 @@ public class LoginActivity extends AppCompatActivity {
                 .remove("patient_id")
                 .apply();
         RetrofitClient.resetInstance();
+
+        NotificationScheduler.cancel(this);
+    }
+
+    private void sendFcmTokenToBackend() {
+        com.google.firebase.messaging.FirebaseMessaging.getInstance().getToken()
+                .addOnSuccessListener(token -> {
+                    if (token == null || token.isEmpty()) return;
+
+                    // Salva localmente
+                    getSharedPreferences("auth", MODE_PRIVATE)
+                            .edit()
+                            .putString("fcm_token", token)
+                            .apply();
+
+                    // Envia ao backend
+                    long patientId = getSharedPreferences("auth", MODE_PRIVATE)
+                            .getLong("patient_id", -1);
+                    if (patientId == -1) return;
+
+                    ApiService api = RetrofitClient.getInstance(this).create(ApiService.class);
+                    api.updateFcmToken(patientId, token).enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            android.util.Log.d("FCM", "Token enviado ao backend.");
+                        }
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+                            android.util.Log.e("FCM", "Falha ao enviar token: " + t.getMessage());
+                        }
+                    });
+                });
     }
 }
