@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import styles from "./style.module.css";
 import { getToken } from "../../login/auth";
 
-// ─── Tipos ───────────────────────────────────────────────
 interface Admin {
   id: number;
   name: string;
@@ -12,7 +11,6 @@ interface Admin {
   status: "ATIVO" | "INATIVO";
 }
 
-// ─── Helpers ─────────────────────────────────────────────
 function getInitials(name: string) {
   const parts = name.trim().split(" ");
   if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
@@ -28,28 +26,23 @@ export default function SettingsPage() {
   const [admins, setAdmins] = useState<Admin[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Modal: Novo Admin
   const [modalOpen, setModalOpen] = useState(false);
   const [formName, setFormName] = useState("");
   const [formEmail, setFormEmail] = useState("");
   const [formPassword, setFormPassword] = useState("");
-  const [formStatus, setFormStatus] = useState<"ATIVO" | "INATIVO">("ATIVO");
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [formError, setFormError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  // Modal: Redefinir Senha
   const [resetModal, setResetModal] = useState<Admin | null>(null);
   const [resetPassword, setResetPassword] = useState("");
   const [resetSubmitting, setResetSubmitting] = useState(false);
   const [resetError, setResetError] = useState("");
   const [showResetPwd, setShowResetPwd] = useState(false);
 
-  // Confirmar exclusão
   const [deleteConfirm, setDeleteConfirm] = useState<Admin | null>(null);
   const [deleteSubmitting, setDeleteSubmitting] = useState(false);
 
-  // Toast
   const [toast, setToast] = useState<{ msg: string; type: "success" | "error" } | null>(null);
   const showToast = (msg: string, type: "success" | "error" = "success") => {
     setToast({ msg, type });
@@ -61,7 +54,6 @@ export default function SettingsPage() {
     "Content-Type": "application/json",
   });
 
-  // ── Fetch ────────────────────────────────────────────
   const fetchCurrentAdmin = async () => {
     try {
       const meRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/me`, { headers: authHeaders() });
@@ -86,7 +78,6 @@ export default function SettingsPage() {
 
   useEffect(() => { fetchCurrentAdmin(); fetchAdmins(); }, []);
 
-  // ── Criar admin ──────────────────────────────────────
   const handleCreate = async () => {
     if (!formName.trim() || !formEmail.trim() || !formPassword.trim()) {
       setFormError("Preencha todos os campos obrigatórios."); return;
@@ -97,7 +88,7 @@ export default function SettingsPage() {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin`, {
         method: "POST",
         headers: authHeaders(),
-        body: JSON.stringify({ name: formName, email: formEmail, passwordHash: formPassword, status: formStatus }),
+        body: JSON.stringify({ name: formName, email: formEmail, passwordHash: formPassword, status: "ATIVO" }),
       });
       if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(e.message ?? "Erro ao criar."); }
       closeNewModal();
@@ -107,7 +98,6 @@ export default function SettingsPage() {
     finally { setFormSubmitting(false); }
   };
 
-  // ── Excluir admin ────────────────────────────────────
   const handleDelete = async (admin: Admin) => {
     setDeleteSubmitting(true);
     try {
@@ -120,7 +110,6 @@ export default function SettingsPage() {
     finally { setDeleteSubmitting(false); }
   };
 
-  // ── Redefinir senha ──────────────────────────────────
   const handleResetPassword = async () => {
     if (!resetPassword.trim() || resetPassword.length < 6) { setResetError("A senha deve ter pelo menos 6 caracteres."); return; }
     setResetError(""); setResetSubmitting(true);
@@ -139,104 +128,96 @@ export default function SettingsPage() {
 
   const closeNewModal = () => {
     setModalOpen(false); setFormName(""); setFormEmail(""); setFormPassword("");
-    setFormStatus("ATIVO"); setFormError(""); setShowPassword(false);
+    setFormError(""); setShowPassword(false);
   };
-
-  const initials = currentAdmin ? getInitials(currentAdmin.name) : "A";
-  const displayName = currentAdmin?.name ?? "Admin";
-
 
   return (
     <>
-          <div className={styles.pageHeader}>
-            <div>
-              <h1 className={styles.pageTitle}>Configurações e Conta</h1>
-              <p className={styles.pageSubtitle}>Gerencie administradores e permissões da clínica.</p>
-            </div>
+      <div className={styles.pageHeader}>
+        <div>
+          <h1 className={styles.pageTitle}>Configurações e Conta</h1>
+          <p className={styles.pageSubtitle}>Gerencie administradores e permissões da clínica.</p>
+        </div>
+      </div>
+
+      <div className={styles.sectionBar}>
+        <div className={styles.sectionBarLeft}>
+          <div className={styles.sectionIcon}>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
           </div>
-
-          {/* Barra da seção */}
-          <div className={styles.sectionBar}>
-            <div className={styles.sectionBarLeft}>
-              <div className={styles.sectionIcon}>
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
-              </div>
-              <span className={styles.sectionTitle}>Administradores</span>
-              {!loading && (
-                <span className={styles.sectionCount}>
-                  {admins.length} usuário{admins.length !== 1 ? "s" : ""} no sistema
-                </span>
-              )}
-            </div>
-            <button className={styles.newBtn} onClick={() => setModalOpen(true)}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
-              Novo Admin
-            </button>
-          </div>
-
-          {/* Lista */}
-          {loading ? (
-            <div className={styles.loadingState}>
-              <div className={styles.spinner} />
-              <span>Carregando administradores...</span>
-            </div>
-          ) : admins.length === 0 ? (
-            <div className={styles.emptyState}>
-              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.25 }}><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /></svg>
-              <p>Nenhum administrador encontrado.</p>
-              <button className={styles.newBtn} onClick={() => setModalOpen(true)}>+ Criar primeiro admin</button>
-            </div>
-          ) : (
-            <div className={styles.adminList}>
-              {admins.map((admin, i) => {
-                const isMe = currentAdmin?.id === admin.id;
-                return (
-                  <div key={admin.id} className={styles.adminCard} style={{ animationDelay: `${i * 50}ms` }}>
-                    <div className={styles.adminAvatar} style={{ background: avatarColor(admin.id) }}>
-                      {getInitials(admin.name)}
-                    </div>
-
-                    <div className={styles.adminInfo}>
-                      <div className={styles.adminNameRow}>
-                        <span className={styles.adminName}>{admin.name}</span>
-                        {isMe && <span className={styles.badgeRole}>Proprietário / Fisioterapeuta</span>}
-                        <span className={`${styles.badgeStatus} ${admin.status === "ATIVO" ? styles.badgeAtivo : styles.badgeInativo}`}>
-                          {admin.status === "ATIVO" ? "Ativo" : "Inativo"}
-                        </span>
-                      </div>
-                      <span className={styles.adminEmail}>{admin.email}</span>
-                      <div className={styles.adminPerms}>
-                        {isMe ? (
-                          <span className={styles.permTagHighlight}>Todas as permissões</span>
-                        ) : (
-                          <>
-                            {["Pacientes","Exercícios","Agenda","Mensagens"].map((p) => (
-                              <span key={p} className={styles.permTag}>{p}</span>
-                            ))}
-                          </>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className={styles.adminActions}>
-                      <button
-                        className={styles.resetBtn}
-                        onClick={() => { setResetModal(admin); setResetPassword(""); setResetError(""); setShowResetPwd(false); }}
-                      >
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3" /><path d="M19.07 4.93A10 10 0 1 0 21 12" /><polyline points="21 3 21 9 15 9" /></svg>
-                        Redefinir Senha
-                      </button>
-                      {!isMe && (
-                        <button className={styles.deleteBtn} onClick={() => setDeleteConfirm(admin)} aria-label="Remover">
-                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+          <span className={styles.sectionTitle}>Administradores</span>
+          {!loading && (
+            <span className={styles.sectionCount}>
+              {admins.length} usuário{admins.length !== 1 ? "s" : ""} no sistema
+            </span>
           )}
+        </div>
+        <button className={styles.newBtn} onClick={() => setModalOpen(true)}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+          Novo Admin
+        </button>
+      </div>
+
+      {loading ? (
+        <div className={styles.loadingState}>
+          <div className={styles.spinner} />
+          <span>Carregando administradores...</span>
+        </div>
+      ) : admins.length === 0 ? (
+        <div className={styles.emptyState}>
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.25 }}><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /></svg>
+          <p>Nenhum administrador encontrado.</p>
+          <button className={styles.newBtn} onClick={() => setModalOpen(true)}>+ Criar primeiro admin</button>
+        </div>
+      ) : (
+        <div className={styles.adminList}>
+          {admins.map((admin, i) => {
+            const isMe = currentAdmin?.id === admin.id;
+            return (
+              <div key={admin.id} className={styles.adminCard} style={{ animationDelay: `${i * 50}ms` }}>
+                <div className={styles.adminAvatar} style={{ background: avatarColor(admin.id) }}>
+                  {getInitials(admin.name)}
+                </div>
+                <div className={styles.adminInfo}>
+                  <div className={styles.adminNameRow}>
+                    <span className={styles.adminName}>{admin.name}</span>
+                    {isMe && <span className={styles.badgeRole}>Proprietário / Fisioterapeuta</span>}
+                    <span className={`${styles.badgeStatus} ${admin.status === "ATIVO" ? styles.badgeAtivo : styles.badgeInativo}`}>
+                      {admin.status === "ATIVO" ? "Ativo" : "Inativo"}
+                    </span>
+                  </div>
+                  <span className={styles.adminEmail}>{admin.email}</span>
+                  <div className={styles.adminPerms}>
+                    {isMe ? (
+                      <span className={styles.permTagHighlight}>Todas as permissões</span>
+                    ) : (
+                      <>
+                        {["Pacientes","Exercícios","Agenda","Mensagens"].map((p) => (
+                          <span key={p} className={styles.permTag}>{p}</span>
+                        ))}
+                      </>
+                    )}
+                  </div>
+                </div>
+                <div className={styles.adminActions}>
+                  <button
+                    className={styles.resetBtn}
+                    onClick={() => { setResetModal(admin); setResetPassword(""); setResetError(""); setShowResetPwd(false); }}
+                  >
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3" /><path d="M19.07 4.93A10 10 0 1 0 21 12" /><polyline points="21 3 21 9 15 9" /></svg>
+                    Redefinir Senha
+                  </button>
+                  {!isMe && (
+                    <button className={styles.deleteBtn} onClick={() => setDeleteConfirm(admin)} aria-label="Remover">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+                    </button>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
 
       {/* ─── Modal: Novo Admin ─── */}
       {modalOpen && (
@@ -279,19 +260,7 @@ export default function SettingsPage() {
                 </div>
                 {formPassword && formPassword.length < 6 && <span className={styles.fieldHint}>Mínimo 6 caracteres.</span>}
               </div>
-              <div className={styles.field}>
-                <label className={styles.label}>Status</label>
-                <div className={styles.statusToggle}>
-                  <button type="button" className={`${styles.statusOpt} ${formStatus === "ATIVO" ? styles.statusOptAtivo : ""}`} onClick={() => setFormStatus("ATIVO")}>
-                    <span className={styles.statusDot} style={{ background: formStatus === "ATIVO" ? "#22c55e" : "#c4d0d8" }} />
-                    Ativo
-                  </button>
-                  <button type="button" className={`${styles.statusOpt} ${formStatus === "INATIVO" ? styles.statusOptInativo : ""}`} onClick={() => setFormStatus("INATIVO")}>
-                    <span className={styles.statusDot} style={{ background: formStatus === "INATIVO" ? "#ef4444" : "#c4d0d8" }} />
-                    Inativo
-                  </button>
-                </div>
-              </div>
+
               {formError && (
                 <div className={styles.errorBox}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>

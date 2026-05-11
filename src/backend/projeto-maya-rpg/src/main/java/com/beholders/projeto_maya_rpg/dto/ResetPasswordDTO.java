@@ -1,10 +1,12 @@
-package com.example.projetomayamobile_rpg.model;
+package com.beholders.projeto_maya_rpg.dto;
 
-public class ResetPasswordRequest {
+public class ResetPasswordDTO {
     private String email;
     private String newPassword;
 
-    public ResetPasswordRequest(String email, String newPassword) {
+    public ResetPasswordDTO() {}
+
+    public ResetPasswordDTO(String email, String newPassword) {
         this.email = email;
         this.newPassword = newPassword;
     }

@@ -72,7 +72,15 @@ public class PatientService {
     public void updatePassword(Long id, String newPasswordHash) {
         Patient patient = patientRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Patient not found with id: " + id));
-        patient.setPasswordHash(newPasswordHash);
+        patient.setPasswordHash(passwordEncoder.encode(newPasswordHash)); // encode adicionado
+        patientRepository.save(patient);
+    }
+
+    @Transactional
+    public void resetPassword(String email, String newPassword) {
+        Patient patient = patientRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Paciente não encontrado"));
+        patient.setPasswordHash(passwordEncoder.encode(newPassword));
         patientRepository.save(patient);
     }
 }

@@ -25,7 +25,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class ForgotPasswordActivity extends AppCompatActivity {
 
     private static final String EMAIL_SUBJECT = "Recuperação de senha";
-    private static final String BASE_URL = "http://10.1.13.150:8080/";
+    private static final String BASE_URL = "http://54.233.94.214:8080/";
 
     MaterialButton btnSendCode;
     MaterialButton btnBackLogin;
