@@ -69,4 +69,12 @@ public class AdminService {
 
         adminRepository.delete(adm);
     }
+
+    @Transactional
+    public void resetPassword(String email, String newPassword) {
+        Admin adm = adminRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Admin não encontrado"));
+        adm.setPasswordHash(passwordEncoder.encode(newPassword));
+        adminRepository.save(adm);
+    }
 }

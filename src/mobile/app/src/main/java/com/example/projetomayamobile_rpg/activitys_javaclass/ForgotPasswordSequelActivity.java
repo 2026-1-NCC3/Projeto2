@@ -12,6 +12,7 @@ import com.example.projetomayamobile_rpg.model.VerifyCodeRequest;
 import com.example.projetomayamobile_rpg.network.ApiService;
 import com.example.projetomayamobile_rpg.network.RetrofitClient;
 import com.google.android.material.button.MaterialButton;
+import com.example.projetomayamobile_rpg.model.ResetPasswordRequest;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,61 +44,58 @@ public class ForgotPasswordSequelActivity extends AppCompatActivity {
     }
 
     private void verifyAndReset() {
-        String code           = editCode.getText().toString().trim();
-        String newPassword    = editNewPassword.getText().toString().trim();
+        String code            = editCode.getText().toString().trim();
+        String newPassword     = editNewPassword.getText().toString().trim();
         String confirmPassword = editConfirmNewPassword.getText().toString().trim();
 
-        // Validações locais
-        if (code.isEmpty()) {
-            editCode.setError("Informe o código.");
-            editCode.requestFocus();
-            return;
-        }
-        if (newPassword.isEmpty()) {
-            editNewPassword.setError("Informe a nova senha.");
-            editNewPassword.requestFocus();
-            return;
-        }
-        if (newPassword.length() < 6) {
-            editNewPassword.setError("A senha deve ter ao menos 6 caracteres.");
-            editNewPassword.requestFocus();
-            return;
-        }
-        if (!newPassword.equals(confirmPassword)) {
-            editConfirmNewPassword.setError("As senhas não podem ser diferentes.");
-            editConfirmNewPassword.requestFocus();
-            return;
-        }
+        if (code.isEmpty()) { editCode.setError("Informe o código."); editCode.requestFocus(); return; }
+        if (newPassword.isEmpty()) { editNewPassword.setError("Informe a nova senha."); editNewPassword.requestFocus(); return; }
+        if (newPassword.length() < 6) { editNewPassword.setError("Mínimo 6 caracteres."); editNewPassword.requestFocus(); return; }
+        if (!newPassword.equals(confirmPassword)) { editConfirmNewPassword.setError("Senhas diferentes."); editConfirmNewPassword.requestFocus(); return; }
 
         setLoading(true);
-
         ApiService api = RetrofitClient.getInstance(this).create(ApiService.class);
-        api.verifyCode(new VerifyCodeRequest(email, code, newPassword))
-                .enqueue(new Callback<Void>() {
 
+        api.verifyCode(new VerifyCodeRequest(email, code))
+                .enqueue(new Callback<Boolean>() {
                     @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-                        setLoading(false);
-                        if (response.isSuccessful()) {
-                            startActivity(new Intent(ForgotPasswordSequelActivity.this,
-                                    ForgotPasswordCompletedActivity.class));
-                            finish();
-                        } else if (response.code() == 400 || response.code() == 401) {
+                    public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                        if (!response.isSuccessful() || response.body() == null || !response.body()) {
+                            setLoading(false);
                             editCode.setError("Código inválido ou expirado.");
                             editCode.requestFocus();
-                        } else {
-                            Toast.makeText(ForgotPasswordSequelActivity.this,
-                                    "Erro ao redefinir senha (código " + response.code() + ").",
-                                    Toast.LENGTH_LONG).show();
+                            return;
                         }
+
+                        api.resetPatientPassword(new ResetPasswordRequest(email, newPassword))
+                                .enqueue(new Callback<Void>() {
+                                    @Override
+                                    public void onResponse(Call<Void> call, Response<Void> response) {
+                                        setLoading(false);
+                                        if (response.isSuccessful()) {
+                                            startActivity(new Intent(ForgotPasswordSequelActivity.this,
+                                                    ForgotPasswordCompletedActivity.class));
+                                            finish();
+                                        } else {
+                                            Toast.makeText(ForgotPasswordSequelActivity.this,
+                                                    "Erro ao redefinir senha.", Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Void> call, Throwable t) {
+                                        setLoading(false);
+                                        Toast.makeText(ForgotPasswordSequelActivity.this,
+                                                "Erro de conexão: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                                    }
+                                });
                     }
 
                     @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
+                    public void onFailure(Call<Boolean> call, Throwable t) {
                         setLoading(false);
                         Toast.makeText(ForgotPasswordSequelActivity.this,
-                                "Erro de conexão: " + t.getMessage(),
-                                Toast.LENGTH_LONG).show();
+                                "Erro de conexão: " + t.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
     }

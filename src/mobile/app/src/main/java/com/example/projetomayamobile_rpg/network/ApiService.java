@@ -21,6 +21,8 @@ import com.example.projetomayamobile_rpg.model.PageResponse;
 import com.example.projetomayamobile_rpg.model.PatientResponse;
 import com.example.projetomayamobile_rpg.model.PlanResponse;
 import com.example.projetomayamobile_rpg.model.VerifyCodeRequest;
+import retrofit2.http.PATCH;
+import com.example.projetomayamobile_rpg.model.ResetPasswordRequest;
 
 import java.util.List;
 
@@ -54,7 +56,7 @@ public interface ApiService {
     Call<Void> forgotPassword(@Body ForgotPasswordRequest body);
 
     @POST("token/verify")
-    Call<Void> verifyCode(@Body VerifyCodeRequest body);
+    Call<Boolean> verifyCode(@Body VerifyCodeRequest body);
 
     @PUT("patients/change-password")
     Call<Void> changePassword(@Body ChangePasswordRequest body);
@@ -67,4 +69,11 @@ public interface ApiService {
 
     @GET("appointments/patient/{patientId}")
     Call<List<AppointmentResponse>> getAppointmentsByPatient(@Path("patientId") Long patientId);
+
+    //  Envia o token FCM ao backend para receber notificações
+    @PUT("patients/{id}/fcm-token")
+    Call<Void> updateFcmToken(@Path("id") Long patientId, @Query("token") String token);
+
+    @PATCH("patients/reset-password")
+    Call<Void> resetPatientPassword(@Body ResetPasswordRequest body);
 }
