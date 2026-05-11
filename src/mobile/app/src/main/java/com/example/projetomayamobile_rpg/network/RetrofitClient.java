@@ -16,7 +16,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class RetrofitClient {
 
     private static Retrofit instance;
-    private static final String BASE_URL = "http://54.233.94.214:8080/";
+    private static final String BASE_URL = "http://10.1.5.129:8080/";
 
     public static Retrofit getInstance(Context context) {
         if (instance == null) {
@@ -53,7 +53,6 @@ public class RetrofitClient {
         return instance;
     }
 
-    // Mantém compatibilidade com o LoginActivity que chama sem contexto
     public static Retrofit getInstance() {
         if (instance == null) {
             throw new IllegalStateException("Chame getInstance(context) primeiro!");

@@ -20,6 +20,7 @@ import com.example.projetomayamobile_rpg.model.MessageResponse;
 import com.example.projetomayamobile_rpg.model.PageResponse;
 import com.example.projetomayamobile_rpg.model.PatientResponse;
 import com.example.projetomayamobile_rpg.model.PlanResponse;
+import com.example.projetomayamobile_rpg.model.ResetPasswordRequest;
 import com.example.projetomayamobile_rpg.model.VerifyCodeRequest;
 
 import java.util.List;
@@ -54,7 +55,10 @@ public interface ApiService {
     Call<Void> forgotPassword(@Body ForgotPasswordRequest body);
 
     @POST("token/verify")
-    Call<Void> verifyCode(@Body VerifyCodeRequest body);
+    Call<Boolean> verifyCode(@Body VerifyCodeRequest body);
+
+    @PUT("patients/reset-password")
+    Call<Void> resetPatientPassword(@Body ResetPasswordRequest body);
 
     @PUT("patients/change-password")
     Call<Void> changePassword(@Body ChangePasswordRequest body);
