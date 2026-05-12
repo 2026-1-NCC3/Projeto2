@@ -39,8 +39,8 @@
 | :-------: | :------: | :-------: |
 | Análise Descritiva de Dados | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%201/An%C3%A1lise%20Descritiva%20de%20Dados/Projeto%20Medidas%20de%20Tend%C3%AAncia%20Central%2C%20Posi%C3%A7%C3%A3o%20e%20visualiza%C3%A7%C3%A3o%20gr%C3%A1fica%202026-3.pdf">Medidas Variáveis</a> | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%202/Análise%20Descritiva%20de%20Dados/Entrega%202%20-%20Análise%20Descritiva%20de%20Dados%20-%20beHolders.pdf">Medidas - Entrega 2</a> |   
 | Programação Orientada | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%201/Programa%C3%A7%C3%A3o%20Orientada%20a%20Objetivos%20e%20Estrutura%20de%20Dados/Diagrama%20de%20Classes%20-%20Entrega%20NI1%20POO%202026-03.pdf">Diagrama de Classes</a> | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%202/Programa%C3%A7%C3%A3o%20Orientada%20a%20Objetivos%20e%20Estrutura%20de%20Dados/Diagrama%20de%20Classes%20-%20Entrega%202.pdf">Diagrama - Entrega 2</a> |    
-| Dispositivos Móveis | <a href ="https://github.com/2026-1-NCC3/Projeto2/tree/main/src/Entrega%201/Programa%C3%A7%C3%A3o%20para%20Dispositivos%20M%C3%B3veis">Apk</a> | X |  
-| Projeto Interdisciplinar | <a href ="https://github.com/2026-1-NCC3/Projeto2/tree/main/src/Entrega%201/Projeto%20Interdisciplinar%20Aplicativo%20M%C3%B3vel">Link Pro Apk</a>| X |   
+| Dispositivos Móveis | <a href ="https://github.com/2026-1-NCC3/Projeto2/tree/main/src/Entrega%201/Programa%C3%A7%C3%A3o%20para%20Dispositivos%20M%C3%B3veis">Apk</a> | <a href= "https://github.com/2026-1-NCC3/Projeto2/tree/main/src/Entrega%202/Programa%C3%A7%C3%A3o%20para%20Dispositivos%20M%C3%B3veis">Apk Completo |  
+| Projeto Interdisciplinar | <a href ="https://github.com/2026-1-NCC3/Projeto2/tree/main/src/Entrega%201/Projeto%20Interdisciplinar%20Aplicativo%20M%C3%B3vel">Link Pro Apk</a>| <a href= "https://github.com/2026-1-NCC3/Projeto2/tree/main/src/Entrega%202/Projeto%20Interdisciplinar%20Aplicativo%20M%C3%B3vel">Apk Completo |   
 <br/>
 
 ## 📱 Acessar aplicação Android
@@ -68,7 +68,7 @@ Senha: teste123
 ### Front-End
 <ul>
   <li>O front-end estará disponível em <a href= "https://projeto-maya-rpg.vercel.app/login">Front-End MayaCare</a></li><br>
-  Email: teste123@gmail.com<br>
+  Email: teste@gmail.com<br>
   Senha: teste123
 </ul>
 
