@@ -23,13 +23,12 @@
 
 ### O aplicativo e o site desenvolvidos pelo grupo BeHolders foram criados para auxiliar no dia a dia da fisioterapeuta Maya Yamamoto, facilitando o acesso a informações e a organização de suas atividades profissionais. Além disso, a solução também beneficia seus pacientes, oferecendo uma forma mais prática e eficiente de se manterem atualizados sobre consultas e acompanharem sua rotina de exercícios orientados.
 
-*May the force be with you!*
+ *May the force be with you!*
 <br>
 
 ## 🛠 Estrutura de pastas
 
 -Raiz<br>
-|-->.vscode<br>
 |-->documentos<br>
 |-->src<br>
   &emsp;|-->Mobile<br>
@@ -38,27 +37,49 @@
 
 | Disciplina | Entrega 1 | Entrega 2 |  
 | :-------: | :------: | :-------: |
-| Análise Descritiva de Dados | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%201/An%C3%A1lise%20Descritiva%20de%20Dados/Projeto%20Medidas%20de%20Tend%C3%AAncia%20Central%2C%20Posi%C3%A7%C3%A3o%20e%20visualiza%C3%A7%C3%A3o%20gr%C3%A1fica%202026-3.pdf">Medidas Variáveis</a> | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%202/Análise%20Descritiva%20de%20Dados/Entrega%202%20-%20Análise%20Descritiva%20de%20Dados%20-%20beHolders.pdf">Documento Entrega 2</a> |   
-| Programação Orientada | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%201/Programa%C3%A7%C3%A3o%20Orientada%20a%20Objetivos%20e%20Estrutura%20de%20Dados/Diagrama%20de%20Classes%20-%20Entrega%20NI1%20POO%202026-03.pdf">Diagrama de Classes</a> | X |    
-| Dispositivos Móveis | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%201/Programa%C3%A7%C3%A3o%20para%20Dispositivos%20M%C3%B3veis/README.md">Apk</a> | X |  
-| Projeto Interdisciplinar | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%201/Projeto%20Interdisciplinar%20Aplicativo%20M%C3%B3vel/README.md">Link Pro Apk</a>| X |   
+| Análise Descritiva de Dados | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%201/An%C3%A1lise%20Descritiva%20de%20Dados/Projeto%20Medidas%20de%20Tend%C3%AAncia%20Central%2C%20Posi%C3%A7%C3%A3o%20e%20visualiza%C3%A7%C3%A3o%20gr%C3%A1fica%202026-3.pdf">Medidas Variáveis</a> | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%202/Análise%20Descritiva%20de%20Dados/Entrega%202%20-%20Análise%20Descritiva%20de%20Dados%20-%20beHolders.pdf">Medidas - Entrega 2</a> |   
+| Programação Orientada | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%201/Programa%C3%A7%C3%A3o%20Orientada%20a%20Objetivos%20e%20Estrutura%20de%20Dados/Diagrama%20de%20Classes%20-%20Entrega%20NI1%20POO%202026-03.pdf">Diagrama de Classes</a> | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%202/Programa%C3%A7%C3%A3o%20Orientada%20a%20Objetivos%20e%20Estrutura%20de%20Dados/Diagrama%20de%20Classes%20-%20Entrega%202.pdf">Diagrama - Entrega 2</a> |    
+| Dispositivos Móveis | <a href ="https://github.com/2026-1-NCC3/Projeto2/tree/main/src/Entrega%201/Programa%C3%A7%C3%A3o%20para%20Dispositivos%20M%C3%B3veis">Apk</a> | X |  
+| Projeto Interdisciplinar | <a href ="https://github.com/2026-1-NCC3/Projeto2/tree/main/src/Entrega%201/Projeto%20Interdisciplinar%20Aplicativo%20M%C3%B3vel">Link Pro Apk</a>| X |   
 <br/>
 
-## 🛠 Instalação
+## 📱 Acessar aplicação Android
 
-<b>Android:</b>
+> ⚠️ **Importante:** o aplicativo está disponível apenas para dispositivos Android.
 
-Faça o Download do APP.apk no seu celular. <br>
-Execute o APK e siga as instruções.
+### 📥 Download do APK
+
+[Clique aqui para baixar o aplicativo](https://github.com/2026-1-NCC3/Projeto2/tree/main/src/Entrega%202/Programa%C3%A7%C3%A3o%20para%20Dispositivos%20M%C3%B3veis)
+
+### 📌 Como instalar
+
+1. Baixe o arquivo `.apk`
+2. Abra o arquivo no celular Android
+3. Caso solicitado, permita a instalação de fontes desconhecidas
+4. Finalize a instalação normalmente
+
+### Login Mobile
+<ul>
+<li> Os dados para login do aplicativo mobile são:<br>
+Email: teste123@gmail.com<br>
+Senha: teste123
+</ul>
+
+### Front-End
+<ul>
+  <li>O front-end estará disponível em <a href= "https://projeto-maya-rpg.vercel.app/login">Front-End MayaCare</a></li><br>
+  Email: teste123@gmail.com<br>
+  Senha: teste123
+</ul>
 
 
 ## 📋 Licença/License
-<a href="https://github.com/2026-1-NCC3/Projeto2">MayaCare</a> © 2026 by <a href="https://github.com/2026-1-NCC3/Projeto2">beHolders</a> is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: .5em;max-height:1em;margin-left: .2em;"> <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 0.5em;max-height:1em;margin-left: .2em;">
+<a href="https://github.com/2026-1-NCC3/Projeto2">MayaCare</a> © 2026 by <a href="https://github.com/GDiniz12">Gabriel Vazquez Mamede Diniz</a>, <a href="https://github.com/GianLemes">Gian Carlos Lemes Vieira</a>, <a href="https://github.com/leticia19silva">Leticia Rodrigues da Silva</a>, <a href="https://github.com/saidsales">Said Sales de Sousa</a> - <a href="">FECAP</a> is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: .5em;max-height:1em;margin-left: .2em;"> <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 0.5em;max-height:1em;margin-left: .2em;">
 
 ## 🎓 Referências
 
 ### Aqui estão as referências usadas no projeto.<br>
 
 <a href="https://creativecommons.org/build/">Creative Commons</a>.<br>
-<a href="https://github.com/fecaphub/Template_PI">Template PI - FECAP</a>.
-
+<a href="https://github.com/fecaphub/Template_PI">Template PI - FECAP</a>.<br>
+<a href="https://ibb.co/WNzWcQgj"><img src="https://i.ibb.co/dsp0QSGx/queen-1.png" alt="queen-1" width="15"></a>

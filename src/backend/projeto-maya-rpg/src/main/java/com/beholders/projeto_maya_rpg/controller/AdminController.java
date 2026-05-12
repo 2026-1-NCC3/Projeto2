@@ -2,6 +2,7 @@ package com.beholders.projeto_maya_rpg.controller;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.beholders.projeto_maya_rpg.dto.AdminDTO;
+import com.beholders.projeto_maya_rpg.dto.AdminMeDTO;
 import com.beholders.projeto_maya_rpg.dto.ResetPasswordDTO;
 import com.beholders.projeto_maya_rpg.dto.LoginRequestDTO;
 import com.beholders.projeto_maya_rpg.model.Admin;
@@ -49,10 +50,15 @@ public class AdminController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<DecodedJWT> getMe(@RequestHeader("Authorization") String authHeader) {
+    public ResponseEntity<AdminMeDTO> getMe(@RequestHeader("Authorization") String authHeader) {
         String token = authHeader.replace("Bearer ", "");
-        DecodedJWT result = tokenService.decodeToken(token);
-        return ResponseEntity.ok(result);
+        DecodedJWT decoded = tokenService.decodeToken(token);
+        AdminMeDTO dto = new AdminMeDTO(
+                decoded.getSubject(),
+                decoded.getIssuer(),
+                decoded.getExpiresAt().toString()
+        );
+        return ResponseEntity.ok(dto);
     }
 
     @PutMapping("/{id}")
