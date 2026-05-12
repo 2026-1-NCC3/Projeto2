@@ -49,7 +49,7 @@
 
 ### 📥 Download do APK
 
-[Clique aqui para baixar o aplicativo]()
+[Clique aqui para baixar o aplicativo](https://github.com/2026-1-NCC3/Projeto2/tree/main/src/Entrega%202/Programa%C3%A7%C3%A3o%20para%20Dispositivos%20M%C3%B3veis)
 
 ### 📌 Como instalar
 
@@ -59,9 +59,11 @@
 4. Finalize a instalação normalmente
 
 ### Login Mobile
+<ul>
 <li> Os dados para login do aplicativo mobile são:<br>
 Email: teste123@gmail.com<br>
 Senha: teste123
+</ul>
 
 ### Front-End
 <ul>
