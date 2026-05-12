@@ -23,7 +23,7 @@
 
 ### O aplicativo e o site desenvolvidos pelo grupo BeHolders foram criados para auxiliar no dia a dia da fisioterapeuta Maya Yamamoto, facilitando o acesso a informações e a organização de suas atividades profissionais. Além disso, a solução também beneficia seus pacientes, oferecendo uma forma mais prática e eficiente de se manterem atualizados sobre consultas e acompanharem sua rotina de exercícios orientados.
 
-*May the force be with you!*
+ *May the force be with you!*
 <br>
 
 ## 🛠 Estrutura de pastas
@@ -44,21 +44,29 @@
 | Projeto Interdisciplinar | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%201/Projeto%20Interdisciplinar%20Aplicativo%20M%C3%B3vel/README.md">Link Pro Apk</a>| X |   
 <br/>
 
-## 🛠 Instalação
+## 📱 Acessar aplicação Android
 
-<b>Android:</b>
+> ⚠️ **Importante:** o aplicativo está disponível apenas para dispositivos Android.
 
-Faça o Download do APP.apk no seu celular. <br>
-Execute o APK e siga as instruções.
+### 📥 Download do APK
+
+[Clique aqui para baixar o aplicativo]()
+
+### 📌 Como instalar
+
+1. Baixe o arquivo `.apk`
+2. Abra o arquivo no celular Android
+3. Caso solicitado, permita a instalação de fontes desconhecidas
+4. Finalize a instalação normalmente
 
 
 ## 📋 Licença/License
-<a href="https://github.com/2026-1-NCC3/Projeto2">MayaCare</a> © 2026 by <a href="https://github.com/2026-1-NCC3/Projeto2">beHolders</a> is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: .5em;max-height:1em;margin-left: .2em;"> <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 0.5em;max-height:1em;margin-left: .2em;">
+<a href="https://github.com/2026-1-NCC3/Projeto2">MayaCare</a> © 2026 by <a href="https://github.com/GDiniz12">Gabriel Vazquez Mamede Diniz</a>, <a href="https://github.com/GianLemes">Gian Carlos Lemes Vieira</a>, <a href="https://github.com/leticia19silva">Leticia Rodrigues da Silva</a>, <a href="https://github.com/saidsales">Said Sales de Sousa</a> - <a href="">FECAP</a> is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: .5em;max-height:1em;margin-left: .2em;"> <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 0.5em;max-height:1em;margin-left: .2em;">
 
 ## 🎓 Referências
 
 ### Aqui estão as referências usadas no projeto.<br>
 
 <a href="https://creativecommons.org/build/">Creative Commons</a>.<br>
-<a href="https://github.com/fecaphub/Template_PI">Template PI - FECAP</a>.
-
+<a href="https://github.com/fecaphub/Template_PI">Template PI - FECAP</a>.<br>
+<a href="https://ibb.co/WNzWcQgj"><img src="https://i.ibb.co/dsp0QSGx/queen-1.png" alt="queen-1" style="max-width: 0.7em;max-height:0.7em;"></a>
