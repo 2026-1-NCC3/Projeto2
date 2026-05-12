@@ -29,7 +29,6 @@
 ## 🛠 Estrutura de pastas
 
 -Raiz<br>
-|-->.vscode<br>
 |-->documentos<br>
 |-->src<br>
   &emsp;|-->Mobile<br>
@@ -38,10 +37,10 @@
 
 | Disciplina | Entrega 1 | Entrega 2 |  
 | :-------: | :------: | :-------: |
-| Análise Descritiva de Dados | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%201/An%C3%A1lise%20Descritiva%20de%20Dados/Projeto%20Medidas%20de%20Tend%C3%AAncia%20Central%2C%20Posi%C3%A7%C3%A3o%20e%20visualiza%C3%A7%C3%A3o%20gr%C3%A1fica%202026-3.pdf">Medidas Variáveis</a> | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%202/Análise%20Descritiva%20de%20Dados/Entrega%202%20-%20Análise%20Descritiva%20de%20Dados%20-%20beHolders.pdf">Documento Entrega 2</a> |   
-| Programação Orientada | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%201/Programa%C3%A7%C3%A3o%20Orientada%20a%20Objetivos%20e%20Estrutura%20de%20Dados/Diagrama%20de%20Classes%20-%20Entrega%20NI1%20POO%202026-03.pdf">Diagrama de Classes</a> | X |    
-| Dispositivos Móveis | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%201/Programa%C3%A7%C3%A3o%20para%20Dispositivos%20M%C3%B3veis/README.md">Apk</a> | X |  
-| Projeto Interdisciplinar | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%201/Projeto%20Interdisciplinar%20Aplicativo%20M%C3%B3vel/README.md">Link Pro Apk</a>| X |   
+| Análise Descritiva de Dados | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%201/An%C3%A1lise%20Descritiva%20de%20Dados/Projeto%20Medidas%20de%20Tend%C3%AAncia%20Central%2C%20Posi%C3%A7%C3%A3o%20e%20visualiza%C3%A7%C3%A3o%20gr%C3%A1fica%202026-3.pdf">Medidas Variáveis</a> | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%202/Análise%20Descritiva%20de%20Dados/Entrega%202%20-%20Análise%20Descritiva%20de%20Dados%20-%20beHolders.pdf">Medidas - Entrega 2</a> |   
+| Programação Orientada | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%201/Programa%C3%A7%C3%A3o%20Orientada%20a%20Objetivos%20e%20Estrutura%20de%20Dados/Diagrama%20de%20Classes%20-%20Entrega%20NI1%20POO%202026-03.pdf">Diagrama de Classes</a> | <a href ="https://github.com/2026-1-NCC3/Projeto2/blob/main/documentos/Entrega%202/Programa%C3%A7%C3%A3o%20Orientada%20a%20Objetivos%20e%20Estrutura%20de%20Dados/Diagrama%20de%20Classes%20-%20Entrega%202.pdf">Diagrama - Entrega 2</a> |    
+| Dispositivos Móveis | <a href ="https://github.com/2026-1-NCC3/Projeto2/tree/main/src/Entrega%201/Programa%C3%A7%C3%A3o%20para%20Dispositivos%20M%C3%B3veis">Apk</a> | X |  
+| Projeto Interdisciplinar | <a href ="https://github.com/2026-1-NCC3/Projeto2/tree/main/src/Entrega%201/Projeto%20Interdisciplinar%20Aplicativo%20M%C3%B3vel">Link Pro Apk</a>| X |   
 <br/>
 
 ## 📱 Acessar aplicação Android
@@ -59,6 +58,18 @@
 3. Caso solicitado, permita a instalação de fontes desconhecidas
 4. Finalize a instalação normalmente
 
+### Login Mobile
+<li> Os dados para login do aplicativo mobile são:<br>
+Email: teste123@gmail.com<br>
+Senha: teste123
+
+### Front-End
+<ul>
+  <li>O front-end estará disponível em <a href= "https://projeto-maya-rpg.vercel.app/login">Front-End MayaCare</a></li><br>
+  Email: teste123@gmail.com<br>
+  Senha: teste123
+</ul>
+
 
 ## 📋 Licença/License
 <a href="https://github.com/2026-1-NCC3/Projeto2">MayaCare</a> © 2026 by <a href="https://github.com/GDiniz12">Gabriel Vazquez Mamede Diniz</a>, <a href="https://github.com/GianLemes">Gian Carlos Lemes Vieira</a>, <a href="https://github.com/leticia19silva">Leticia Rodrigues da Silva</a>, <a href="https://github.com/saidsales">Said Sales de Sousa</a> - <a href="">FECAP</a> is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: .5em;max-height:1em;margin-left: .2em;"> <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 0.5em;max-height:1em;margin-left: .2em;">
@@ -69,4 +80,4 @@
 
 <a href="https://creativecommons.org/build/">Creative Commons</a>.<br>
 <a href="https://github.com/fecaphub/Template_PI">Template PI - FECAP</a>.<br>
-<a href="https://ibb.co/WNzWcQgj"><img src="https://i.ibb.co/dsp0QSGx/queen-1.png" alt="queen-1" style="max-width: 0.7em;max-height:0.7em;"></a>
+<a href="https://ibb.co/WNzWcQgj"><img src="https://i.ibb.co/dsp0QSGx/queen-1.png" alt="queen-1" width="15"></a>
